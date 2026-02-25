@@ -3,14 +3,14 @@
     <div class="docs-header">
       <h1>EsDialog 弹窗组件</h1>
       <p>强大的弹窗组件，基于 <code>useDialog</code> hook，支持 JSX 渲染、自定义内容、按钮配置、生命周期回调等功能。</p>
-      <div class="global-actions">
+      <!-- <div class="global-actions">
         <el-button size="small" @click="expandAll">
           <i class="el-icon-arrow-down"></i> 全部展开
         </el-button>
         <el-button size="small" @click="collapseAll">
           <i class="el-icon-arrow-up"></i> 全部收起
         </el-button>
-      </div>
+      </div> -->
     </div>
 
     <h2>基础用法</h2>
@@ -1090,7 +1090,7 @@ export default {
         policyContentType: '1'
       }
 
-      const dialogInstance = useDialog(this)
+      const dialogInstance = useDialog()
       dialogInstance({
         title: '新增政策',
         width: '75%',
@@ -1109,7 +1109,7 @@ export default {
             // 使用 click 回调，获取表单引用
             click: (instance, { close, getRefs }) => {
               // 获取表单组件引用（支持对象形式访问）
-              const formRef = getRefs.policyform
+              const formRef = getRefs('policyform')
 
               // 表单校验
               formRef.validate((valid) => {
@@ -1131,7 +1131,7 @@ export default {
           }
         ],
         // 使用 JSX 渲染 EsForm 表单
-        render: (h, ctx) => (
+        render: (h, ctx) => ( <div>
           <es-form
             ref="policyform"
             form-item-list={[
@@ -1149,6 +1149,9 @@ export default {
                 label: '政策状态',
                 span: 12,
                 formtype: 'Select',
+                attrs: {
+                  style: 'width:100%'
+                },
                 dataOptions: [
                   { label: '待发布', value: '0' },
                   { label: '已发布', value: '1' },
@@ -1163,7 +1166,8 @@ export default {
                 attrs: {
                   type: 'date',
                   placeholder: '选择生效时间',
-                  valueFormat: 'yyyy-MM-dd'
+                  valueFormat: 'yyyy-MM-dd',
+                  style:'width: 100%'
                 }
               },
               {
@@ -1174,7 +1178,8 @@ export default {
                 attrs: {
                   type: 'date',
                   placeholder: '选择失效时间',
-                  valueFormat: 'yyyy-MM-dd'
+                  valueFormat: 'yyyy-MM-dd',
+                     style:'width: 100%'
                 }
               },
               {
@@ -1197,7 +1202,7 @@ export default {
               fromLayProps: { labelWidth: '100px', size: 'small' },
               rowLayProps: { gutter: 20 }
             }}
-          />
+          /></div>
         )
       })
     }

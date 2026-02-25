@@ -3,14 +3,14 @@
     <div class="docs-header">
       <h1>EsTable 表格组件</h1>
       <p class="component-desc">企业级高性能表格组件，支持自动数据请求、分页管理、列渲染、条件查询联动等特性，让数据展示开发效率提升 80%</p>
-      <div class="global-actions">
+      <!-- <div class="global-actions">
         <el-button size="small" @click="expandAll">
           <i class="el-icon-arrow-down"></i> 全部展开
         </el-button>
         <el-button size="small" @click="collapseAll">
           <i class="el-icon-arrow-up"></i> 全部收起
         </el-button>
-      </div>
+      </div> -->
     </div>
 
     <h2>快速开始</h2>
@@ -542,14 +542,14 @@ export default {
         {
           prop: 'keyword',
           label: '关键词',
-          span: 6,
+          span: 8,
           formtype: 'Input',
           attrs: { placeholder: '请输入', clearable: true }
         },
         {
           prop: 'status',
           label: '状态',
-          span: 6,
+          span: 8,
           formtype: 'Select',
           attrs: { placeholder: '请选择', clearable: true },
           dataOptions: [
@@ -565,6 +565,7 @@ export default {
           formtype: 'datePicker',
           attrs: {
             type: 'datetimerange',
+            style: "width:100%",
             valueFormat: 'yyyy-MM-dd HH:mm:ss',
             startPlaceholder: '开始时间',
             endPlaceholder: '结束时间'

@@ -1096,6 +1096,7 @@ capitalize(str) {
    ::v-deep .el-form-item__content {
     //  line-height: 25px;
      font-weight: 400;
+      height: 32px;
    }
    ::v-deep .el-form-item__label{
     // line-height: 25px;

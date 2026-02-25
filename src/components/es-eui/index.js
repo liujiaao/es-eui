@@ -1,5 +1,5 @@
 import EsDialog from './esDialog'
-import useDialogInstantce, { createInput as createInputUtil, withReactive as withReactiveUtil } from './esDialog/src/utils/useDialog'
+import useDialogInstantce from './esDialog/src/utils/useDialog'
 import EsForm from './esForm'
 import EsTable from './esTable'
 import svgIcons from './svgIcon'
@@ -56,7 +56,7 @@ export const useDialog = (params, options) => {
  * 在 JSX 中使用：
  * {this.$createElement(TagInput)}
  */
-export const createInput = createInputUtil
+// export const createInput = createInputUtil
 
 /**
  * 创建通用响应式组件包装器
@@ -74,7 +74,7 @@ export const createInput = createInputUtil
  * 在 JSX 中使用：
  * {this.$createElement(ReactiveWrapper)}
  */
-export const withReactive = withReactiveUtil
+// export const withReactive = withReactiveUtil
 
 const install = importFnComponents
 

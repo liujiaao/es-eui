@@ -3,14 +3,14 @@
     <div class="docs-header">
       <h1>Es-EUI 组件组合联动</h1>
       <p>本页展示 es-eui 组件之间的组合使用方式，包括 EsTable、EsForm、useDialog 的多种组合场景。</p>
-      <div class="global-actions">
+      <!-- <div class="global-actions">
         <el-button size="small" @click="expandAll">
           <i class="el-icon-arrow-down"></i> 全部展开
         </el-button>
         <el-button size="small" @click="collapseAll">
           <i class="el-icon-arrow-up"></i> 全部收起
         </el-button>
-      </div>
+      </div> -->
     </div>
 
     <!-- ===== 场景1: EsTable + EsForm 查询表单联动 ===== -->
@@ -220,13 +220,13 @@
             }
           }"
         >
-          <!-- <div class="query-form-wrapper"> -->
+    
             <es-form
               ref="tableQueryFormRef"
               :form-item-list="tableQueryFormItems"
               :model="tableQueryForm"
               :layout-form-props="{
-                fromLayProps: { inline: true, size: 'small', labelWidth: '80px' },
+                fromLayProps: {size: 'small', labelWidth: '80px' },
                 rowLayProps: { gutter: 15 }
               }"
               :configBtn="[
@@ -235,7 +235,7 @@
                 { name: '新增', type: 'success', icon: 'el-icon-plus', onClick: () => handleTableAdd() }
               ]"
             />
-          <!-- </div> -->
+   
         </es-table>
       </div>
       <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene9 }">
@@ -469,7 +469,8 @@ export default {
           formtype: 'Input',
           attrs: {
             placeholder: '请输入名称/编号',
-            clearable: true
+            clearable: true,
+            style:'width: 100%'
           }
         },
         {
@@ -477,38 +478,46 @@ export default {
           label: '状态',
           span: 5,
           formtype: 'Select',
+          formItemOptions: {
+             labelWidth: '50px'
+          },
           dataOptions: [
             { label: '全部', value: '' },
             { label: '启用', value: '1' },
             { label: '禁用', value: '0' }
           ],
-          attrs: { placeholder: '请选择状态', clearable: true }
+          attrs: { placeholder: '请选择状态', clearable: true, style:'width: 100%' }
         },
         {
           prop: 'category',
           label: '分类',
           span: 5,
           formtype: 'Select',
+          formItemOptions: {
+             labelWidth: '50px'
+          },
           dataOptions: [
             { label: '全部', value: '' },
             { label: '电子产品', value: 'electronics' },
             { label: '服装', value: 'clothing' },
             { label: '食品', value: 'food' }
           ],
-          attrs: { placeholder: '请选择分类', clearable: true }
+          attrs: { placeholder: '请选择分类', clearable: true, style:'width: 100%'  }
         },
         {
           prop: 'dateRange',
           label: '时间范围',
           span: 8,
           formtype: 'DatePicker',
+      
           attrs: {
             type: 'daterange',
             rangeSeparator: '至',
             startPlaceholder: '开始日期',
             endPlaceholder: '结束日期',
             valueFormat: 'yyyy-MM-dd',
-            clearable: true
+            clearable: true,
+            style:'width: 100%'
           }
         }
       ],
@@ -800,7 +809,7 @@ export default {
             ref="esFormInDialog"
             form-item-list={[
               { prop: 'name', label: '名称', span: 12, formtype: 'Input', formItemOptions: { rules: [{ required: true, message: '请输入名称' }] } },
-              { prop: 'status', label: '状态', span: 12, formtype: 'Select', dataOptions: [{ label: '启用', value: '1' }, { label: '禁用', value: '0' }] },
+              { prop: 'status', label: '状态', span: 12, formtype: 'Select', attrs: { style: 'width: 100%'}, dataOptions: [{ label: '启用', value: '1' }, { label: '禁用', value: '0' }] },
               { prop: "remark", label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 3 } }
             ]}
             formModel={formData}

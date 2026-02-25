@@ -3,14 +3,14 @@
     <div class="docs-header">
       <h1>EsForm 表单组件</h1>
       <p class="component-desc">企业级表单解决方案，通过 JSON 配置即可生成复杂表单，支持 20+ 种表单控件、条件渲染、动态规则、自定义渲染等特性，让表单开发从小时级降至分钟级</p>
-      <div class="global-actions">
+      <!-- <div class="global-actions">
         <el-button size="small" @click="expandAll">
           <i class="el-icon-arrow-down"></i> 全部展开
         </el-button>
         <el-button size="small" @click="collapseAll">
           <i class="el-icon-arrow-up"></i> 全部收起
         </el-button>
-      </div>
+      </div> -->
     </div>
 
     <h2>快速开始</h2>
