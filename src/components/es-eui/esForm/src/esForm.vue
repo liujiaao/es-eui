@@ -8,6 +8,7 @@
       <el-row
         v-bind="rowLayout"
       >
+     
         <template v-for="(item, index) in formItem">
           <el-col v-show="!item.isfold" :key="item.prop" :span="item.span">
             <el-form-item
@@ -22,7 +23,7 @@
                   :index="index"
                   :model="model"
                 />
-                <!-- <el-input clearable style="width:100%"  maxLength={15} v-model="model[item.prop]" placeholder="请输入" /> -->
+             
               </template>
               <template v-else>
                 <RenderDom
@@ -101,19 +102,6 @@
                     @click="() => it.onClick ? it.onClick($refs[refs], model) : it.click($refs[refs], model)"
                   >{{ it.name }}</el-button>
                 </template>
-                <!-- <template v-else>
-                  <el-button
-                    type="primary"
-                    @click="confirm"
-                  >
-                    查询
-                  </el-button>
-                  <el-button
-                    @click="reset"
-                  >
-                    重置
-                  </el-button>
-                </template> -->
                 <el-button
                   v-if="isfold"
                   type="text"
@@ -176,7 +164,14 @@ export default {
          */
       render(createElement, ctx) {
         const { row, index, model } = ctx.props
-        const renderContent = ctx.props.render(createElement, (model || row), { ...row, index }) || ''
+        // 清理 row.on，只保留函数值，防止 undefined 事件处理器
+        const cleanOn = row?.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+          if (typeof val === 'function') acc[key] = val
+          return acc
+        }, {}) : {}
+        const safeRow = row ? { ...row, on: cleanOn } : { on: {} }
+        // console.log('modelRender',  model)
+        const renderContent = ctx.props.render(createElement, (model || {}), safeRow) || ''
         return typeof renderContent === 'string' ? createElement('span', renderContent) : renderContent
       }
     }
@@ -213,6 +208,13 @@ export default {
         return {}
       }
     },
+    // 别名：用于 JSX 中绕过 model 关键字限制
+    formModel: {
+      type: Object,
+      default: function() {
+        return null
+      }
+    },
     configBtn: {
       type: Array,
       default: function() {
@@ -237,6 +239,10 @@ export default {
     }
   },
   computed: {
+    // 使用 formModel（别名）或 model（标准）
+    currentModel() {
+      return this.formModel !== null ? this.formModel : this.model
+    },
     getTableInstant() {
       if (this.getTableInstantce && typeof this.getTableInstantce === 'function') {
         return this.getTableInstantce()
@@ -285,7 +291,7 @@ export default {
         return item
       }).filter((it) => {
         if (it.isHiden && typeof it.isHiden === 'function') {
-          const status = it.isHiden(this.model, it, this.fromProps)
+          const status = it.isHiden(this.currentModel, it, this.fromProps)
           if (status) {
             return false
           }
@@ -315,7 +321,7 @@ export default {
             if(!formLayout.size) {
                formLayout.size = 'mini'
             }
-      return { ...formLayout, model: this.model }
+      return { ...formLayout, model: this.currentModel }
     },
     getBtnColSpan() { // 按钮折行计算方式
       const { rowNum, columnRow } = this.getRowColsAlgorithm
@@ -463,9 +469,6 @@ export default {
     this.$nextTick(() => {
       this.formInstance = this.refsForm()
     })
-  },
-  mounted() {
-   
   },
   methods: {
     checkQueryFields(obj) {
@@ -766,10 +769,10 @@ export default {
 
     clickBtn(it) {
       if (it.triggerEvent && ['query', 'rest'].indexOf(it.key) !== -1) {
-        this.queryTableRequest(this.model, this.$refs[this.refs], it.key)
+        this.queryTableRequest(this.currentModel, this.$refs[this.refs], it.key)
       } else {
         if (it.onClick) {
-          it.onClick(this.model, this.$refs[this.refs], this.$parent.httpRquestInstace)
+          it.onClick(this.currentModel, this.$refs[this.refs], this.$parent.httpRquestInstace)
         } else if (it.click) {
           it.click(this.model, this.$refs[this.refs], this.$parent.httpRquestInstace)
         }
@@ -787,6 +790,7 @@ export default {
     },
     formInputComponents(item) {
       const h = this.$createElement
+      const self = this
       const formPutList = new Map([
         ['Input', (createElement, model, row) => {
           const prop = row.prop
@@ -795,10 +799,45 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          // 使用 self.currentModel 确保响应式更新
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
+
+          // console.log('el-input///', model)
           return h('el-input', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: {...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { 
+               ...otherHandlers,
+               input: inputHandler 
+              }
+          })
+        }],
+          ['InputNumber', (createElement, model, row) => {
+          const prop = row.prop
+          const attrs = { ...(row.attrs || {}) }
+          // 处理 disabled 作为函数的情况
+          if (typeof attrs.disabled === 'function') {
+            attrs.disabled = attrs.disabled()
+          }
+          // 使用 self.currentModel 确保响应式更新
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
+
+          // console.log('el-input///22', model)
+          return h('el-input-number', {
+            attrs: attrs,
+            props: { value: self.currentModel[prop] },
+            on: { 
+               ...otherHandlers,
+               input: inputHandler 
+              }
           })
         }],
         ['Select', (createElement,model, row) => {
@@ -809,10 +848,15 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-select', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: {...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           }, Array.isArray(dataOptions) ? dataOptions.map((item, index) => {
             return h('el-option', {
               key: index,
@@ -827,10 +871,15 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-date-picker', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: {...(row.on || {}),  input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           })
         }],
         ['TimePicker', (createElement,model, row) => {
@@ -840,10 +889,15 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-time-picker', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: {...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           })
         }],
         ['Cascader', (createElement,model, row) => {
@@ -854,20 +908,22 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-cascader', {
             key: JSON.stringify(dataOptions),
             attrs:attrs,
             props: {
-              value: model[prop], // ✅ Vue2 用的是 value
+              value: self.currentModel[prop],
               options: dataOptions,
               ...(row.props || {})
             },
             on: {
-              ...(row.on || {}),
-              input: (val) => {
-                model[prop] = val // ✅ Vue2 用的是 input 事件
-              },
-            
+              ...otherHandlers,
+              input: inputHandler
             }
           })
         }],
@@ -879,10 +935,15 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-radio-group', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: { ...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           }, Array.isArray(dataOptions) ? dataOptions.map((item) => {
            
             return h('el-radio', {
@@ -898,10 +959,15 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-checkbox-group', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: { ...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           }, Array.isArray(dataOptions) ? dataOptions.map((item) => {
             return h('el-checkbox', {
               props: { label: item.value, disabled: attrs.disabled }
@@ -916,10 +982,15 @@ export default {
             attrs.disabled = attrs.disabled()
           }
 
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-switch', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: { ...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           })
         }],
         ['Rate', (createElement,model, row) => {
@@ -929,10 +1000,15 @@ export default {
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
+          const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
+          const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
+            if (key !== 'input' && typeof val === 'function') acc[key] = val
+            return acc
+          }, {}) : {}
           return h('el-rate', {
             attrs: attrs,
-            props: { value: model[prop] },
-            on: { ...(row.on || {}), input: (val) => model[prop] = val }
+            props: { value: self.currentModel[prop] },
+            on: { ...otherHandlers, input: inputHandler }
           })
         }],
         ['Upload', (createElement,model, row) => {
@@ -971,46 +1047,16 @@ export default {
               }
             }
           }, [
-            // ✅ 触发元素
-            // h('el-button', { props: { size: 'small', type: 'primary' } }, '选择文件'),
-            // h('div', { class: 'el-upload__tip', style: 'color: #999; font-size: 12px;' }, '只能上传 xls / xlsx 文件，且不超过 2MB')
             triggerVnode
           ])
 
-          /*   return <el-upload
 
-            {...{ attrs: row.attrs }}
-
-            {
-              ...{
-                props: {
-                  'on-success': (response, file, fileList) => {
-                    if (response.code === 0) {
-                    }
-                  },
-                  'on-preview': (file) => {
-
-                  },
-                  'on-remove': (file, fileList) => {
-
-                  }
-
-                }
-              }
-            }
-            beforeUpload={(file) => {
-            }}
-            onChange={(val) => {
-            }}
-          >
-
-          </el-upload>  */
-        }]
+        }] 
       ])
       if (formPutList.get(this.capitalize(item.formtype)) && typeof formPutList.get(this.capitalize(item.formtype)) === 'function') {
         return formPutList.get(this.capitalize(item.formtype))
       }
-      return (model, row) => {}
+      return (createElement, model, row) => {}
     },
 
 capitalize(str) {
@@ -1032,10 +1078,10 @@ capitalize(str) {
       return this.$refs[this.refs]
     },
     confirm() {
-      this.$emit('confirm', this.$refs[this.refs], this.model)
+      this.$emit('confirm', this.$refs[this.refs], this.currentModel)
     },
     reset() {
-      this.$emit('reset', this.$refs[this.refs], this.model)
+      this.$emit('reset', this.$refs[this.refs], this.currentModel)
     },
     changefolded() {
       this.folded = !this.folded

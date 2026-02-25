@@ -590,9 +590,6 @@ import {
 } from './examples/esDialogExamples'
 import { useDialog } from '../../components/es-eui'
 
-// 预先创建 dialog 实例（推荐模式）
-const dialogInstance = useDialog()
-
 export default {
   name: 'EsDialogDocs',
   data() {
@@ -612,6 +609,7 @@ export default {
         autoSave: false
       },
       newTag: '',
+      inputKey: 0,
       userFormData: {
         name: '张三',
         email: 'zhangsan@example.com',
@@ -687,27 +685,31 @@ export default {
 
     // ===== 基础示例 =====
     openBasic() {
+      const dialogInstance = useDialog(this)
       dialogInstance({
+        key: 'basic',
         title: '基础弹窗',
         render: () => '这是一个基础弹窗'
       })
     },
 
     openConfirm() {
+      const dialogInstance = useDialog(this)
       dialogInstance({
+        key: 'confirm',
         title: '确认操作',
         render: () => '确定要执行此操作吗？',
         configBtn: [
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance, { close }) => close()
           },
           {
             name: '确定',
             type: 'primary',
             key: 'confirm',
-            onClick: ({ close }) => {
+            onClick: (instance,{ close }) => {
               this.$message.success('操作成功')
               close()
             }
@@ -718,9 +720,11 @@ export default {
 
     // ===== JSX 表单弹窗 =====
     openFormDialog() {
+      const dialogInstance = useDialog()
       dialogInstance({
         title: '编辑信息',
         width: '600px',
+        key: 'form-dialog',
         // 使用 JSX 渲染 EsForm
         render: (h, ctx) => (
           <es-form
@@ -729,7 +733,7 @@ export default {
               { prop: 'age', label: '年龄', span: 12, formtype: 'Input', attrs: { placeholder: '请输入年龄' } },
               { prop: 'email', label: '邮箱', span: 24, formtype: 'Input', attrs: { placeholder: '请输入邮箱' } }
             ]}
-            model={this.formData}
+            formModel={this.formData}
             layout-form-props={{
               fromLayProps: { labelWidth: '80px' },
               rowLayProps: { gutter: 20 }
@@ -740,13 +744,13 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance, { close }) => close()
           },
           {
             name: '保存',
             type: 'primary',
             key: 'save',
-            onClick: ({ close }) => {
+            onClick: (instance,{ close }) => {
               console.log('表单数据：', this.formData)
               this.$message.success('保存成功')
               close()
@@ -757,7 +761,9 @@ export default {
     },
 
     openDraggable() {
+      const dialogInstance = useDialog()
       dialogInstance({
+        key: 'draggable',
         title: '可拖拽弹窗',
         isDraggable: true,
         render: () => '这个弹窗可以拖拽移动'
@@ -765,7 +771,9 @@ export default {
     },
 
     openFullscreen() {
+      const dialogInstance = useDialog()
       dialogInstance({
+        key: 'fullscreen',
         title: '全屏弹窗',
         fullscreen: true,
         render: () => '这是一个全屏弹窗'
@@ -773,7 +781,9 @@ export default {
     },
 
     openLoading() {
+      const dialogInstance = useDialog()
       const { instance } = dialogInstance({
+        key: 'loading',
         title: '加载中',
         loading: true,
         render: () => '数据加载中...'
@@ -786,7 +796,9 @@ export default {
     },
 
     openLifecycle() {
+      const dialogInstance = useDialog()
       dialogInstance({
+        key: 'lifecycle',
         title: '生命周期示例',
         render: () => '查看控制台输出',
         onOpen: () => {
@@ -800,7 +812,9 @@ export default {
     },
 
     openCustomStyle() {
+      const dialogInstance = useDialog()
       dialogInstance({
+        key: 'custom-style',
         title: '自定义样式',
         customClass: 'custom-dialog',
         render: () => '这个弹窗有自定义样式'
@@ -809,13 +823,15 @@ export default {
 
     // ===== JSX 组件渲染示例 =====
     openComponentDialog() {
+      const dialogInstance = useDialog(this)
       dialogInstance({
+        key: 'component-dialog',
         title: '用户信息',
         width: '600px',
         // 使用 JSX 渲染 EsForm
         render: (h, ctx) => (
           <es-form
-            ref="userForm"
+            ref={"userForm"}
             form-item-list={[
               {
                 prop: 'name',
@@ -847,7 +863,7 @@ export default {
                 attrs: { type: 'textarea', rows: 3 }
               }
             ]}
-            model={this.userFormData}
+            formModel={this.userFormData}
             layout-form-props={{
               fromLayProps: { labelWidth: '80px', size: 'small' },
               rowLayProps: { gutter: 20 }
@@ -858,20 +874,23 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance,{ close }) => close()
           },
           {
             name: '保存',
             type: 'primary',
             key: 'save',
             // 使用 getRefs 获取表单组件引用
-            onClick: ({ close, getRefs }) => {
+            onClick: (instance,{ close, getRefs }) => {
+           
               const formRef = getRefs('userForm')
+                   console.log('表单数据3333：', formRef)
+
               formRef.validate((valid) => {
                 if (valid) {
-                  console.log('表单数据：', this.userFormData)
-                  this.$message.success('保存成功')
-                  close()
+                  console.log('表单数据：', valid)
+                 this.$message.success('保存成功')
+                 close()
                 }
               })
             }
@@ -883,7 +902,9 @@ export default {
     // ===== JSX 表格弹窗 =====
     openTableDialog() {
       this.selectedRows = []
+      const dialogInstance = useDialog(this)
       dialogInstance({
+        key: 'table-dialog',
         title: '选择用户',
         width: '800px',
         // 使用 JSX 渲染 EsTable
@@ -912,13 +933,13 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance,{ close }) => close()
           },
           {
             name: '确定',
             type: 'primary',
             key: 'confirm',
-            onClick: ({ close }) => {
+            onClick: (instance,{ close }) => {
               console.log('选中的行：', this.selectedRows)
               this.$message.success(`已选择 ${this.selectedRows.length} 个用户`)
               close()
@@ -931,12 +952,14 @@ export default {
     // ===== JSX 复杂内容弹窗 =====
     openComplexDialog() {
       this.activeTab = 'basic'
+      const dialogInstance = useDialog()
       dialogInstance({
+        key: 'complex-dialog',
         title: '项目配置',
         width: '700px',
         // JSX 支持复杂的条件渲染和循环
         render: (h, ctx) => (
-          <el-tabs v-model={this.activeTab}>
+          <el-tabs value={this.activeTab} on-input={val => { this.activeTab = val }}>
             <el-tab-pane label="基本信息" name="basic">
               <es-form
                 form-item-list={[
@@ -981,7 +1004,7 @@ export default {
                   v-model={this.newTag}
                   placeholder="输入标签后按回车添加"
                   size="small"
-                  native-on-keyup={(e) => {
+                  nativeOnKeyup={e => {
                     if (e.keyCode === 13 && this.newTag) {
                       if (!this.complexFormData.tags.includes(this.newTag)) {
                         this.complexFormData.tags.push(this.newTag)
@@ -1033,13 +1056,13 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (intance,{ close }) => close()
           },
           {
             name: '保存配置',
             type: 'primary',
             key: 'save',
-            onClick: ({ close }) => {
+            onClick: (intance, { close }) => {
               console.log('配置数据：', this.complexFormData)
               this.$message.success('配置保存成功')
               close()
@@ -1067,6 +1090,7 @@ export default {
         policyContentType: '1'
       }
 
+      const dialogInstance = useDialog(this)
       dialogInstance({
         title: '新增政策',
         width: '75%',

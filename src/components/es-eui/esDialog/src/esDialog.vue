@@ -105,6 +105,7 @@
 import { PopupManager } from 'element-ui/lib/utils/popup'
 import zIndexManager from './utils/zIndexManager'
 import draggable from './utils/draggable';
+import { ElDialog, ElButton}  from 'element-ui'
 
 /* 置顶逻辑 */
 function bringToFront(vm) {
@@ -119,6 +120,7 @@ function bringToFront(vm) {
 
 export default {
   name: 'EsDialog',
+  components: { 'el-dialog': ElDialog, 'el-button': ElButton },
   props: {
     /* 与原文件保持一致，不再赘述 */
     verticalPosition: { type: String, default: 'center' },

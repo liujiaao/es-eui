@@ -18,9 +18,12 @@ module.exports = defineConfig({
     },
     productionSourceMap: false,
     chainWebpack: config => {
-        config.plugin('html').tap(args => {
-            args[0].title = 'Vue2 Project Template'
-            return args
-        })
+        // 只在非库打包模式下配置 html 插件
+        if (config.plugins.has('html')) {
+            config.plugin('html').tap(args => {
+                args[0].title = 'Vue2 Project Template'
+                return args
+            })
+        }
     }
 })

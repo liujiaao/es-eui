@@ -6,6 +6,7 @@ import zIndexManager from './zIndexManager'
 
 let seed = 0
 const instanceCache = new Map() // ✅ 缓存 map
+
 export default function useDialog() {
     return function createDialog(options = {}) {
         const {
@@ -37,16 +38,16 @@ export default function useDialog() {
             fullscreen = false,
             ...extraProps
         } = options
+
         /* ---------- 置顶 + 专属遮罩（插到 body，不碰 .v-modal） ---------- */
-        // ✅ 如果已存在，直接返回
+        // ✅ 如果已存在，直接返回（开发者可根据需求自行添加 bringToFront 逻辑）
         if (instanceCache.has(key)) {
-            console.log('useInstance//', instanceCache)
             // const cached = instanceCache.get(key)
             // cached.show()
             // bringToFront(cached.instance) // ← 同样置顶
             return {
                 close: instanceCache.get(key).close,
-                instance: instanceCache.get(key).instance
+                instance: instanceCache.get(key).instance,
             }
         }
 
@@ -57,37 +58,30 @@ export default function useDialog() {
             return Math.max(viewH - 135, 200) // 最低 200px
         }
 
-        let vnode = null
-        if (render) {
-
-            const tempVm = new (Vue.extend({ store }))()
-            const rawVnode = render(tempVm.$createElement) // 可能是组件、div、fragment
-
-            /* 1. 统一包外层 div（组件或 DOM 都包） */
-            const Wrapper = Vue.extend({
-                store,
-                render(h) {
-                    return h('div', {
-                        class: 'dialog-content-wrapper',
-                        style: {
-                            maxHeight: getMaxContentHeight() + 'px',
-                            overflowY: 'auto',
-                            overflowX: 'clip'
-                        }
-                    }, [rawVnode])
+        // ---------- 清理 EsForm 组件中的 undefined 监听器 ----------
+        function cleanEsFormListeners(vnode) {
+            if (!vnode) return
+            // 只处理 EsForm 组件
+            const isEsForm = vnode.componentOptions?.Ctor?.options?.name === 'EsForm'
+            if (isEsForm && vnode.componentOptions?.listeners) {
+                Object.keys(vnode.componentOptions.listeners).forEach(key => {
+                    if (typeof vnode.componentOptions.listeners[key] !== 'function') {
+                        vnode.componentOptions.listeners[key] = () => { }
+                    }
+                })
+            }
+            // 递归处理子节点，但跳过 EsForm 的内部（避免干扰其 v-model）
+            if (!isEsForm) {
+                if (vnode.children) {
+                    vnode.children.forEach(child => cleanEsFormListeners(child))
                 }
-            })
-            const wrapperVm = new Wrapper()
-            vnode = wrapperVm.$options.render.call(wrapperVm, wrapperVm.$createElement)
-
-            /* 2. 如果是组件 vnode，额外打 store 到构造器（可选） */
-            if (rawVnode.componentOptions?.Ctor) {
-                const Component = rawVnode.componentOptions.Ctor
-                if (!Component.prototype.$store) Component.prototype.$store = store
+                if (vnode.componentOptions?.children) {
+                    vnode.componentOptions.children.forEach(child => cleanEsFormListeners(child))
+                }
             }
         }
 
-        // 2. 构造 Dialog 实例
+        // ---------- 构造 Dialog 实例 ----------
         const DialogCtor = Vue.extend(EsDialog)
         const dialogVm = new DialogCtor({
             propsData: {
@@ -115,84 +109,116 @@ export default function useDialog() {
                     ...btn,
                     key: btn.key || `btn_${idx}`,
                     size: btn.size || 'mini',
-                    onClick: () => btn.click?.(getcrruntRef(), { close, getRefs: getRefs(), dialogVm })
+                    onClick: () => (btn.click || btn.onClick)?.(getCurrentComponent(), { close, getRefs: getRefs, dialogVm }),
                 })),
                 hiddenFullBtn,
                 fullscreen,
-                ...extraProps
+                ...extraProps,
             },
             methods: {
                 dialogConfirm(hide) {
                     onSubmit?.()
                     hide()
-                }
-            }
+                },
+            },
         })
 
-        // 3. 插槽注入
-        if (vnode) dialogVm.$slots.default = [vnode]
+        // ---------- 处理 render 函数：转换为响应式动态组件 ----------
+        if (render) {
+            // 1. 定义一个动态组件，其 render 直接调用传入的 render 函数
+            //    该组件的实例会自动追踪 render 内部访问的响应式数据，并响应式更新
+            const ContentComponent = Vue.extend({
+                store, // 注入 store，保证内部可通过 this.$store 访问
+                render(h) {
+                    // 每次渲染都重新调用 render 函数，生成最新 vnode
+                    const vnode = render(h)
+                    cleanEsFormListeners(vnode)
+                    // 包裹外层 div，统一样式与滚动
+                    return h(
+                        'div',
+                        {
+                            class: 'dialog-content-wrapper',
+                            style: {
+                                maxHeight: getMaxContentHeight() + 'px',
+                                overflowY: 'auto',
+                                overflowX: 'clip',
+                            },
+                        },
+                        [vnode]
+                    )
+                },
+            })
 
-        // 4. 挂载
+            // 2. 创建该组件的占位 vnode，作为默认插槽内容
+            const contentVnode = dialogVm.$createElement(ContentComponent)
+            dialogVm.$slots.default = [contentVnode]
+        }
 
-        // const crrutDialogZindex = getActiveDialogZ()
-        // console.log('warpper_dialog///', getActiveDialogZ())
+        // ---------- 挂载 ----------
         dialogVm.$mount()
+        // 可选：手动调整 zIndex（保留原注释代码供参考）
+        // const crrutDialogZindex = getActiveDialogZ()
         // if (crrutDialogZindex.dialogZ && Number(crrutDialogZindex.dialogZ) && crrutDialogZindex.dialogZ !== -Infinity) {
-        //     console.log('有多个弹窗//')
-        //     const modalEl = document.querySelector('.v-modal')
-        //     if (modalEl) { modalEl.style.zIndex = crrutDialogZindex.modalZ }
-        //     dialogVm.$el.style.zIndex = crrutDialogZindex.dialogZ
+        //   const modalEl = document.querySelector('.v-modal')
+        //   if (modalEl) { modalEl.style.zIndex = crrutDialogZindex.modalZ }
+        //   dialogVm.$el.style.zIndex = crrutDialogZindex.dialogZ
         // }
 
-        // 5. 事件
+        // ---------- 事件监听 ----------
         dialogVm.$on('open', () => onOpen?.())
-        dialogVm.$on('closed', () => {
+        dialogVm.$on('close', () => {
             onClosed?.()
             destroy()
         })
 
+        // ---------- 辅助函数：计算当前最高的 zIndex（未使用，保留供参考）----------
         function getActiveDialogZ() {
             let maxZ = Math.max(
-                ...Array.from(document.querySelectorAll('.el-dialog__wrapper, .el-dialog'))
-                    .map(wrap => +getComputedStyle(wrap).zIndex || 0)
+                ...Array.from(document.querySelectorAll('.el-dialog__wrapper, .el-dialog')).map(wrap =>
+                    +getComputedStyle(wrap).zIndex || 0
+                )
             )
             maxZ += 2000
             return { dialogZ: maxZ + 1, modalZ: maxZ - 1 }
         }
 
-        function close() {
-            // 直接调用 hide 方法，让 esDialog 处理关闭逻辑
-            dialogVm.hide()
+        // ---------- 获取内部组件实例（用于 configBtn 中的回调）----------
+        function getCurrentComponent() {
+            const slot = dialogVm.$slots.default
+            if (!slot || !slot[0] || !slot[0].componentInstance) return {}
+            // slot[0] 是 ContentComponent 的占位 vnode
+            // 其内部第一个子组件（如果有）就是 render 返回的组件实例
+            const childVm = slot[0].componentInstance.$children[0]
+            return childVm || {}
         }
 
-        function destroy() {
-            // 使用标志防止重复销毁
-            if (dialogVm._isDestroyed) return
-            
+        // ---------- 获取内部组件实例的所有 refs ----------
+        function getRefs(refName) {
+            const slot = dialogVm.$slots.default
+            // console.log('getRefs', slot)
+            if (!slot || !slot[0] || !slot[0].componentInstance) return {}
+            // const childVm = slot[0].componentInstance.$children[0]
+            const childVm = slot[0].componentInstance
+            // console.log('getRefs555', slot[0].componentInstance)
+            return (childVm && refName) ? (childVm.$refs[refName] || {}) : {}
+        }
+
+        // ---------- 关闭弹窗并销毁实例 ----------
+        function close() {
+            dialogVm.$emit('update:visible', false)
             dialogVm.$nextTick(() => {
-                if (!dialogVm._isDestroyed) {
-                    dialogVm.$destroy()
-                }
-                if (dialogVm.$el && dialogVm.$el.parentNode) {
-                    dialogVm.$el.parentNode.removeChild(dialogVm.$el)
-                }
-                instanceCache.delete(key)
+                dialogVm.$destroy()
+                dialogVm.$el.parentNode?.removeChild(dialogVm.$el)
+                instanceCache.delete(key) // ✅ 清除缓存
             })
         }
 
-        // 提取所有 ref
-        function getRefs() {
-            const slot = dialogVm.$slots.default
-
-            if (!slot || !slot[0].children[0] || !slot[0].children[0]?.componentInstance) return {}
-            return slot[0].children[0].componentInstance.$refs || {}
-        }
-
-        function getcrruntRef() {
-            const slot = dialogVm.$slots.default
-
-            if (!slot || !slot[0].children[0] || !slot[0].children[0]?.componentInstance) return {}
-            return slot[0].children[0].componentInstance // ✅ 就是 当前组件实例
+        function destroy() {
+            dialogVm.$nextTick(() => {
+                dialogVm.$destroy()
+                dialogVm.$el.parentNode?.removeChild(dialogVm.$el)
+                instanceCache.delete(key)
+            })
         }
 
         // ✅ 缓存实例

@@ -25,7 +25,7 @@
             :form-item-list="queryFormItems"
             :model="queryFormData"
             :layout-form-props="{ fromLayProps: { inline: true, size: 'mini' }, rowLayProps: { gutter: 10 } }"
-            :configBtn="[{ name: '查询', type: 'primary', onClick: (refs, model) => handleSearch(refs, model) }, { name: '重置', onClick: (refs, model) => handleReset(refs, model) }]"
+            :configBtn="[{ name: '查询', type: 'primary', onClick: ( model, refs) => handleSearch(refs, model) }, { name: '重置', onClick: (refs, model) => handleReset(refs, model) }]"
           />
           <!-- <div class="query-actions">
             <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch">查询</el-button>
@@ -341,6 +341,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { useDialog } from '../../components/es-eui'
 import {
   tableFormQueryExample,
@@ -417,11 +418,22 @@ export default {
       },
       formWithTableItems: [],
 
+
+       formData: { name: '', email: '' },
+
       // ===== 场景5: 选择用户 =====
       selectedUser: null,
 
       // ===== 场景6: 完整功能 =====
       fullFeatureResult: '',
+
+      queryData: { keyword: '' },
+      tableData: [
+        { id: 1, name: '产品A', price: 100, stock: 50 },
+        { id: 2, name: '产品B', price: 200, stock: 30 },
+        { id: 3, name: '产品C', price: 150, stock: 100 }
+      ],
+      formData: { selectedProduct: null, quantity: 1, remark: 'fdsavfdsa' },
 
       // ===== 场景7: 行内编辑 =====
       inlineEditData: [
@@ -638,7 +650,7 @@ export default {
           width: 150,
           render: (h, { row }) => row.editing ? (
             <el-input v-model={row.name} size="small" />
-          ) : row.name
+          ) : <span>{row.name}</span>
         },
         { 
           key: 'age', 
@@ -646,14 +658,14 @@ export default {
           width: 100,
           render: (h, { row }) => row.editing ? (
             <el-input-number v-model={row.age} size="small" min={1} max={150} />
-          ) : row.age
+          ) : <span>{ row.age }</span>
         },
         { 
           key: 'email', 
           label: '邮箱',
           render: (h, { row }) => row.editing ? (
             <el-input v-model={row.email} size="small" />
-          ) : row.email
+          ) : <span>{row.email}</span> 
         },
         {
           key: 'action',
@@ -701,8 +713,9 @@ export default {
         })
       }
     },
-    handleSearch() {
+    handleSearch(refs, model) {
       // 手动触发表格刷新
+      // console.log('model///', model)
       this.$refs.tableWithQuery.httpRquestInstace()
     },
     handleReset() {
@@ -734,9 +747,11 @@ export default {
 
     // ===== 场景3: useDialog + 原生表单 =====
     openNativeFormDialog() {
-      const formData = { name: '', email: '' }
+     // const formData = Vue.observable({ name: '', email: '' })
+     const { formData } = this
       dialogInstance({
         title: '原生表单弹窗',
+        key: '原生表单弹窗',
         width: '500px',
         render: (h) => (
           <el-form ref="nativeForm" model={formData} label-width="80px" size="small">
@@ -752,20 +767,21 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance, { close }) => close()
           },
           {
             name: '确定',
             type: 'primary',
             key: 'confirm',
-            onClick: ({ close, getRefs }) => {
-              const form = getRefs('nativeForm')
-              form.validate((valid) => {
-                if (valid) {
-                  this.$message.success(`提交成功: ${formData.name}`)
-                  close()
-                }
-              })
+            onClick: (instantce, { close, getRefs }) => {
+                console.log('closeInstance///', formData)
+              // const form = getRefs('nativeForm')
+              // form.validate((valid) => {
+              //   if (valid) {
+              //     this.$message.success(`提交成功: ${formData.name}`)
+              //     close()
+              //   }
+              // })
             }
           }
         ]
@@ -774,7 +790,8 @@ export default {
 
     // ===== 场景4: useDialog + EsForm =====
     openEsFormDialog() {
-      const formData = { name: '', status: '', remark: '' }
+      // 关键修复：使用 Vue.observable 创建响应式对象
+      const formData = Vue.observable({ name: '', status: '', remark: '' })
       dialogInstance({
         title: 'EsForm 弹窗',
         width: '600px',
@@ -784,30 +801,31 @@ export default {
             form-item-list={[
               { prop: 'name', label: '名称', span: 12, formtype: 'Input', formItemOptions: { rules: [{ required: true, message: '请输入名称' }] } },
               { prop: 'status', label: '状态', span: 12, formtype: 'Select', dataOptions: [{ label: '启用', value: '1' }, { label: '禁用', value: '0' }] },
-              { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 3 } }
+              { prop: "remark", label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 3 } }
             ]}
-            model={formData}
+            formModel={formData}
           />
         ),
         configBtn: [
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance,{ close }) => close()
           },
           {
             name: '保存',
             type: 'primary',
             key: 'save',
-            onClick: ({ close, getRefs }) => {
+            onClick: (instance, { close, getRefs }) => {
               const formRef = getRefs('esFormInDialog')
-              formRef.validate((valid) => {
+              console.log('formRef.validate', formRef)
+              {/* formRef.validate((valid) => {
                 if (valid) {
                   this.$message.success('保存成功')
                   console.log('表单数据:', formData)
                   close()
                 }
-              })
+              }) */}
             }
           }
         ]
@@ -844,13 +862,13 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance,{ close }) => close()
           },
           {
             name: '确定',
             type: 'primary',
             key: 'confirm',
-            onClick: ({ close }) => {
+            onClick: (instance, { close }) => {
               if (selectedRow) {
                 this.selectedUser = selectedRow
                 this.$message.success(`已选择: ${selectedRow.name}`)
@@ -866,93 +884,95 @@ export default {
 
     // ===== 场景6: useDialog + EsTable + EsForm =====
     openFullFeatureDialog() {
-      const queryData = { keyword: '' }
-      const tableData = [
-        { id: 1, name: '产品A', price: 100, stock: 50 },
-        { id: 2, name: '产品B', price: 200, stock: 30 },
-        { id: 3, name: '产品C', price: 150, stock: 100 }
-      ]
-      const formData = { selectedProduct: null, quantity: 1, remark: '' }
+      const { queryData, tableData } = this
       let selectedRow = null
-
-      dialogInstance({
+      
+      // 关键修复：重置响应式 formData，确保数据是响应式的
+      this.formData.selectedProduct = null
+      this.formData.quantity = 1
+      this.formData.remark = ''
+      
+      useDialog()({
+        key: 'fullFeatureDialog',
         title: '选择产品并填写订单',
         width: '800px',
         height: '600px',
         render: (h, ctx) => (
-          <div>
-            <div style="margin-bottom: 15px;">
-              <el-input 
-                v-model={queryData.keyword} 
-                placeholder="搜索产品" 
-                size="small"
-                style="width: 200px; margin-right: 10px;"
-              >
-                <el-button slot="append" icon="el-icon-search" />
-              </el-input>
+            <div>
+              <div style="margin-bottom: 15px;">
+                <el-input 
+                  v-model={queryData.keyword} 
+                  placeholder="搜索产品" 
+                  size="small"
+                  style="width: 200px; margin-right: 10px;"
+                >
+                  <el-button slot="append" icon="el-icon-search" />
+                </el-input>
+              </div>
+              <es-table
+                ref="productTable"
+                data-source={tableData.filter(item => !queryData.keyword || item.name.includes(queryData.keyword))}
+                columns={[
+                  { key: 'id', label: 'ID', width: 80 },
+                  { key: 'name', label: '产品名称'},
+                  { key: 'price', label: '价格', render: (h, { row }) => `¥${row.price}` },
+                  { key: 'stock', label: '库存',  }
+                ]}
+                options={{ border: true, highlightCurrentRow: true }}
+                on-current-change={(row) => { selectedRow = row }}
+                style="margin-bottom: 20px;"
+              />
+              <el-divider content-position="left">订单信息</el-divider>
+              <es-form
+                ref="orderForm"
+                form-item-list={[
+                  { 
+                    prop: 'selectedProduct', 
+                    label: '已选产品', 
+                    span: 24, 
+                    formtype: 'Input',
+                    attrs: { disabled: false },
+                    itemValue: selectedRow ? selectedRow.name : '请从上方表格选择产品'
+                  },
+                  { 
+                    prop: 'quantity', 
+                    label: '购买数量', 
+                    span: 12, 
+                    formtype: 'InputNumber',
+                    attrs: { min: 1 },
+                    formItemOptions: { rules: [{ required: true, message: '请输入数量' }] }
+                  },
+                  { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 2 } }
+                ]}
+                formModel={this.formData}
+              />
             </div>
-            <es-table
-              ref="productTable"
-              data-source={tableData.filter(item => !queryData.keyword || item.name.includes(queryData.keyword))}
-              columns={[
-                { key: 'id', label: 'ID', width: 80 },
-                { key: 'name', label: '产品名称', width: 150 },
-                { key: 'price', label: '价格', width: 100, render: (h, { row }) => `¥${row.price}` },
-                { key: 'stock', label: '库存', width: 100 }
-              ]}
-              options={{ border: true, highlightCurrentRow: true }}
-              on-current-change={(row) => { selectedRow = row }}
-              style="margin-bottom: 20px;"
-            />
-            <el-divider content-position="left">订单信息</el-divider>
-            <es-form
-              ref="orderForm"
-              form-item-list={[
-                { 
-                  prop: 'selectedProduct', 
-                  label: '已选产品', 
-                  span: 24, 
-                  formtype: 'Input',
-                  attrs: { disabled: true },
-                  itemValue: selectedRow ? selectedRow.name : '请从上方表格选择产品'
-                },
-                { 
-                  prop: 'quantity', 
-                  label: '购买数量', 
-                  span: 12, 
-                  formtype: 'InputNumber',
-                  attrs: { min: 1 },
-                  formItemOptions: { rules: [{ required: true, message: '请输入数量' }] }
-                },
-                { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 2 } }
-              ]}
-              model={formData}
-            />
-          </div>
         ),
         configBtn: [
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance, { close }) => close()
           },
           {
             name: '提交订单',
             type: 'primary',
             key: 'submit',
-            onClick: ({ close, getRefs }) => {
-              if (!selectedRow) {
+            onClick: (instantce, { close, getRefs }) => {
+              // 关键修复：使用响应式的 this.formData
+              console.log('configBtn onClick - this.formData:', this.formData)
+              {/* if (!selectedRow) {
                 this.$message.warning('请先选择产品')
                 return
               }
               const formRef = getRefs('orderForm')
               formRef.validate((valid) => {
                 if (valid) {
-                  this.fullFeatureResult = `产品: ${selectedRow.name}, 数量: ${formData.quantity}`
+                  this.fullFeatureResult = `产品: ${selectedRow.name}, 数量: ${this.formData.quantity}`
                   this.$message.success('订单提交成功')
                   close()
                 }
-              })
+              }) */}
             }
           }
         ]
@@ -984,6 +1004,7 @@ export default {
       dialogInstance({
         title: '第一层弹窗',
         width: '500px',
+        key: 'openNestedDialog',
         render: (h) => (
           <div>
             <p>这是第一层弹窗内容</p>
@@ -991,17 +1012,18 @@ export default {
           </div>
         ),
         configBtn: [
-          { name: '关闭', key: 'close', onClick: ({ close }) => close() }
+          { name: '关闭', key: 'close', onClick: (instance,{ close }) => close() }
         ]
       })
     },
     openSecondDialog() {
-      dialogInstance({
+      useDialog()({
         title: '第二层弹窗',
         width: '400px',
+        key: 'openSecondDialog',
         render: (h) => <p>这是第二层弹窗内容</p>,
         configBtn: [
-          { name: '关闭', key: 'close', onClick: ({ close }) => close() }
+          { name: '关闭', key: 'close', onClick: (instance,{ close }) => close() }
         ]
       })
     },
