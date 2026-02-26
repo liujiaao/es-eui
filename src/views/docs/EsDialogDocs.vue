@@ -1320,7 +1320,7 @@ export default {
   }
 
   p {
-    color: #606266;
+    color: #28292d;
     line-height: 1.6;
     margin-bottom: 15px;
 

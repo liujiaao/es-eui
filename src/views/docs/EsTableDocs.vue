@@ -901,7 +901,7 @@ export default {
   }
 
   .component-desc {
-    color: #606266;
+    color: #28292d;
     font-size: 16px;
     line-height: 1.6;
     margin-bottom: 30px;
@@ -934,7 +934,7 @@ export default {
   }
 
   p {
-    color: #606266;
+    color: #28292d;
     line-height: 1.8;
     margin-bottom: 15px;
 

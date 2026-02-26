@@ -264,13 +264,13 @@ body {
 /* 段落 */
 .content p {
   line-height: 1.8;
-  color: #606266;
+  color: #28292d;
   margin-bottom: 15px;
 }
 
 /* 代码块 */
 pre {
-  background: #f5f7fa;
+  background: #0f1010; // #f5f7fa;
   padding: 15px 20px;
   border-radius: 4px;
   overflow-x: auto;
@@ -279,14 +279,14 @@ pre {
   code {
     font-family: 'Courier New', Consolas, monospace;
     font-size: 13px;
-    color: #606266;
+    color: #dcdfe4;
     line-height: 1.6;
   }
 }
 
 /* 行内代码 */
 code {
-  background: #f4f4f5;
+  // background: #f4f4f5;
   padding: 2px 6px;
   border-radius: 3px;
   font-family: 'Courier New', Consolas, monospace;
@@ -882,7 +882,7 @@ $bg-light: #f7fafc;
 
   .demo-block__code {
     border-top: 1px solid $border-color;
-
+     background: #2d2d2d !important;
     .code-header {
       display: flex;
       align-items: center;
@@ -891,6 +891,7 @@ $bg-light: #f7fafc;
       background: $bg-light;
       cursor: pointer;
       transition: all 0.3s;
+      background: #2d2d2d !important;
 
       &:hover {
         background: #e8f4ff;
