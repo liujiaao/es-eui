@@ -1,19 +1,27 @@
 <template>
   <div class="docs-container">
-    <div class="docs-header">
-      <h1>EsTable 表格组件</h1>
-      <p class="component-desc">企业级高性能表格组件，支持自动数据请求、分页管理、列渲染、条件查询联动等特性，让数据展示开发效率提升 80%</p>
-      <!-- <div class="global-actions">
-        <el-button size="small" @click="expandAll">
-          <i class="el-icon-arrow-down"></i> 全部展开
-        </el-button>
-        <el-button size="small" @click="collapseAll">
-          <i class="el-icon-arrow-up"></i> 全部收起
-        </el-button>
-      </div> -->
-    </div>
+    <!-- Hero Section -->
+    <section class="modern-hero">
+      <div class="hero-badge">
+        <i class="el-icon-s-data" />
+        <span>核心组件</span>
+      </div>
+      <h1 class="hero-title">EsTable 表格组件</h1>
+      <p class="hero-desc">
+        企业级高性能表格组件，支持自动数据请求、分页管理、列渲染、条件查询联动等特性，
+        让数据展示开发效率提升 80%
+      </p>
+    </section>
 
-    <h2>快速开始</h2>
+    <!-- Quick Start Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon blue">
+          <i class="el-icon-time" />
+        </div>
+        <h2 class="section-title">快速开始</h2>
+      </div>
+      <p class="section-desc">最简单的表格用法，只需配置数据源和列定义：</p>
     <p>最简单的表格用法，只需配置数据源和列定义：</p>
 
     <div class="demo-block">
@@ -35,10 +43,18 @@
         <pre v-show="codeExpanded.scene1"><code>{{ basicExample }}</code></pre>
       </div>
     </div>
+    </section>
 
-    <h2>核心特性详解</h2>
+    <!-- Core Features Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon purple">
+          <i class="el-icon-s-opportunity" />
+        </div>
+        <h2 class="section-title">核心特性详解</h2>
+      </div>
 
-    <h3>1. 自动数据请求（推荐）</h3>
+      <h3>1. 自动数据请求（推荐）</h3>
     <p>通过 <code>apiParams</code> 配置，表格自动处理数据请求、分页、加载状态，无需手动维护：</p>
     
     <div class="demo-block">
@@ -179,9 +195,18 @@
       </div>
     </div>
 
-    <h2>实战场景示例</h2>
+    </section>
 
-    <h3>场景一：完整的管理表格（增删改查 + 条件查询）</h3>
+    <!-- Real World Examples Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon green">
+          <i class="el-icon-s-check" />
+        </div>
+        <h2 class="section-title">实战场景示例</h2>
+      </div>
+
+      <h3>场景一：完整的管理表格（增删改查 + 条件查询）</h3>
     <div class="demo-block demo-block--full">
       <div class="demo-block__header">
         <span class="demo-block__title">政策管理表格（实战案例）</span>
@@ -211,9 +236,18 @@
       </div>
     </div>
 
-    <h2>API 文档</h2>
+    </section>
 
-    <h3>Props</h3>
+    <!-- API Documentation Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon orange">
+          <i class="el-icon-document" />
+        </div>
+        <h2 class="section-title">API 文档</h2>
+      </div>
+
+      <h3>Props</h3>
     <table class="table-props">
       <thead>
         <tr>
@@ -402,9 +436,18 @@
       </tbody>
     </table>
 
-    <h2>开发规范与建议</h2>
-    
-    <div class="tips-box tips-box--info">
+    </section>
+
+    <!-- Development Guidelines Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon cyan">
+          <i class="el-icon-s-management" />
+        </div>
+        <h2 class="section-title">开发规范与建议</h2>
+      </div>
+
+      <div class="tips-box tips-box--info">
       <h4>📋 开发规范</h4>
       <ol>
         <li><strong>字段命名</strong>：后端返回字段与前端不一致时，使用 configTableOut 映射，不修改后端接口</li>
@@ -414,6 +457,53 @@
         <li><strong>性能优化</strong>：大数据量时设置 tabHeight 固定表格高度，启用虚拟滚动</li>
       </ol>
     </div>
+    </section>
+
+    <!-- Next Steps Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon green">
+          <i class="el-icon-right" />
+        </div>
+        <h2 class="section-title">下一步</h2>
+      </div>
+      <p class="section-desc">继续学习其他组件，掌握更多功能：</p>
+
+      <div class="next-links">
+        <router-link to="/component/esform" class="next-card">
+          <div class="next-icon purple">
+            <i class="el-icon-s-order" />
+          </div>
+          <div class="next-info">
+            <h3>EsForm 表单组件</h3>
+            <p>学习配置化表单的各种控件类型</p>
+          </div>
+          <i class="el-icon-arrow-right" />
+        </router-link>
+
+        <router-link to="/component/esdialog" class="next-card">
+          <div class="next-icon orange">
+            <i class="el-icon-s-claim" />
+          </div>
+          <div class="next-info">
+            <h3>useDialog 弹窗</h3>
+            <p>掌握函数式弹窗的使用方法</p>
+          </div>
+          <i class="el-icon-arrow-right" />
+        </router-link>
+
+        <router-link to="/component/combination" class="next-card">
+          <div class="next-icon cyan">
+            <i class="el-icon-link" />
+          </div>
+          <div class="next-info">
+            <h3>组合联动</h3>
+            <p>了解组件间的组合使用方式</p>
+          </div>
+          <i class="el-icon-arrow-right" />
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 

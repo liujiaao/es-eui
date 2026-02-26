@@ -1,431 +1,521 @@
 <template>
   <div class="docs-container">
-    <div class="docs-header">
-      <h1>EsForm 表单组件</h1>
-      <p class="component-desc">企业级表单解决方案，通过 JSON 配置即可生成复杂表单，支持 20+ 种表单控件、条件渲染、动态规则、自定义渲染等特性，让表单开发从小时级降至分钟级</p>
-      <!-- <div class="global-actions">
-        <el-button size="small" @click="expandAll">
-          <i class="el-icon-arrow-down"></i> 全部展开
-        </el-button>
-        <el-button size="small" @click="collapseAll">
-          <i class="el-icon-arrow-up"></i> 全部收起
-        </el-button>
-      </div> -->
-    </div>
-
-    <h2>快速开始</h2>
-    <p>最简单的表单，只需配置字段列表和数据模型：</p>
-
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">基础表单</span>
+    <!-- Hero 区域 -->
+    <section class="modern-hero">
+      <div class="hero-badge">
+        <i class="el-icon-s-order" />
+        <span>核心组件</span>
       </div>
-      <div class="demo-block__body">
-        <es-form
-          :form-item-list="basicFormConfig"
-          :model="basicFormData"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene1 }">
-        <div class="code-header" @click="toggleCode('scene1')">
-          <i :class="codeExpanded.scene1 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene1 ? '收起代码' : '展开代码' }}</span>
+      <h1 class="hero-title">EsForm 表单组件</h1>
+      <p class="hero-desc">
+        企业级表单解决方案，通过 JSON 配置即可生成复杂表单，支持 20+ 种表单控件，
+        让表单开发从小时级降至分钟级
+      </p>
+    </section>
+
+    <!-- 快速开始 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <i class="el-icon-time" />
         </div>
-        <pre v-show="codeExpanded.scene1"><code>{{ basicExample }}</code></pre>
+        <h2 class="section-title">快速开始</h2>
       </div>
-    </div>
+      <p class="section-desc">最简单的表单，只需配置字段列表和数据模型：</p>
 
-    <h2>核心特性详解</h2>
-
-    <h3>1. 表单控件类型</h3>
-    <p>EsForm 内置 20+ 种控件类型，通过 <code>formtype</code> 配置即可切换：</p>
-
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">常用控件展示</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          :form-item-list="controlsFormConfig"
-          :model="controlsFormData"
-          :layout-form-props="controlsLayoutProps"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene2 }">
-        <div class="code-header" @click="toggleCode('scene2')">
-          <i :class="codeExpanded.scene2 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene2 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">基础表单</span>
         </div>
-        <pre v-show="codeExpanded.scene2"><code>{{ controlsExample }}</code></pre>
-      </div>
-    </div>
-
-    <h3>2. 表单布局系统</h3>
-    <p>通过 <code>layoutFormProps</code> 实现灵活的响应式布局：</p>
-
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">栅格布局与折叠</span>
-        <span class="demo-block__badge">实战技巧</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          :form-item-list="layoutFormConfig"
-          :model="layoutFormData"
-          :layout-form-props="layoutProps"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene3 }">
-        <div class="code-header" @click="toggleCode('scene3')">
-          <i :class="codeExpanded.scene3 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene3 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__body">
+          <es-form
+            :form-item-list="basicFormConfig"
+            :model="basicFormData"
+          />
         </div>
-        <pre v-show="codeExpanded.scene3"><code>{{ layoutExample }}</code></pre>
-      </div>
-    </div>
-
-    <div class="tips-box tips-box--success">
-      <h4>💡 布局最佳实践</h4>
-      <ul>
-        <li><code>span</code>：每个表单项占据的栅格数（1-24），建议 8（1/3行）、6（1/4行）、12（半行）</li>
-        <li><code>minfoldRows</code>：超过指定行数自动折叠，配合 gutter 控制间距</li>
-        <li><code>labelWidth</code>：统一定义标签宽度，或在 <code>formItemOptions</code> 中单独设置</li>
-        <li><code>isBtnHiden</code>：隐藏默认的查询/重置按钮，适用于弹窗内表单</li>
-      </ul>
-    </div>
-
-    <h3>3. 验证规则与表单校验</h3>
-    <p>支持 Element UI 的所有验证规则，支持动态规则：</p>
-
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">表单验证</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          ref="validateForm"
-          :form-item-list="validateFormConfig"
-          :model="validateFormData"
-          :config-btn="validateConfigBtn"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene4 }">
-        <div class="code-header" @click="toggleCode('scene4')">
-          <i :class="codeExpanded.scene4 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene4 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene1 }">
+          <div class="code-header" @click="toggleCode('scene1')">
+            <i :class="codeExpanded.scene1 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene1 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene1"><code>{{ basicExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene4"><code>{{ validationExample }}</code></pre>
       </div>
-    </div>
+    </section>
 
-    <h3>4. 条件渲染与联动</h3>
-    <p>通过 <code>isHiden</code> 函数实现字段的条件显示：</p>
-
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">动态字段显示</span>
-        <span class="demo-block__badge">高频使用</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          :form-item-list="dynamicFormConfig"
-          :model="dynamicFormData"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene5 }">
-        <div class="code-header" @click="toggleCode('scene5')">
-          <i :class="codeExpanded.scene5 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene5 ? '收起代码' : '展开代码' }}</span>
+    <!-- 核心特性详解 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <i class="el-icon-s-opportunity" />
         </div>
-        <pre v-show="codeExpanded.scene5"><code>{{ dynamicFieldExample }}</code></pre>
+        <h2 class="section-title">核心特性详解</h2>
       </div>
-    </div>
+      <p class="section-desc">深入了解 EsForm 的强大功能特性</p>
 
-    <h3>5. 自定义 Render 渲染</h3>
-    <p>当内置控件无法满足需求时，使用 <code>render</code> 函数自定义：</p>
+      <h3>1. 表单控件类型</h3>
+      <p>EsForm 内置 20+ 种控件类型，通过 <code>formtype</code> 配置即可切换：</p>
 
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">自定义渲染</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          :form-item-list="customRenderConfig"
-          :model="customRenderData"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene6 }">
-        <div class="code-header" @click="toggleCode('scene6')">
-          <i :class="codeExpanded.scene6 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene6 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">常用控件展示</span>
         </div>
-        <pre v-show="codeExpanded.scene6"><code>{{ customRenderExample }}</code></pre>
-      </div>
-    </div>
-
-    <div class="tips-box tips-box--warning">
-      <h4>⚠️ Render 函数参数说明</h4>
-      <p>参数顺序为：<code>(h, model, row) => VNode</code></p>
-      <ul>
-        <li><code>h</code> - createElement 函数</li>
-        <li><code>model</code> - 表单数据对象</li>
-        <li><code>row</code> - 当前表单项配置</li>
-      </ul>
-    </div>
-
-    <h3>6. 动态规则控制</h3>
-    <p>根据其他字段值动态控制验证规则：</p>
-
-    <div class="demo-block">
-      <div class="demo-block__header">
-        <span class="demo-block__title">动态验证规则</span>
-        <span class="demo-block__badge">进阶技巧</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          :key="dynamicRuleKey"
-          :form-item-list="dynamicRuleConfig"
-          :model="dynamicRuleData"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene7 }">
-        <div class="code-header" @click="toggleCode('scene7')">
-          <i :class="codeExpanded.scene7 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene7 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__body">
+          <es-form
+            :form-item-list="controlsFormConfig"
+            :model="controlsFormData"
+            :layout-form-props="controlsLayoutProps"
+          />
         </div>
-        <pre v-show="codeExpanded.scene7"><code>{{ dynamicRuleExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>实战场景示例</h2>
-
-    <h3>场景一：复杂政策表单（生产级实战）</h3>
-    <div class="demo-block demo-block--full">
-      <div class="demo-block__header">
-        <span class="demo-block__title">政策编辑表单</span>
-        <span class="demo-block__badge">企业级</span>
-      </div>
-      <div class="demo-block__body">
-        <es-form
-          ref="policyForm"
-          :form-item-list="policyFormConfig"
-          :model="policyFormData"
-          :layout-form-props="policyLayoutProps"
-        />
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene8 }">
-        <div class="code-header" @click="toggleCode('scene8')">
-          <i :class="codeExpanded.scene8 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene8 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene2 }">
+          <div class="code-header" @click="toggleCode('scene2')">
+            <i :class="codeExpanded.scene2 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene2 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene2"><code>{{ controlsExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene8"><code>{{ realWorldFormExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>API 文档</h2>
+      <h3>2. 表单布局系统</h3>
+      <p>通过 <code>layoutFormProps</code> 实现灵活的响应式布局：</p>
 
-    <h3>Props</h3>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>参数</th>
-          <th>说明</th>
-          <th>类型</th>
-          <th>默认值</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>formItemList</td>
-          <td>表单项配置数组</td>
-          <td>Array</td>
-          <td>[]</td>
-        </tr>
-        <tr>
-          <td>model</td>
-          <td>表单数据对象</td>
-          <td>Object</td>
-          <td>{}</td>
-        </tr>
-        <tr>
-          <td>layoutFormProps</td>
-          <td>布局配置</td>
-          <td>Object</td>
-          <td>{}</td>
-        </tr>
-        <tr>
-          <td>configBtn</td>
-          <td>按钮配置数组</td>
-          <td>Array</td>
-          <td>[]</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">栅格布局与折叠</span>
+          <span class="demo-block__badge">实战技巧</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            :form-item-list="layoutFormConfig"
+            :model="layoutFormData"
+            :layout-form-props="layoutProps"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene3 }">
+          <div class="code-header" @click="toggleCode('scene3')">
+            <i :class="codeExpanded.scene3 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene3 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene3"><code>{{ layoutExample }}</code></pre>
+        </div>
+      </div>
 
-    <h3>FormItem 配置</h3>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>参数</th>
-          <th>说明</th>
-          <th>类型</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>prop</td>
-          <td>字段名（支持函数动态返回）</td>
-          <td>String/Function</td>
-        </tr>
-        <tr>
-          <td>label</td>
-          <td>标签文本</td>
-          <td>String</td>
-        </tr>
-        <tr>
-          <td>formtype</td>
-          <td>控件类型：Input/Select/Radio/Checkbox/Switch/DatePicker/TimePicker/Cascader/Rate/Upload</td>
-          <td>String</td>
-        </tr>
-        <tr>
-          <td>span</td>
-          <td>栅格占据列数（1-24）</td>
-          <td>Number</td>
-        </tr>
-        <tr>
-          <td>attrs</td>
-          <td>控件属性（支持 disabled 为函数）</td>
-          <td>Object</td>
-        </tr>
-        <tr>
-          <td>formItemOptions</td>
-          <td>表单项选项：labelWidth、rules、style 等</td>
-          <td>Object</td>
-        </tr>
-        <tr>
-          <td>dataOptions</td>
-          <td>选项数据（Select/Radio/Checkbox）</td>
-          <td>Array</td>
-        </tr>
-        <tr>
-          <td>isHiden</td>
-          <td>条件显示函数 (model) => Boolean</td>
-          <td>Function</td>
-        </tr>
-        <tr>
-          <td>render</td>
-          <td>自定义渲染函数 (h, model, row) => VNode</td>
-          <td>Function</td>
-        </tr>
-        <tr>
-          <td>on</td>
-          <td>事件监听：change、input、enter 等</td>
-          <td>Object</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="tips-box tips-box--success">
+        <h4>💡 布局最佳实践</h4>
+        <ul>
+          <li><code>span</code>：每个表单项占据的栅格数（1-24），建议 8（1/3行）、6（1/4行）、12（半行）</li>
+          <li><code>minfoldRows</code>：超过指定行数自动折叠，配合 gutter 控制间距</li>
+          <li><code>labelWidth</code>：统一定义标签宽度，或在 <code>formItemOptions</code> 中单独设置</li>
+          <li><code>isBtnHiden</code>：隐藏默认的查询/重置按钮，适用于弹窗内表单</li>
+        </ul>
+      </div>
 
-    <h3>LayoutFormProps 配置</h3>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>参数</th>
-          <th>说明</th>
-          <th>类型</th>
-          <th>默认值</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>fromLayProps.labelWidth</td>
-          <td>标签宽度</td>
-          <td>String</td>
-          <td>'100px'</td>
-        </tr>
-        <tr>
-          <td>fromLayProps.size</td>
-          <td>控件尺寸：large/medium/small/mini</td>
-          <td>String</td>
-          <td>'mini'</td>
-        </tr>
-        <tr>
-          <td>fromLayProps.minfoldRows</td>
-          <td>超过多少行折叠</td>
-          <td>Number</td>
-          <td>0（不折叠）</td>
-        </tr>
-        <tr>
-          <td>fromLayProps.isBtnHiden</td>
-          <td>是否隐藏按钮</td>
-          <td>Boolean</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>fromLayProps.rules</td>
-          <td>表单验证规则</td>
-          <td>Object</td>
-          <td>{}</td>
-        </tr>
-        <tr>
-          <td>rowLayProps.gutter</td>
-          <td>栅格间距</td>
-          <td>Number</td>
-          <td>10</td>
-        </tr>
-      </tbody>
-    </table>
+      <h3>3. 验证规则与表单校验</h3>
+      <p>支持 Element UI 的所有验证规则，支持动态规则：</p>
 
-    <h3>Methods</h3>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>方法名</th>
-          <th>说明</th>
-          <th>参数</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>validate</td>
-          <td>表单验证</td>
-          <td>(callback) => void</td>
-        </tr>
-        <tr>
-          <td>resetFields</td>
-          <td>重置表单</td>
-          <td>-</td>
-        </tr>
-        <tr>
-          <td>clearValidate</td>
-          <td>清除验证状态</td>
-          <td>-</td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">表单验证</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            ref="validateForm"
+            :form-item-list="validateFormConfig"
+            :model="validateFormData"
+            :config-btn="validateConfigBtn"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene4 }">
+          <div class="code-header" @click="toggleCode('scene4')">
+            <i :class="codeExpanded.scene4 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene4 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene4"><code>{{ validationExample }}</code></pre>
+        </div>
+      </div>
 
-    <h2>开发规范与技巧</h2>
+      <h3>4. 条件渲染与联动</h3>
+      <p>通过 <code>isHiden</code> 函数实现字段的条件显示：</p>
 
-    <div class="tips-box tips-box--info">
-      <h4>📋 表单开发规范</h4>
-      <ol>
-        <li><strong>字段命名</strong>：使用驼峰命名，如 <code>policyTitle</code>、<code>effectiveTimeRange</code></li>
-        <li><strong>日期范围</strong>：统一使用数组格式，如 <code>effectiveTimeRange: ['', '']</code></li>
-        <li><strong>动态禁用</strong>：使用函数形式 <code>disabled: () => this.isDisabled</code></li>
-        <li><strong>动态规则</strong>：通过 key 强制刷新表单 <code>:key="ruleKey"</code></li>
-        <li><strong>验证规则</strong>：在 <code>formItemOptions.rules</code> 中定义，支持 required/pattern/validator</li>
-        <li><strong>性能优化</strong>：复杂表单使用 <code>isHiden</code> 替代 v-if，避免频繁重建组件</li>
-      </ol>
-    </div>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">动态字段显示</span>
+          <span class="demo-block__badge">高频使用</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            :form-item-list="dynamicFormConfig"
+            :model="dynamicFormData"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene5 }">
+          <div class="code-header" @click="toggleCode('scene5')">
+            <i :class="codeExpanded.scene5 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene5 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene5"><code>{{ dynamicFieldExample }}</code></pre>
+        </div>
+      </div>
 
-    <div class="tips-box tips-box--success">
-      <h4>🚀 开发效率技巧</h4>
-      <ul>
-        <li><strong>快速创建表单</strong>：复制已有配置，修改字段名即可</li>
-        <li><strong>统一配置</strong>：将常用 attrs（如 clearable、size）提取为常量</li>
-        <li><strong>IDE 代码片段</strong>：配置表单字段代码片段，一键生成配置模板</li>
-        <li><strong>类型提示</strong>：使用 JSDoc 注释标记字段类型，获得 IDE 提示</li>
-      </ul>
-    </div>
+      <h3>5. 自定义 Render 渲染</h3>
+      <p>当内置控件无法满足需求时，使用 <code>render</code> 函数自定义：</p>
+
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">自定义渲染</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            :form-item-list="customRenderConfig"
+            :model="customRenderData"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene6 }">
+          <div class="code-header" @click="toggleCode('scene6')">
+            <i :class="codeExpanded.scene6 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene6 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene6"><code>{{ customRenderExample }}</code></pre>
+        </div>
+      </div>
+
+      <div class="tips-box tips-box--warning">
+        <h4>⚠️ Render 函数参数说明</h4>
+        <p>参数顺序为：<code>(h, model, row) => VNode</code></p>
+        <ul>
+          <li><code>h</code> - createElement 函数</li>
+          <li><code>model</code> - 表单数据对象</li>
+          <li><code>row</code> - 当前表单项配置</li>
+        </ul>
+      </div>
+
+      <h3>6. 动态规则控制</h3>
+      <p>根据其他字段值动态控制验证规则：</p>
+
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">动态验证规则</span>
+          <span class="demo-block__badge">进阶技巧</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            :key="dynamicRuleKey"
+            :form-item-list="dynamicRuleConfig"
+            :model="dynamicRuleData"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene7 }">
+          <div class="code-header" @click="toggleCode('scene7')">
+            <i :class="codeExpanded.scene7 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene7 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene7"><code>{{ dynamicRuleExample }}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 实战场景示例 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+          <i class="el-icon-s-data" />
+        </div>
+        <h2 class="section-title">实战场景示例</h2>
+      </div>
+      <p class="section-desc">真实业务场景下的表单应用案例</p>
+
+      <h3>场景一：复杂政策表单（生产级实战）</h3>
+      <div class="demo-block demo-block--full">
+        <div class="demo-block__header">
+          <span class="demo-block__title">政策编辑表单</span>
+          <span class="demo-block__badge">企业级</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            ref="policyForm"
+            :form-item-list="policyFormConfig"
+            :model="policyFormData"
+            :layout-form-props="policyLayoutProps"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene8 }">
+          <div class="code-header" @click="toggleCode('scene8')">
+            <i :class="codeExpanded.scene8 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene8 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene8"><code>{{ realWorldFormExample }}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- API 文档 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+          <i class="el-icon-document" />
+        </div>
+        <h2 class="section-title">API 文档</h2>
+      </div>
+      <p class="section-desc">完整的接口参考和配置说明</p>
+
+      <h3>Props</h3>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>说明</th>
+            <th>类型</th>
+            <th>默认值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>formItemList</td>
+            <td>表单项配置数组</td>
+            <td>Array</td>
+            <td>[]</td>
+          </tr>
+          <tr>
+            <td>model</td>
+            <td>表单数据对象</td>
+            <td>Object</td>
+            <td>{}</td>
+          </tr>
+          <tr>
+            <td>layoutFormProps</td>
+            <td>布局配置</td>
+            <td>Object</td>
+            <td>{}</td>
+          </tr>
+          <tr>
+            <td>configBtn</td>
+            <td>按钮配置数组</td>
+            <td>Array</td>
+            <td>[]</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>FormItem 配置</h3>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>说明</th>
+            <th>类型</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>prop</td>
+            <td>字段名（支持函数动态返回）</td>
+            <td>String/Function</td>
+          </tr>
+          <tr>
+            <td>label</td>
+            <td>标签文本</td>
+            <td>String</td>
+          </tr>
+          <tr>
+            <td>formtype</td>
+            <td>控件类型：Input/Select/Radio/Checkbox/Switch/DatePicker/TimePicker/Cascader/Rate/Upload</td>
+            <td>String</td>
+          </tr>
+          <tr>
+            <td>span</td>
+            <td>栅格占据列数（1-24）</td>
+            <td>Number</td>
+          </tr>
+          <tr>
+            <td>attrs</td>
+            <td>控件属性（支持 disabled 为函数）</td>
+            <td>Object</td>
+          </tr>
+          <tr>
+            <td>formItemOptions</td>
+            <td>表单项选项：labelWidth、rules、style 等</td>
+            <td>Object</td>
+          </tr>
+          <tr>
+            <td>dataOptions</td>
+            <td>选项数据（Select/Radio/Checkbox）</td>
+            <td>Array</td>
+          </tr>
+          <tr>
+            <td>isHiden</td>
+            <td>条件显示函数 (model) => Boolean</td>
+            <td>Function</td>
+          </tr>
+          <tr>
+            <td>render</td>
+            <td>自定义渲染函数 (h, model, row) => VNode</td>
+            <td>Function</td>
+          </tr>
+          <tr>
+            <td>on</td>
+            <td>事件监听：change、input、enter 等</td>
+            <td>Object</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>LayoutFormProps 配置</h3>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>说明</th>
+            <th>类型</th>
+            <th>默认值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>fromLayProps.labelWidth</td>
+            <td>标签宽度</td>
+            <td>String</td>
+            <td>'100px'</td>
+          </tr>
+          <tr>
+            <td>fromLayProps.size</td>
+            <td>控件尺寸：large/medium/small/mini</td>
+            <td>String</td>
+            <td>'mini'</td>
+          </tr>
+          <tr>
+            <td>fromLayProps.minfoldRows</td>
+            <td>超过多少行折叠</td>
+            <td>Number</td>
+            <td>0（不折叠）</td>
+          </tr>
+          <tr>
+            <td>fromLayProps.isBtnHiden</td>
+            <td>是否隐藏按钮</td>
+            <td>Boolean</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>fromLayProps.rules</td>
+            <td>表单验证规则</td>
+            <td>Object</td>
+            <td>{}</td>
+          </tr>
+          <tr>
+            <td>rowLayProps.gutter</td>
+            <td>栅格间距</td>
+            <td>Number</td>
+            <td>10</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Methods</h3>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>方法名</th>
+            <th>说明</th>
+            <th>参数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>validate</td>
+            <td>表单验证</td>
+            <td>(callback) => void</td>
+          </tr>
+          <tr>
+            <td>resetFields</td>
+            <td>重置表单</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td>clearValidate</td>
+            <td>清除验证状态</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 开发规范与技巧 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+          <i class="el-icon-s-check" style="color: #606266;" />
+        </div>
+        <h2 class="section-title">开发规范与技巧</h2>
+      </div>
+      <p class="section-desc">提升开发效率和代码质量的最佳实践</p>
+
+      <div class="tips-box tips-box--info">
+        <h4>📋 表单开发规范</h4>
+        <ol>
+          <li><strong>字段命名</strong>：使用驼峰命名，如 <code>policyTitle</code>、<code>effectiveTimeRange</code></li>
+          <li><strong>日期范围</strong>：统一使用数组格式，如 <code>effectiveTimeRange: ['', '']</code></li>
+          <li><strong>动态禁用</strong>：使用函数形式 <code>disabled: () => this.isDisabled</code></li>
+          <li><strong>动态规则</strong>：通过 key 强制刷新表单 <code>:key="ruleKey"</code></li>
+          <li><strong>验证规则</strong>：在 <code>formItemOptions.rules</code> 中定义，支持 required/pattern/validator</li>
+          <li><strong>性能优化</strong>：复杂表单使用 <code>isHiden</code> 替代 v-if，避免频繁重建组件</li>
+        </ol>
+      </div>
+
+      <div class="tips-box tips-box--success">
+        <h4>🚀 开发效率技巧</h4>
+        <ul>
+          <li><strong>快速创建表单</strong>：复制已有配置，修改字段名即可</li>
+          <li><strong>统一配置</strong>：将常用 attrs（如 clearable、size）提取为常量</li>
+          <li><strong>IDE 代码片段</strong>：配置表单字段代码片段，一键生成配置模板</li>
+          <li><strong>类型提示</strong>：使用 JSDoc 注释标记字段类型，获得 IDE 提示</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 下一步 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+          <i class="el-icon-right" />
+        </div>
+        <h2 class="section-title">下一步</h2>
+      </div>
+      <p class="section-desc">继续探索其他组件，构建完整的业务解决方案</p>
+
+      <div class="next-steps">
+        <router-link to="/component/estable" class="next-step-card">
+          <div class="next-step-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <i class="el-icon-s-grid" />
+          </div>
+          <div class="next-step-content">
+            <h4>EsTable 表格组件</h4>
+            <p>企业级表格组件，支持搜索、分页、批量操作、列配置等高级功能</p>
+          </div>
+          <i class="el-icon-arrow-right next-step-arrow" />
+        </router-link>
+
+        <router-link to="/component/esdialog" class="next-step-card">
+          <div class="next-step-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <i class="el-icon-s-promotion" />
+          </div>
+          <div class="next-step-content">
+            <h4>useDialog 弹窗</h4>
+            <p>简洁优雅的弹窗 Hook，支持指令式调用，让弹窗控制更轻松</p>
+          </div>
+          <i class="el-icon-arrow-right next-step-arrow" />
+        </router-link>
+
+        <router-link to="/component/combination" class="next-step-card">
+          <div class="next-step-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <i class="el-icon-s-operation" />
+          </div>
+          <div class="next-step-content">
+            <h4>组合联动</h4>
+            <p>表单与表格的完美配合，实现复杂业务场景的数据管理</p>
+          </div>
+          <i class="el-icon-arrow-right next-step-arrow" />
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
