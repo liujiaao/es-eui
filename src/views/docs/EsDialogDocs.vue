@@ -1,227 +1,248 @@
 <template>
   <div class="docs-container">
-    <div class="docs-header">
-      <h1>EsDialog 弹窗组件</h1>
-      <p>强大的弹窗组件，基于 <code>useDialog</code> hook，支持 JSX 渲染、自定义内容、按钮配置、生命周期回调等功能。</p>
-      <!-- <div class="global-actions">
-        <el-button size="small" @click="expandAll">
-          <i class="el-icon-arrow-down"></i> 全部展开
-        </el-button>
-        <el-button size="small" @click="collapseAll">
-          <i class="el-icon-arrow-up"></i> 全部收起
-        </el-button>
-      </div> -->
-    </div>
-
-    <h2>基础用法</h2>
-    <p>最基础的弹窗用法，传入标题和渲染内容即可。</p>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openBasic">打开弹窗</el-button>
+    <section class="modern-hero">
+      <div class="hero-badge">
+        <i class="el-icon-s-claim" />
+        <span>核心组件</span>
       </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene1 }">
-        <div class="code-header" @click="toggleCode('scene1')">
-          <i :class="codeExpanded.scene1 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene1 ? '收起代码' : '展开代码' }}</span>
+      <h1 class="hero-title">useDialog 弹窗组件</h1>
+      <p class="hero-desc">
+        强大的函数式弹窗组件，支持 JSX 渲染、自定义内容、按钮配置、生命周期回调等功能，
+        让弹窗开发更加灵活高效
+      </p>
+    </section>
+
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon blue">
+          <i class="el-icon-time" />
         </div>
-        <pre v-show="codeExpanded.scene1"><code>{{ basicExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>确认弹窗</h2>
-    <p>通过配置 <code>configBtn</code> 实现确认弹窗功能。</p>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openConfirm">确认弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene2 }">
-        <div class="code-header" @click="toggleCode('scene2')">
-          <i :class="codeExpanded.scene2 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene2 ? '收起代码' : '展开代码' }}</span>
+        <div class="section-info">
+          <h2 class="section-title">基础用法</h2>
+          <p class="section-desc">从简单弹窗到高级功能，逐步掌握 useDialog 的使用方法</p>
         </div>
-        <pre v-show="codeExpanded.scene2"><code>{{ confirmExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>表单弹窗 (JSX + EsForm)</h2>
-    <p>在弹窗中嵌入 <code>EsForm</code> 表单组件，使用 <strong>JSX 语法</strong> 使代码更简洁直观。</p>
+      <p>最基础的弹窗用法，传入标题和渲染内容即可。</p>
 
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openFormDialog">表单弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene3 }">
-        <div class="code-header" @click="toggleCode('scene3')">
-          <i :class="codeExpanded.scene3 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene3 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openBasic">打开弹窗</el-button>
         </div>
-        <pre v-show="codeExpanded.scene3"><code>{{ formDialogExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>可拖拽弹窗</h2>
-    <p>配置 <code>isDraggable</code> 属性使弹窗可拖拽。</p>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openDraggable">可拖拽弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene4 }">
-        <div class="code-header" @click="toggleCode('scene4')">
-          <i :class="codeExpanded.scene4 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene4 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene1 }">
+          <div class="code-header" @click="toggleCode('scene1')">
+            <i :class="codeExpanded.scene1 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene1 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene1"><code>{{ basicExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene4"><code>{{ draggableExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>全屏弹窗</h2>
-    <p>配置 <code>fullscreen</code> 属性使弹窗全屏显示。</p>
+      <h2>确认弹窗</h2>
+      <p>通过配置 <code>configBtn</code> 实现确认弹窗功能。</p>
 
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openFullscreen">全屏弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene5 }">
-        <div class="code-header" @click="toggleCode('scene5')">
-          <i :class="codeExpanded.scene5 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene5 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openConfirm">确认弹窗</el-button>
         </div>
-        <pre v-show="codeExpanded.scene5"><code>{{ fullscreenExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>加载状态</h2>
-    <p>配置 <code>loading</code> 属性显示加载状态。</p>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openLoading">加载状态</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene6 }">
-        <div class="code-header" @click="toggleCode('scene6')">
-          <i :class="codeExpanded.scene6 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene6 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene2 }">
+          <div class="code-header" @click="toggleCode('scene2')">
+            <i :class="codeExpanded.scene2 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene2 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene2"><code>{{ confirmExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene6"><code>{{ loadingExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>生命周期</h2>
-    <p>通过 <code>onOpen</code> 和 <code>onClosed</code> 回调监听弹窗生命周期。</p>
+      <h2>表单弹窗 (JSX + EsForm)</h2>
+      <p>在弹窗中嵌入 <code>EsForm</code> 表单组件，使用 <strong>JSX 语法</strong> 使代码更简洁直观。</p>
 
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openLifecycle">生命周期</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene7 }">
-        <div class="code-header" @click="toggleCode('scene7')">
-          <i :class="codeExpanded.scene7 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene7 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openFormDialog">表单弹窗</el-button>
         </div>
-        <pre v-show="codeExpanded.scene7"><code>{{ lifecycleExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>自定义样式</h2>
-    <p>通过 <code>customClass</code> 属性自定义弹窗样式。</p>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openCustomStyle">自定义样式</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene8 }">
-        <div class="code-header" @click="toggleCode('scene8')">
-          <i :class="codeExpanded.scene8 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene8 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene3 }">
+          <div class="code-header" @click="toggleCode('scene3')">
+            <i :class="codeExpanded.scene3 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene3 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene3"><code>{{ formDialogExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene8"><code>{{ customStyleExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>JSX 渲染 EsForm 表单</h2>
-    <p>使用 <strong>JSX</strong> 渲染包含验证规则的 EsForm 表单，通过 <code>getRefs</code> 获取表单引用进行校验。</p>
+      <h2>可拖拽弹窗</h2>
+      <p>配置 <code>isDraggable</code> 属性使弹窗可拖拽。</p>
 
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openComponentDialog">组件渲染弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene9 }">
-        <div class="code-header" @click="toggleCode('scene9')">
-          <i :class="codeExpanded.scene9 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene9 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openDraggable">可拖拽弹窗</el-button>
         </div>
-        <pre v-show="codeExpanded.scene9"><code>{{ renderComponentExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>JSX 渲染 EsTable 表格</h2>
-    <p>使用 <strong>JSX</strong> 渲染 EsTable 表格组件，实现数据选择功能。</p>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openTableDialog">表格弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene10 }">
-        <div class="code-header" @click="toggleCode('scene10')">
-          <i :class="codeExpanded.scene10 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene10 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene4 }">
+          <div class="code-header" @click="toggleCode('scene4')">
+            <i :class="codeExpanded.scene4 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene4 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene4"><code>{{ draggableExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene10"><code>{{ renderTableDialogExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>JSX 复杂内容弹窗</h2>
-    <p>使用 JSX 语法创建包含标签页、多个 EsForm 表单等复杂内容的弹窗。</p>
+      <h2>全屏弹窗</h2>
+      <p>配置 <code>fullscreen</code> 属性使弹窗全屏显示。</p>
 
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button @click="openComplexDialog">复杂内容弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene11 }">
-        <div class="code-header" @click="toggleCode('scene11')">
-          <i :class="codeExpanded.scene11 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene11 ? '收起代码' : '展开代码' }}</span>
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openFullscreen">全屏弹窗</el-button>
         </div>
-        <pre v-show="codeExpanded.scene11"><code>{{ renderComplexDialogExample }}</code></pre>
-      </div>
-    </div>
-
-    <h2>实战示例：表单弹窗完整流程</h2>
-    <p>参考 <code>salesPolicy/policyManage/index.vue</code> 实战用法，展示完整的表单弹窗流程：</p>
-    <ul>
-      <li>使用 JSX 直接渲染组件: <code>render: (h, ctx) => &lt;EsForm ... /&gt;</code></li>
-      <li>通过 <code>getRefs</code> 获取表单引用进行校验</li>
-      <li>提交成功后关闭弹窗并刷新表格</li>
-    </ul>
-
-    <div class="demo-block">
-      <div class="demo-block__body">
-        <el-button type="primary" @click="openRealWorldDialog">实战表单弹窗</el-button>
-      </div>
-      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene12 }">
-        <div class="code-header" @click="toggleCode('scene12')">
-          <i :class="codeExpanded.scene12 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
-          <span>{{ codeExpanded.scene12 ? '收起代码' : '展开代码' }}</span>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene5 }">
+          <div class="code-header" @click="toggleCode('scene5')">
+            <i :class="codeExpanded.scene5 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene5 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene5"><code>{{ fullscreenExample }}</code></pre>
         </div>
-        <pre v-show="codeExpanded.scene12"><code>{{ realWorldDialogExample }}</code></pre>
       </div>
-    </div>
 
-    <h2>JSX vs h() 函数对比</h2>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th style="width: 50%;">传统 h() 函数写法</th>
-          <th style="width: 50%;">JSX 写法（推荐）</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <pre style="margin: 0; background: #f5f7fa; padding: 10px; border-radius: 4px;"><code>render: (h) => {
+      <h2>加载状态</h2>
+      <p>配置 <code>loading</code> 属性显示加载状态。</p>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openLoading">加载状态</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene6 }">
+          <div class="code-header" @click="toggleCode('scene6')">
+            <i :class="codeExpanded.scene6 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene6 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene6"><code>{{ loadingExample }}</code></pre>
+        </div>
+      </div>
+
+      <h2>生命周期</h2>
+      <p>通过 <code>onOpen</code> 和 <code>onClosed</code> 回调监听弹窗生命周期。</p>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openLifecycle">生命周期</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene7 }">
+          <div class="code-header" @click="toggleCode('scene7')">
+            <i :class="codeExpanded.scene7 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene7 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene7"><code>{{ lifecycleExample }}</code></pre>
+        </div>
+      </div>
+
+      <h2>自定义样式</h2>
+      <p>通过 <code>customClass</code> 属性自定义弹窗样式。</p>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openCustomStyle">自定义样式</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene8 }">
+          <div class="code-header" @click="toggleCode('scene8')">
+            <i :class="codeExpanded.scene8 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene8 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene8"><code>{{ customStyleExample }}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon purple">
+          <i class="el-icon-s-opportunity" />
+        </div>
+        <div class="section-info">
+          <h2 class="section-title">核心特性</h2>
+          <p class="section-desc">JSX 语法让弹窗内容渲染更加灵活直观</p>
+        </div>
+      </div>
+
+      <h2>JSX 渲染 EsForm 表单</h2>
+      <p>使用 <strong>JSX</strong> 渲染包含验证规则的 EsForm 表单，通过 <code>getRefs</code> 获取表单引用进行校验。</p>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openComponentDialog">组件渲染弹窗</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene9 }">
+          <div class="code-header" @click="toggleCode('scene9')">
+            <i :class="codeExpanded.scene9 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene9 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene9"><code>{{ renderComponentExample }}</code></pre>
+        </div>
+      </div>
+
+      <h2>JSX 渲染 EsTable 表格</h2>
+      <p>使用 <strong>JSX</strong> 渲染 EsTable 表格组件，实现数据选择功能。</p>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openTableDialog">表格弹窗</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene10 }">
+          <div class="code-header" @click="toggleCode('scene10')">
+            <i :class="codeExpanded.scene10 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene10 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene10"><code>{{ renderTableDialogExample }}</code></pre>
+        </div>
+      </div>
+
+      <h2>JSX 复杂内容弹窗</h2>
+      <p>使用 JSX 语法创建包含标签页、多个 EsForm 表单等复杂内容的弹窗。</p>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button @click="openComplexDialog">复杂内容弹窗</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene11 }">
+          <div class="code-header" @click="toggleCode('scene11')">
+            <i :class="codeExpanded.scene11 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene11 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene11"><code>{{ renderComplexDialogExample }}</code></pre>
+        </div>
+      </div>
+
+      <h2>实战示例：表单弹窗完整流程</h2>
+      <p>参考 <code>salesPolicy/policyManage/index.vue</code> 实战用法，展示完整的表单弹窗流程：</p>
+      <ul>
+        <li>使用 JSX 直接渲染组件: <code>render: (h, ctx) => &lt;EsForm ... /&gt;</code></li>
+        <li>通过 <code>getRefs</code> 获取表单引用进行校验</li>
+        <li>提交成功后关闭弹窗并刷新表格</li>
+      </ul>
+
+      <div class="demo-block">
+        <div class="demo-block__body">
+          <el-button type="primary" @click="openRealWorldDialog">实战表单弹窗</el-button>
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene12 }">
+          <div class="code-header" @click="toggleCode('scene12')">
+            <i :class="codeExpanded.scene12 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene12 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene12"><code>{{ realWorldDialogExample }}</code></pre>
+        </div>
+      </div>
+
+      <h2>JSX vs h() 函数对比</h2>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th style="width: 50%;">传统 h() 函数写法</th>
+            <th style="width: 50%;">JSX 写法（推荐）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <pre style="margin: 0; background: #f5f7fa; padding: 10px; border-radius: 4px;"><code>render: (h) => {
   return h('el-form', {
     props: { 'label-width': '80px' }
   }, [
@@ -235,9 +256,9 @@
     ])
   ])
 }</code></pre>
-          </td>
-          <td>
-            <pre style="margin: 0; background: #f5f7fa; padding: 10px; border-radius: 4px;"><code>render: (h, ctx) => (
+            </td>
+            <td>
+              <pre style="margin: 0; background: #f5f7fa; padding: 10px; border-radius: 4px;"><code>render: (h, ctx) => (
   &lt;es-form
     form-item-list={[
       { prop: 'name', label: '姓名', formtype: 'Input' }
@@ -245,331 +266,389 @@
     model={this.formData}
   /&gt;
 )</code></pre>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-    <h2>Parameters</h2>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>参数</th>
-          <th>说明</th>
-          <th>类型</th>
-          <th>可选值</th>
-          <th>默认值</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>key</td>
-          <td>弹窗唯一标识，用于缓存</td>
-          <td>String</td>
-          <td>—</td>
-          <td>'__default__'</td>
-        </tr>
-        <tr>
-          <td>title</td>
-          <td>弹窗标题</td>
-          <td>String</td>
-          <td>—</td>
-          <td>''</td>
-        </tr>
-        <tr>
-          <td>width</td>
-          <td>弹窗宽度</td>
-          <td>String</td>
-          <td>—</td>
-          <td>'50%'</td>
-        </tr>
-        <tr>
-          <td>height</td>
-          <td>弹窗高度</td>
-          <td>String</td>
-          <td>—</td>
-          <td>''</td>
-        </tr>
-        <tr>
-          <td>maxHeight</td>
-          <td>弹窗最大高度</td>
-          <td>String</td>
-          <td>—</td>
-          <td>''</td>
-        </tr>
-        <tr>
-          <td>center</td>
-          <td>是否居中</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>customClass</td>
-          <td>自定义样式类</td>
-          <td>String</td>
-          <td>—</td>
-          <td>''</td>
-        </tr>
-        <tr>
-          <td>closeOnClickModal</td>
-          <td>是否允许点击遮罩关闭</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>closeOnPressEscape</td>
-          <td>是否允许按 ESC 关闭</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>showClose</td>
-          <td>是否显示关闭按钮</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>lockScroll</td>
-          <td>是否锁定滚动</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>modal</td>
-          <td>是否显示遮罩</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>modalAppendToBody</td>
-          <td>遮罩是否插入 body</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>appendToBody</td>
-          <td>弹窗是否插入 body</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>appendToSelector</td>
-          <td>弹窗插入的选择器</td>
-          <td>String</td>
-          <td>—</td>
-          <td>'.app-container'</td>
-        </tr>
-        <tr>
-          <td>destroyOnClose</td>
-          <td>关闭时是否销毁</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>true</td>
-        </tr>
-        <tr>
-          <td>showDefaultButtons</td>
-          <td>是否显示默认按钮</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>loading</td>
-          <td>是否显示加载状态</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>isDraggable</td>
-          <td>是否可拖拽</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>configBtn</td>
-          <td>按钮配置数组</td>
-          <td>Array</td>
-          <td>—</td>
-          <td>[]</td>
-        </tr>
-        <tr>
-          <td>render</td>
-          <td>渲染函数 (支持 JSX)</td>
-          <td>Function</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>onSubmit</td>
-          <td>确认回调</td>
-          <td>Function</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>onClosed</td>
-          <td>关闭回调</td>
-          <td>Function</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>onOpen</td>
-          <td>打开回调</td>
-          <td>Function</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>hiddenFullBtn</td>
-          <td>是否隐藏全屏按钮</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>fullscreen</td>
-          <td>是否全屏</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-      </tbody>
-    </table>
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon orange">
+          <i class="el-icon-document" />
+        </div>
+        <div class="section-info">
+          <h2 class="section-title">API 文档</h2>
+          <p class="section-desc">完整的参数配置和类型定义</p>
+        </div>
+      </div>
 
-    <h2>ConfigBtn 配置</h2>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>参数</th>
-          <th>说明</th>
-          <th>类型</th>
-          <th>可选值</th>
-          <th>默认值</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>name</td>
-          <td>按钮文本</td>
-          <td>String</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>type</td>
-          <td>按钮类型</td>
-          <td>String</td>
-          <td>primary/success/warning/danger/info/text</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>key</td>
-          <td>按钮标识</td>
-          <td>String</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>onClick</td>
-          <td>点击事件（回调参数见下表）</td>
-          <td>Function</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>click</td>
-          <td>点击事件（高级用法，instance 作为第一个参数）</td>
-          <td>Function</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>disabled</td>
-          <td>是否禁用</td>
-          <td>Boolean</td>
-          <td>—</td>
-          <td>false</td>
-        </tr>
-        <tr>
-          <td>icon</td>
-          <td>图标类名</td>
-          <td>String</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td>size</td>
-          <td>按钮大小</td>
-          <td>String</td>
-          <td>large/medium/small/mini</td>
-          <td>—</td>
-        </tr>
-      </tbody>
-    </table>
+      <h2>Parameters</h2>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>说明</th>
+            <th>类型</th>
+            <th>可选值</th>
+            <th>默认值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>key</td>
+            <td>弹窗唯一标识，用于缓存</td>
+            <td>String</td>
+            <td>—</td>
+            <td>'__default__'</td>
+          </tr>
+          <tr>
+            <td>title</td>
+            <td>弹窗标题</td>
+            <td>String</td>
+            <td>—</td>
+            <td>''</td>
+          </tr>
+          <tr>
+            <td>width</td>
+            <td>弹窗宽度</td>
+            <td>String</td>
+            <td>—</td>
+            <td>'50%'</td>
+          </tr>
+          <tr>
+            <td>height</td>
+            <td>弹窗高度</td>
+            <td>String</td>
+            <td>—</td>
+            <td>''</td>
+          </tr>
+          <tr>
+            <td>maxHeight</td>
+            <td>弹窗最大高度</td>
+            <td>String</td>
+            <td>—</td>
+            <td>''</td>
+          </tr>
+          <tr>
+            <td>center</td>
+            <td>是否居中</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>customClass</td>
+            <td>自定义样式类</td>
+            <td>String</td>
+            <td>—</td>
+            <td>''</td>
+          </tr>
+          <tr>
+            <td>closeOnClickModal</td>
+            <td>是否允许点击遮罩关闭</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>closeOnPressEscape</td>
+            <td>是否允许按 ESC 关闭</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>showClose</td>
+            <td>是否显示关闭按钮</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>lockScroll</td>
+            <td>是否锁定滚动</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>modal</td>
+            <td>是否显示遮罩</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>modalAppendToBody</td>
+            <td>遮罩是否插入 body</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>appendToBody</td>
+            <td>弹窗是否插入 body</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>appendToSelector</td>
+            <td>弹窗插入的选择器</td>
+            <td>String</td>
+            <td>—</td>
+            <td>'.app-container'</td>
+          </tr>
+          <tr>
+            <td>destroyOnClose</td>
+            <td>关闭时是否销毁</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>showDefaultButtons</td>
+            <td>是否显示默认按钮</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>loading</td>
+            <td>是否显示加载状态</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>isDraggable</td>
+            <td>是否可拖拽</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>configBtn</td>
+            <td>按钮配置数组</td>
+            <td>Array</td>
+            <td>—</td>
+            <td>[]</td>
+          </tr>
+          <tr>
+            <td>render</td>
+            <td>渲染函数 (支持 JSX)</td>
+            <td>Function</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>onSubmit</td>
+            <td>确认回调</td>
+            <td>Function</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>onClosed</td>
+            <td>关闭回调</td>
+            <td>Function</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>onOpen</td>
+            <td>打开回调</td>
+            <td>Function</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>hiddenFullBtn</td>
+            <td>是否隐藏全屏按钮</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>fullscreen</td>
+            <td>是否全屏</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <h2>返回值</h2>
-    <p><code>useDialog</code> 返回一个函数，调用该函数传入配置即可打开弹窗，返回值包含以下属性：</p>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>属性</th>
-          <th>说明</th>
-          <th>类型</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>close</td>
-          <td>关闭弹窗的方法</td>
-          <td>Function</td>
-        </tr>
-        <tr>
-          <td>instance</td>
-          <td>弹窗实例（可访问弹窗内部数据）</td>
-          <td>VueComponent</td>
-        </tr>
-      </tbody>
-    </table>
+      <h2>ConfigBtn 配置</h2>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>说明</th>
+            <th>类型</th>
+            <th>可选值</th>
+            <th>默认值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>name</td>
+            <td>按钮文本</td>
+            <td>String</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>type</td>
+            <td>按钮类型</td>
+            <td>String</td>
+            <td>primary/success/warning/danger/info/text</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>key</td>
+            <td>按钮标识</td>
+            <td>String</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>onClick</td>
+            <td>点击事件（回调参数见下表）</td>
+            <td>Function</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>click</td>
+            <td>点击事件（高级用法，instance 作为第一个参数）</td>
+            <td>Function</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>disabled</td>
+            <td>是否禁用</td>
+            <td>Boolean</td>
+            <td>—</td>
+            <td>false</td>
+          </tr>
+          <tr>
+            <td>icon</td>
+            <td>图标类名</td>
+            <td>String</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>size</td>
+            <td>按钮大小</td>
+            <td>String</td>
+            <td>large/medium/small/mini</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <h2>按钮回调参数</h2>
-    <p>按钮的 <code>onClick</code> 或 <code>click</code> 回调函数接收以下参数：</p>
-    <table class="table-props">
-      <thead>
-        <tr>
-          <th>参数</th>
-          <th>说明</th>
-          <th>类型</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>close</td>
-          <td>关闭弹窗的方法</td>
-          <td>Function</td>
-        </tr>
-        <tr>
-          <td>getRefs</td>
-          <td>获取弹窗内容中的 ref（支持字符串或对象形式）</td>
-          <td>Function/Object</td>
-        </tr>
-        <tr>
-          <td>dialogVm</td>
-          <td>弹窗实例</td>
-          <td>VueComponent</td>
-        </tr>
-      </tbody>
-    </table>
+      <h2>返回值</h2>
+      <p><code>useDialog</code> 返回一个函数，调用该函数传入配置即可打开弹窗，返回值包含以下属性：</p>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>属性</th>
+            <th>说明</th>
+            <th>类型</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>close</td>
+            <td>关闭弹窗的方法</td>
+            <td>Function</td>
+          </tr>
+          <tr>
+            <td>instance</td>
+            <td>弹窗实例（可访问弹窗内部数据）</td>
+            <td>VueComponent</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>按钮回调参数</h2>
+      <p>按钮的 <code>onClick</code> 或 <code>click</code> 回调函数接收以下参数：</p>
+      <table class="table-props">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>说明</th>
+            <th>类型</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>close</td>
+            <td>关闭弹窗的方法</td>
+            <td>Function</td>
+          </tr>
+          <tr>
+            <td>getRefs</td>
+            <td>获取弹窗内容中的 ref（支持字符串或对象形式）</td>
+            <td>Function/Object</td>
+          </tr>
+          <tr>
+            <td>dialogVm</td>
+            <td>弹窗实例</td>
+            <td>VueComponent</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon green">
+          <i class="el-icon-right" />
+        </div>
+        <div class="section-info">
+          <h2 class="section-title">下一步</h2>
+          <p class="section-desc">继续探索其他组件</p>
+        </div>
+      </div>
+
+      <div class="next-steps">
+        <router-link to="/component/estable" class="next-step-card">
+          <div class="next-step-icon">
+            <i class="el-icon-s-grid" />
+          </div>
+          <div class="next-step-content">
+            <h4>EsTable 表格组件</h4>
+            <p>功能强大的表格组件，支持搜索、分页、多选、排序等</p>
+          </div>
+          <i class="el-icon-arrow-right next-step-arrow" />
+        </router-link>
+        <router-link to="/component/esform" class="next-step-card">
+          <div class="next-step-icon">
+            <i class="el-icon-s-order" />
+          </div>
+          <div class="next-step-content">
+            <h4>EsForm 表单组件</h4>
+            <p>基于配置驱动的表单组件，支持多种表单类型和验证</p>
+          </div>
+          <i class="el-icon-arrow-right next-step-arrow" />
+        </router-link>
+        <router-link to="/component/combination" class="next-step-card">
+          <div class="next-step-icon">
+            <i class="el-icon-connection" />
+          </div>
+          <div class="next-step-content">
+            <h4>组合联动</h4>
+            <p>EsTable + EsForm + useDialog 组合使用的最佳实践</p>
+          </div>
+          <i class="el-icon-arrow-right next-step-arrow" />
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -588,7 +667,7 @@ import {
   renderComplexDialogExample,
   realWorldDialogExample
 } from './examples/esDialogExamples'
-import { useDialog } from '../../components/es-eui'
+import { useDialog } from 'es-eui'
 
 export default {
   name: 'EsDialogDocs',

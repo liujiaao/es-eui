@@ -5,7 +5,9 @@ import store from './store'
 import ElementUI from 'element-ui'
 import http from '@/utils/server/request.js'
 import 'element-ui/lib/theme-chalk/index.css'
-import esEui from './components/es-eui'
+// import esEui from './components/es-eui'
+import esEui from 'es-eui'
+import 'es-eui/dist/es-eui.css'
 Vue.use(ElementUI)
 Vue.use(esEui, {
     EsTable: {
@@ -79,13 +81,13 @@ Vue.config.productionTip = false
 
 // 全局错误处理
 Vue.config.errorHandler = function (err, vm, info) {
-  console.error('Vue Error:', err, info)
+    console.error('Vue Error:', err, info)
 }
 
 // 全局 Promise 错误处理
 window.addEventListener('unhandledrejection', event => {
-  console.warn('Unhandled promise rejection:', event.reason)
-  event.preventDefault()
+    console.warn('Unhandled promise rejection:', event.reason)
+    event.preventDefault()
 })
 
 new Vue({

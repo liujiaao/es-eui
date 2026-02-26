@@ -1,20 +1,27 @@
 <template>
   <div class="docs-container">
-    <div class="docs-header">
-      <h1>Es-EUI 组件组合联动</h1>
-      <p>本页展示 es-eui 组件之间的组合使用方式，包括 EsTable、EsForm、useDialog 的多种组合场景。</p>
-      <!-- <div class="global-actions">
-        <el-button size="small" @click="expandAll">
-          <i class="el-icon-arrow-down"></i> 全部展开
-        </el-button>
-        <el-button size="small" @click="collapseAll">
-          <i class="el-icon-arrow-up"></i> 全部收起
-        </el-button>
-      </div> -->
-    </div>
+    <!-- Hero Section -->
+    <section class="modern-hero">
+      <div class="hero-badge">
+        <i class="el-icon-link" />
+        <span>进阶用法</span>
+      </div>
+      <h1 class="hero-title">组件组合联动</h1>
+      <p class="hero-desc">
+        本页展示 es-eui 组件之间的组合使用方式，
+        包括 EsTable、EsForm、useDialog 的多种组合场景，帮助你构建复杂的业务界面
+      </p>
+    </section>
 
-    <!-- ===== 场景1: EsTable + EsForm 查询表单联动 ===== -->
-    <h2>场景一：EsTable + EsForm 查询表单联动</h2>
+    <!-- Scene 1: Table + Form Query -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon blue">
+          <i class="el-icon-s-data" />
+        </div>
+        <h2 class="section-title">场景一：查询表单联动</h2>
+      </div>
+      <p class="section-desc">EsForm 作为查询条件，EsTable 展示查询结果。表单提交后自动触发表格刷新：</p>
     <p>EsForm 作为查询条件，EsTable 展示查询结果。表单提交后自动触发表格刷新。</p>
 
     <div class="demo-block">
@@ -55,8 +62,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景2: EsForm + EsTable 表单内嵌表格 ===== -->
-    <h2>场景二：EsForm + EsTable 表单内嵌表格</h2>
+    </section>
+
+    <!-- Scene 2: Form with Table -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon purple">
+          <i class="el-icon-s-order" />
+        </div>
+        <h2 class="section-title">场景二：表单内嵌表格</h2>
+      </div>
+      <p class="section-desc">在 EsForm 表单中使用自定义渲染，内嵌 EsTable 表格，实现复杂的数据录入场景：</p>
     <p>在 EsForm 表单中使用自定义渲染，内嵌 EsTable 表格，实现复杂的数据录入场景。</p>
 
     <div class="demo-block">
@@ -80,8 +96,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景3: useDialog + 原生表单 ===== -->
-    <h2>场景三：useDialog + 原生表单</h2>
+    </section>
+
+    <!-- Scene 3: Dialog + Native Form -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon green">
+          <i class="el-icon-s-claim" />
+        </div>
+        <h2 class="section-title">场景三：弹窗 + 原生表单</h2>
+      </div>
+      <p class="section-desc">在弹窗中使用原生 Element UI 表单，适合简单表单场景：</p>
     <p>在弹窗中使用原生 Element UI 表单，适合简单表单场景。</p>
 
     <div class="demo-block">
@@ -97,8 +122,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景4: useDialog + EsForm ===== -->
-    <h2>场景四：useDialog + EsForm（推荐）</h2>
+    </section>
+
+    <!-- Scene 4: Dialog + EsForm -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon orange">
+          <i class="el-icon-s-claim" />
+        </div>
+        <h2 class="section-title">场景四：弹窗 + EsForm（推荐）</h2>
+      </div>
+      <p class="section-desc">在弹窗中使用 EsForm 组件，通过 JSX 渲染，支持复杂的表单配置和验证：</p>
     <p>在弹窗中使用 EsForm 组件，通过 JSX 渲染，支持复杂的表单配置和验证。</p>
 
     <div class="demo-block">
@@ -114,8 +148,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景5: useDialog + EsTable ===== -->
-    <h2>场景五：useDialog + EsTable</h2>
+    </section>
+
+    <!-- Scene 5: Dialog + EsTable -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon cyan">
+          <i class="el-icon-s-claim" />
+        </div>
+        <h2 class="section-title">场景五：弹窗 + EsTable</h2>
+      </div>
+      <p class="section-desc">在弹窗中使用 EsTable 表格，实现数据选择功能：</p>
     <p>在弹窗中使用 EsTable 表格，实现数据选择功能。</p>
 
     <div class="demo-block">
@@ -134,8 +177,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景6: useDialog + EsTable + EsForm 三者组合 ===== -->
-    <h2>场景六：useDialog + EsTable + EsForm（完整场景）</h2>
+    </section>
+
+    <!-- Scene 6: Dialog + Table + Form -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon pink">
+          <i class="el-icon-s-claim" />
+        </div>
+        <h2 class="section-title">场景六：三者组合（完整场景）</h2>
+      </div>
+      <p class="section-desc">在弹窗中同时使用 EsTable 和 EsForm，实现表格查询+表单编辑的完整功能：</p>
     <p>在弹窗中同时使用 EsTable 和 EsForm，实现表格查询+表单编辑的完整功能。</p>
 
     <div class="demo-block">
@@ -154,9 +206,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景7: EsTable 行内编辑 + EsForm ===== -->
-    <h2>场景七：EsTable 行内编辑 + EsForm</h2>
-    <p>在 EsTable 中使用自定义渲染实现行内编辑，结合 EsForm 进行数据验证。</p>
+    </section>
+
+    <!-- Scene 7: Inline Edit -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon blue">
+          <i class="el-icon-edit" />
+        </div>
+        <h2 class="section-title">场景七：行内编辑 + EsForm</h2>
+      </div>
+      <p class="section-desc">在 EsTable 中使用自定义渲染实现行内编辑，结合 EsForm 进行数据验证：</p>
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -179,9 +239,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景8: useDialog 嵌套（弹窗中打开弹窗） ===== -->
-    <h2>场景八：useDialog 嵌套</h2>
-    <p>在一个 useDialog 弹窗中再次打开另一个弹窗，实现复杂的多层交互。</p>
+    </section>
+
+    <!-- Scene 8: Nested Dialog -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon purple">
+          <i class="el-icon-s-claim" />
+        </div>
+        <h2 class="section-title">场景八：弹窗嵌套</h2>
+      </div>
+      <p class="section-desc">在一个 useDialog 弹窗中再次打开另一个弹窗，实现复杂的多层交互：</p>
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -196,9 +264,17 @@
       </div>
     </div>
 
-    <!-- ===== 场景9: EsTable + EsForm 表格内嵌表单联动查询 ===== -->
-    <h2>场景九：EsTable + EsForm 表格内嵌表单联动查询</h2>
-    <p>标准查询列表页模式：EsTable 作为主容器，通过 slot 在表格头部嵌入 EsForm 查询表单，实现查询联动。</p>
+    </section>
+
+    <!-- Scene 9: Table with Form Query -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon green">
+          <i class="el-icon-s-data" />
+        </div>
+        <h2 class="section-title">场景九：表格内嵌表单联动查询</h2>
+      </div>
+      <p class="section-desc">标准查询列表页模式：EsTable 作为主容器，通过 slot 在表格头部嵌入 EsForm 查询表单，实现查询联动：</p>
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -247,8 +323,18 @@
       </div>
     </div>
 
-    <h2>组合使用最佳实践</h2>
-    <table class="table-props">
+    </section>
+
+    <!-- Best Practices Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon cyan">
+          <i class="el-icon-s-management" />
+        </div>
+        <h2 class="section-title">组合使用最佳实践</h2>
+      </div>
+      <div class="modern-table-wrapper">
+        <table class="modern-table">
       <thead>
         <tr>
           <th>场景</th>
@@ -284,9 +370,19 @@
         </tr>
       </tbody>
     </table>
+    </div>
+    </section>
 
-    <h2>关键 API 速查</h2>
-    <table class="table-props">
+    <!-- API Quick Reference Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon orange">
+          <i class="el-icon-document" />
+        </div>
+        <h2 class="section-title">关键 API 速查</h2>
+      </div>
+      <div class="modern-table-wrapper">
+        <table class="modern-table">
       <thead>
         <tr>
           <th>组件</th>
@@ -337,12 +433,60 @@
         </tr>
       </tbody>
     </table>
+    </div>
+    </section>
+
+    <!-- Next Steps Section -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon green">
+          <i class="el-icon-right" />
+        </div>
+        <h2 class="section-title">下一步</h2>
+      </div>
+      <p class="section-desc">已经掌握了组件组合用法？回顾各个组件的详细文档：</p>
+
+      <div class="next-links">
+        <router-link to="/component/estable" class="next-card">
+          <div class="next-icon blue">
+            <i class="el-icon-s-data" />
+          </div>
+          <div class="next-info">
+            <h3>EsTable 表格组件</h3>
+            <p>了解表格的详细用法和高级功能</p>
+          </div>
+          <i class="el-icon-arrow-right" />
+        </router-link>
+
+        <router-link to="/component/esform" class="next-card">
+          <div class="next-icon purple">
+            <i class="el-icon-s-order" />
+          </div>
+          <div class="next-info">
+            <h3>EsForm 表单组件</h3>
+            <p>学习更多表单控件类型和验证</p>
+          </div>
+          <i class="el-icon-arrow-right" />
+        </router-link>
+
+        <router-link to="/component/esdialog" class="next-card">
+          <div class="next-icon orange">
+            <i class="el-icon-s-claim" />
+          </div>
+          <div class="next-info">
+            <h3>useDialog 弹窗</h3>
+            <p>掌握弹窗的更多高级用法</p>
+          </div>
+          <i class="el-icon-arrow-right" />
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { useDialog } from '../../components/es-eui'
+import { useDialog } from 'es-eui'
 import {
   tableFormQueryExample,
   formWithTableExample,
