@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <!-- Hero 区域 -->
+     
     <div class="hero">
       <div class="container">
         <div class="hero-content">
@@ -50,6 +51,8 @@
         </div>
       </div>
     </div>
+
+
 
     <!-- 快速开始 -->
     <div class="quick-start">
