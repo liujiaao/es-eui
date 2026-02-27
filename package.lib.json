@@ -1,6 +1,6 @@
 {
   "name": "es-eui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "基于 Element UI 的 Vue 2 组件库，包含对话框、表单、表格等常用组件",
   "main": "dist/es-eui.common.js",
