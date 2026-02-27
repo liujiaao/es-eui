@@ -35,6 +35,16 @@ const routes = [
         path: 'configuration',
         name: 'GuideConfiguration',
         component: () => import('../views/guide/configuration.vue')
+      },
+      {
+        path: 'theme',
+        name: 'GuideTheme',
+        component: () => import('../views/guide/theme.vue')
+      },
+      {
+        path: 'i18n',
+        name: 'GuideI18n',
+        component: () => import('../views/guide/i18n.vue')
       }
     ]
   },

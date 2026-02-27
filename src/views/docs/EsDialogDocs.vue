@@ -667,7 +667,7 @@ import {
   renderComplexDialogExample,
   realWorldDialogExample
 } from './examples/esDialogExamples'
-import { useDialog } from 'es-eui'
+import { useDialog } from '@/components/es-eui'
 
 export default {
   name: 'EsDialogDocs',

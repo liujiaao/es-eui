@@ -486,7 +486,7 @@
 
 <script>
 import Vue from 'vue'
-import { useDialog } from 'es-eui'
+import { useDialog } from '@/components/es-eui'
 import {
   tableFormQueryExample,
   formWithTableExample,

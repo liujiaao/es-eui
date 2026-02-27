@@ -5,9 +5,9 @@ import store from './store'
 import ElementUI from 'element-ui'
 import http from '@/utils/server/request.js'
 import 'element-ui/lib/theme-chalk/index.css'
-// import esEui from './components/es-eui'
-import esEui from 'es-eui'
-import 'es-eui/dist/es-eui.css'
+import esEui from './components/es-eui'
+// import esEui from 'es-eui'
+// import 'es-eui/dist/es-eui.css'
 Vue.use(ElementUI)
 Vue.use(esEui, {
     EsTable: {

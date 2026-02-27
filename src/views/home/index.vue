@@ -99,35 +99,166 @@
       </div>
     </div>
 
-    <!-- 代码演示 -->
-    <div class="code-showcase">
+    <!-- 痛点与解决方案 -->
+    <div class="pain-points-section">
       <div class="container">
-        <div class="showcase-grid">
-          <div class="showcase-text">
-            <span class="section-badge">简洁配置</span>
-            <h2 class="section-title">几行代码，搞定复杂表单</h2>
-            <p class="section-desc">
-              通过 JSON 配置即可生成复杂的表单和表格，告别繁琐的模板代码，
-              让开发效率提升 80%
-            </p>
-            <ul class="feature-list-mini">
-              <li><i class="el-icon-check"></i> 配置化开发，减少重复代码</li>
-              <li><i class="el-icon-check"></i> 内置验证规则，自动处理表单校验</li>
-              <li><i class="el-icon-check"></i> 响应式设计，自适应各种屏幕</li>
-            </ul>
-          </div>
-          <div class="code-block-wrapper">
-            <div class="code-window">
-              <div class="code-header">
-                <div class="window-dots">
-                  <span class="dot red"></span>
-                  <span class="dot yellow"></span>
-                  <span class="dot green"></span>
-                </div>
-                <span class="code-title">UserList.vue</span>
+        <div class="section-header">
+          <!-- <span class="section-badge">为什么选择 ES-EUI</span> -->
+          <h2 class="section-title">告别重复劳动，专注业务创新</h2>
+          <p class="section-desc">深度理解中后台开发痛点，用配置化思维重新定义开发效率</p>
+        </div>
+
+        <!-- 痛点 vs 解决方案对比 -->
+        <div class="pain-solution-grid">
+          <!-- 左侧痛点 -->
+          <div class="pain-cards">
+            <h3 class="subsection-title pain-title">
+              <i class="el-icon-warning-outline"></i>
+              传统开发痛点
+            </h3>
+            <div class="pain-card" v-for="(pain, index) in painPoints" :key="index">
+              <div class="pain-icon">
+                <i :class="pain.icon"></i>
               </div>
-              <div class="code-body">
-                <pre><code class="language-vue">&lt;template&gt;
+              <div class="pain-content">
+                <h4>{{ pain.title }}</h4>
+                <p>{{ pain.desc }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 中间箭头 -->
+          <div class="solution-arrow">
+            <div class="arrow-line">
+              <i class="el-icon-right"></i>
+            </div>
+            <span class="arrow-text">ES-EUI 解决</span>
+          </div>
+
+          <!-- 右侧解决方案 -->
+          <div class="solution-cards">
+            <h3 class="subsection-title solution-title">
+              <i class="el-icon-success"></i>
+              ES-EUI 方案
+            </h3>
+            <div class="solution-card" v-for="(sol, index) in solutions" :key="index">
+              <div class="solution-icon">
+                <i :class="sol.icon"></i>
+              </div>
+              <div class="solution-content">
+                <h4>{{ sol.title }}</h4>
+                <p>{{ sol.desc }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 代码对比展示 -->
+        <div class="code-compare-section">
+          <h3 class="compare-title">
+            <span class="compare-badge traditional">传统方式 300+ 行</span>
+            <span class="vs-text">VS</span>
+            <span class="compare-badge eseui">ES-EUI 50+ 行</span>
+          </h3>
+          <div class="code-compare-grid">
+            <!-- 传统方式代码 -->
+            <div class="code-block-wrapper">
+              <div class="code-window traditional">
+                <div class="code-header">
+                  <div class="window-dots">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                  </div>
+                  <span class="code-title">Traditional.vue（片段）</span>
+                </div>
+                <div class="code-body">
+                  <pre><code class="language-vue">&lt;!-- 模板代码冗长 --&gt;
+&lt;div class="search-form"&gt;
+  &lt;el-form :model="queryForm"&gt;
+    &lt;el-form-item label="用户名"&gt;
+      &lt;el-input v-model="queryForm.name" /&gt;
+    &lt;/el-form-item&gt;
+    &lt;el-form-item label="状态"&gt;
+      &lt;el-select v-model="queryForm.status"&gt;
+        &lt;el-option 
+          v-for="item in statusOptions" 
+          :key="item.value"
+          :label="item.label"
+          :value="item.value" /&gt;
+      &lt;/el-select&gt;
+    &lt;/el-form-item&gt;
+    &lt;!-- 更多表单项... --&gt;
+  &lt;/el-form&gt;
+&lt;/div&gt;
+
+&lt;el-table :data="tableData"&gt;
+  &lt;el-table-column 
+    v-for="col in columns" 
+    :key="col.prop"
+    :prop="col.prop"
+    :label="col.label" /&gt;
+&lt;/el-table&gt;
+
+&lt;el-pagination 
+  @current-change="handlePageChange"
+  @size-change="handleSizeChange"
+  :current-page="page"
+  :page-size="pageSize"
+  :total="total" /&gt;
+
+&lt;script&gt;
+// data 中大量状态管理
+data() {
+  return {
+    queryForm: { name: '', status: '' },
+    tableData: [],
+    page: 1,
+    pageSize: 10,
+    total: 0,
+    loading: false,
+    // ... 更多状态
+  }
+},
+methods: {
+  // 手动处理请求、分页、联动
+  async fetchData() {
+    this.loading = true
+    const res = await axios.get('/api/list', {
+      params: { ...this.queryForm, 
+        page: this.page, 
+        pageSize: this.pageSize 
+      }
+    })
+    this.tableData = res.data.data
+    this.total = res.data.total
+    this.loading = false
+  },
+  handleSearch() {
+    this.page = 1
+    this.fetchData()
+  },
+  // ... 更多方法
+}
+&lt;/script&gt;</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- ES-EUI 方式代码 -->
+            <div class="code-block-wrapper">
+              <div class="code-window eseui">
+                <div class="code-header">
+                  <div class="window-dots">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                  </div>
+                  <span class="code-title">ES-EUI.vue（完整）</span>
+                </div>
+                <div class="code-body">
+                  <pre><code class="language-vue">&lt;template&gt;
+  &lt;!-- 配置化声明，代码量减少 80% --&gt;
   &lt;es-table
     :columns="columns"
     :options="tableOptions"
@@ -135,6 +266,10 @@
     &lt;es-form
       :form-item-list="searchItems"
       :model="searchForm"
+      :config-btn="[
+        { name: '查询', key: 'query', triggerEvent: true },
+        { name: '重置', key: 'rest', triggerEvent: true }
+      ]"
     /&gt;
   &lt;/es-table&gt;
 &lt;/template&gt;
@@ -143,45 +278,57 @@
 export default {
   data() {
     return {
+      // JSON 配置替代模板代码
       columns: [
         { key: 'name', label: '用户名' },
         { key: 'status', label: '状态' }
       ],
-      tableOptions: {
-        apiParams: { 
-          url: '/api/users' 
-        }
-      },
-      searchForm: {
-        name: '',
-        status: ''
-      },
       searchItems: [
         {
           prop: 'name',
           label: '用户名',
-          span: 8,
           formtype: 'Input',
-          attrs: { placeholder: '请输入用户名' }
+          span: 8
         },
         {
           prop: 'status',
           label: '状态',
-          span: 8,
           formtype: 'Select',
+          span: 8,
           dataOptions: [
             { label: '全部', value: '' },
             { label: '启用', value: '1' },
             { label: '禁用', value: '0' }
           ]
         }
-      ]
+      ],
+      // 自动处理请求、分页、联动
+      tableOptions: {
+        apiParams: { 
+          url: '/api/users',
+          method: 'POST'
+        },
+        configTableOut: {
+          total: 'total',
+          tableData: 'data'
+        }
+      }
     }
   }
 }
 &lt;/script&gt;</code></pre>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- 核心优势总结 -->
+        <div class="advantage-summary">
+          <div class="advantage-item" v-for="(adv, index) in advantages" :key="index">
+            <div class="advantage-number">{{ adv.number }}</div>
+            <div class="advantage-label">{{ adv.label }}</div>
+            <div class="advantage-desc">{{ adv.desc }}</div>
           </div>
         </div>
       </div>
@@ -248,6 +395,59 @@ export default {
   data() {
     return {
       activeStep: 0,
+      // 痛点数据
+      painPoints: [
+        {
+          icon: 'el-icon-document-copy',
+          title: '重复造轮子',
+          desc: '每个CRUD页面都要写类似的表格、表单、分页代码，三四百行代码大部分时间在重复'
+        },
+        {
+          icon: 'el-icon-link',
+          title: '联动逻辑复杂',
+          desc: '搜索触发刷新、分页保留条件、新增后自动刷新，每个联动都要手动写watch和回调'
+        },
+        {
+          icon: 'el-icon-s-tools',
+          title: '弹窗管理混乱',
+          desc: 'visible变量散落各处，方法名千人千面，超过三个弹窗代码可读性急剧下降'
+        },
+        {
+          icon: 'el-icon-refresh',
+          title: '接口适配繁琐',
+          desc: '后端返回字段名不统一，需要为每个接口写数据转换的适配层代码'
+        }
+      ],
+      // 解决方案数据
+      solutions: [
+        {
+          icon: 'el-icon-document-checked',
+          title: '配置化开发',
+          desc: 'JSON配置替代模板代码，代码量减少60%以上，所有配置集中管理，修改一目了然'
+        },
+        {
+          icon: 'el-icon-magic-stick',
+          title: '内置联动机制',
+          desc: '查询/重置自动触发表格刷新，分页自动携带搜索条件，翻页保留选中状态——无需手动编码'
+        },
+        {
+          icon: 'el-icon-s-claim',
+          title: '函数式弹窗',
+          desc: 'useDialog一行代码打开弹窗，拖拽/全屏/置顶内置支持，告别visible变量管理'
+        },
+        {
+          icon: 'el-icon-data-line',
+          title: '统一字段映射',
+          desc: 'configTableOut统一配置字段映射，无论后端返回data还是rows都能轻松适配'
+        }
+      ],
+      // 优势数据
+      advantages: [
+        { number: '60%', label: '代码量减少', desc: '配置化替代模板代码' },
+        { number: '80%', label: '效率提升', desc: '专注业务而非重复劳动' },
+        { number: '3x', label: '维护速度', desc: '统一规范降低协作成本' },
+        { number: '0', label: '学习成本', desc: '基于Element UI无缝上手' }
+      ],
       features: [
         {
           icon: 'el-icon-s-grid',
@@ -282,22 +482,25 @@ export default {
         {
           title: '引入并注册',
           code: `import Vue from 'vue'
-import esEui from 'es-eui'
-
-Vue.use(esEui, {
-  EsTable: {
-    methods: {
-      $httpRequest({ url, formParams }) {
-        return axios.post(url, formParams)
+ import esEui from 'es-eui'
+ import 'es-eui/dist/es-eui.css'
+  Vue.use(esEui, {
+    EsTable: {
+      methods: {
+        $httpRequest({ url, formParams }) {
+          return axios.post(url, formParams)
+        }
       }
     }
-  }
-})`
+  })`
         },
         {
           title: '开始使用',
           code: `<es-table
-  :columns="columns"
+  :columns="[
+        { key: 'name', label: '用户名' },
+        { key: 'status', label: '状态' }
+      ]"
   :options="{ 
     apiParams: { url: '/api/list' }
   }"
@@ -356,6 +559,7 @@ $primary: #409eff;
 $primary-dark: #324157;
 $text-primary: #1a1a1a;
 $text-secondary: #4a5568;
+$text-tertiary: #718096;
 $bg-light: #f7fafc;
 
 // Hero 区域
@@ -747,77 +951,253 @@ $bg-light: #f7fafc;
   }
 }
 
-// 代码展示
-.code-showcase {
-  padding: 120px 0;
-  background: $bg-light;
+// 痛点与解决方案
+.pain-points-section {
+   padding: 0px 0 120px 0;
+  background: linear-gradient(180deg, #f7fafc 0%, #fff 100%);
   
-  .showcase-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-  
-  .showcase-text {
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+    
     .section-badge {
       display: inline-block;
-      padding: 6px 16px;
+      padding: 8px 20px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #fff;
       border-radius: 20px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       margin-bottom: 16px;
     }
     
     .section-title {
-      font-size: 36px;
+      font-size: 40px;
       font-weight: 700;
       color: $text-primary;
-      margin-bottom: 20px;
-      line-height: 1.3;
+      margin-bottom: 16px;
     }
     
     .section-desc {
-      font-size: 16px;
+      font-size: 18px;
       color: $text-secondary;
-      line-height: 1.8;
-      margin-bottom: 30px;
+    }
+  }
+  
+  // 痛点与解决方案对比网格
+  .pain-solution-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 40px;
+    margin-bottom: 80px;
+    align-items: start;
+  }
+  
+  .subsection-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    i {
+      font-size: 24px;
     }
     
-    .feature-list-mini {
-      list-style: none;
-      padding: 0;
+    &.pain-title {
+      color: #f56c6c;
+      i { color: #f56c6c; }
+    }
+    
+    &.solution-title {
+      color: #67c23a;
+      i { color: #67c23a; }
+    }
+  }
+  
+  .pain-cards, .solution-cards {
+    .pain-card, .solution-card {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
       
-      li {
+      &:hover {
+        transform: translateX(5px);
+      }
+    }
+    
+    .pain-card {
+      background: #fff;
+      border-left: 4px solid #f56c6c;
+      box-shadow: 0 2px 12px rgba(245, 108, 108, 0.1);
+      
+      &:hover {
+        box-shadow: 0 8px 24px rgba(245, 108, 108, 0.15);
+      }
+      
+      .pain-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(245, 108, 108, 0.1);
+        border-radius: 10px;
         display: flex;
         align-items: center;
-        gap: 12px;
-        font-size: 15px;
-        color: $text-secondary;
-        margin-bottom: 12px;
+        justify-content: center;
+        flex-shrink: 0;
         
         i {
-          color: #52c41a;
-          font-size: 16px;
+          font-size: 20px;
+          color: #f56c6c;
         }
+      }
+    }
+    
+    .solution-card {
+      background: #fff;
+      border-left: 4px solid #67c23a;
+      box-shadow: 0 2px 12px rgba(103, 194, 58, 0.1);
+      
+      &:hover {
+        box-shadow: 0 8px 24px rgba(103, 194, 58, 0.15);
+      }
+      
+      .solution-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(103, 194, 58, 0.1);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        
+        i {
+          font-size: 20px;
+          color: #67c23a;
+        }
+      }
+    }
+    
+    .pain-content, .solution-content {
+      h4 {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-primary;
+        margin-bottom: 6px;
+      }
+      
+      p {
+        font-size: 14px;
+        color: $text-secondary;
+        line-height: 1.6;
+        margin: 0;
       }
     }
   }
   
+  // 中间箭头
+  .solution-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+    
+    .arrow-line {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      animation: pulse 2s infinite;
+      
+      i {
+        font-size: 28px;
+        color: #fff;
+      }
+    }
+    
+    .arrow-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #667eea;
+      white-space: nowrap;
+    }
+  }
+  
+  // 代码对比区域
+  .code-compare-section {
+    margin-bottom: 60px;
+    
+    .compare-title {
+      text-align: center;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      
+      .compare-badge {
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        
+        &.traditional {
+          background: #fef0f0;
+          color: #f56c6c;
+        }
+        
+        &.eseui {
+          background: #f0f9eb;
+          color: #67c23a;
+        }
+      }
+      
+      .vs-text {
+        font-size: 18px;
+        font-weight: 700;
+        color: $text-tertiary;
+      }
+    }
+    
+    .code-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+  }
+  
+  // 代码窗口样式
   .code-block-wrapper {
     .code-window {
       background: #1e1e1e;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      height: 100%;
+      
+      &.traditional {
+        border: 2px solid #fde2e2;
+      }
+      
+      &.eseui {
+        border: 2px solid #e1f3d8;
+      }
       
       .code-header {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 16px 20px;
+        padding: 14px 18px;
         background: #2d2d2d;
         
         .window-dots {
@@ -839,23 +1219,62 @@ $bg-light: #f7fafc;
           color: #999;
           font-size: 13px;
           margin-left: 10px;
+          font-family: 'Consolas', monospace;
         }
       }
       
       .code-body {
-        padding: 20px;
+        padding: 16px;
         overflow-x: auto;
+        max-height: 450px;
+        overflow-y: auto;
         
         pre {
           margin: 0;
           
           code {
             font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 13px;
-            line-height: 1.6;
+            font-size: 12px;
+            line-height: 1.5;
             color: #d4d4d4;
           }
         }
+      }
+    }
+  }
+  
+  // 优势总结
+  .advantage-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+    padding: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    
+    .advantage-item {
+      text-align: center;
+      color: #fff;
+      
+      .advantage-number {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(to right, #fff, #e0e7ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .advantage-label {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      
+      .advantage-desc {
+        font-size: 13px;
+        opacity: 0.85;
       }
     }
   }
@@ -1125,10 +1544,27 @@ $bg-light: #f7fafc;
     }
   }
   
-  .code-showcase {
-    .showcase-grid {
+  .pain-points-section {
+    .pain-solution-grid {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 30px;
+    }
+    
+    .solution-arrow {
+      padding-top: 0;
+      transform: rotate(90deg);
+      
+      .arrow-text {
+        transform: rotate(-90deg);
+      }
+    }
+    
+    .code-compare-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .advantage-summary {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
