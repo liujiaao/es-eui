@@ -85,7 +85,7 @@ body {
   z-index: 100;
 
   .container {
-    max-width: 1200px;
+    max-width: 1350px;
     margin: 0 auto;
     height: 100%;
     display: flex;
