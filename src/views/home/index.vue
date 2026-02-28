@@ -829,12 +829,13 @@ $bg-light: #f7fafc;
 
 // 特性展示
 .features {
-  padding: 120px 0;
+  padding: 80px 0;
   background: #fff;
   
   .section-header {
     text-align: center;
     margin-bottom: 60px;
+   
     
     .section-badge {
       display: inline-block;
@@ -959,7 +960,7 @@ $bg-light: #f7fafc;
   .section-header {
     text-align: center;
     margin-bottom: 60px;
-    
+       padding-top: 60px;
     .section-badge {
       display: inline-block;
       padding: 8px 20px;
@@ -1154,6 +1155,7 @@ $bg-light: #f7fafc;
         &.traditional {
           background: #fef0f0;
           color: #f56c6c;
+          margin-left: -55px;
         }
         
         &.eseui {
@@ -1293,10 +1295,16 @@ $bg-light: #f7fafc;
     &.light {
       .section-badge {
         background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            display: inline-block;
+            padding: 02px 20px;
       }
       
       .section-title {
+        padding: 20px 0px;
         color: #fff;
+        
+        
       }
       
       .section-desc {
@@ -1463,7 +1471,7 @@ $bg-light: #f7fafc;
 
 // 容器
 .container {
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
 }
