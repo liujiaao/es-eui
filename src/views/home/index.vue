@@ -990,7 +990,7 @@ $bg-light: #f7fafc;
     grid-template-columns: 1fr auto 1fr;
     gap: 40px;
     margin-bottom: 80px;
-    align-items: start;
+    align-items: center;
   }
   
   .subsection-title {

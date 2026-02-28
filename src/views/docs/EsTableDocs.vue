@@ -22,8 +22,7 @@
         <h2 class="section-title">快速开始</h2>
       </div>
       <p class="section-desc">最简单的表格用法，只需配置数据源和列定义：</p>
-    <p>最简单的表格用法，只需配置数据源和列定义：</p>
-
+ 
     <div class="demo-block">
       <div class="demo-block__header">
         <span class="demo-block__title">基础表格</span>

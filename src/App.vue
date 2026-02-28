@@ -848,10 +848,11 @@ $bg-light: #f7fafc;
 // Demo Block - 示例区块样式优化
 .demo-block {
   background: white;
-  border-radius: 12px;
-  border: 1px solid $border-color;
-  margin-bottom: 24px;
-  overflow: hidden;
+  border-radius: 12px !important;
+  border: 1px solid $border-color !important;
+  // margin-bottom: 24px;
+  overflow: hidden !important;
+  margin-bottom: 80px !important;
 
   .demo-block__header {
     display: flex;
@@ -891,10 +892,10 @@ $bg-light: #f7fafc;
       background: $bg-light;
       cursor: pointer;
       transition: all 0.3s;
-      background: #2d2d2d !important;
+     background: #fff !important;
 
       &:hover {
-        background: #e8f4ff;
+        background: #e8f4ff !important;
       }
 
       i {

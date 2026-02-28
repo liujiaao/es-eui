@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import esEui from './components/es-eui'
 // import esEui from 'es-eui'
 // import 'es-eui/dist/es-eui.css'
-Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'mini' })
 Vue.use(esEui, {
     EsTable: {
         methods: {
