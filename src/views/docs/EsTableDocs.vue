@@ -93,7 +93,20 @@
 
     <div class="demo-block">
       <div class="demo-block__header">
-        <span class="demo-block__title">自定义请求实例</span>
+        <span class="demo-block__title">自定义请求实例演示</span>
+        <span class="demo-block__badge">实战技巧</span>
+      </div>
+      <div class="demo-block__body">
+        <p style="margin-bottom: 10px; color: #606266; font-size: 14px;">
+          <i class="el-icon-info" style="color: #409eff;"></i>
+          此示例使用自定义 httpRequest 拦截请求，添加统一的请求头处理
+        </p>
+        <es-table
+          :data-source.sync="customHttpData"
+          :columns="customHttpColumns"
+          :pagination="customHttpPagination"
+          :options="customHttpOptions"
+        />
       </div>
       <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene3 }">
         <div class="code-header" @click="toggleCode('scene3')">
@@ -102,6 +115,16 @@
         </div>
         <pre v-show="codeExpanded.scene3"><code>{{ customHttpExample }}</code></pre>
       </div>
+    </div>
+
+    <div class="tips-box tips-box--success">
+      <h4>💡 自定义 httpRequest 使用场景</h4>
+      <ul>
+        <li><strong>统一鉴权</strong>：在请求头中自动添加 Token</li>
+        <li><strong>错误处理</strong>：统一处理 401、403 等状态码</li>
+        <li><strong>请求/响应拦截</strong>：对请求参数和响应数据进行统一处理</li>
+        <li><strong>解决跨域</strong>：通过配置 credentials、headers 等解决跨域问题</li>
+      </ul>
     </div>
 
     <h3>3. 列渲染 - Render 函数</h3>
@@ -534,38 +557,116 @@ export default {
         { key: 'email', label: '邮箱' }
       ],
 
-      // 自动请求示例
+      // 自动请求示例 - 使用真实免费 API (通过 httpRequest 配置解决跨域)
       autoData: [],
       autoColumns: [
-        { key: 'title', label: '政策标题' },
-        { key: 'status', label: '状态', render: (h, { row }) => {
-          const statusMap = { '0': '草稿', '1': '已上架', '2': '已下架' }
-          return <el-tag type={row.status === '1' ? 'success' : 'info'}>{statusMap[row.status]}</el-tag>
-        }},
-        { key: 'createTime', label: '创建时间' }
+        { key: 'id', label: 'ID', width: 80 },
+        { key: 'firstName', label: '名', width: 120 },
+        { key: 'lastName', label: '姓', width: 120 },
+        { key: 'email', label: '邮箱' },
+        { 
+          key: 'image', 
+          label: '头像',
+          width: 80,
+          render: (h, { row }) => (
+            <el-avatar size="small" src={row.image} />
+          )
+        }
       ],
       autoPagination: { pageIndex: 1, pageSize: 10, total: 0 },
       autoOptions: {
         isInitRun: true,
         border: true,
+        tabHeight: 350,
+        heightType: 'height',
+        // 使用真实免费 API: https://dummyjson.com/users
         apiParams: {
-          url: '/api/policy/list',
-          method: 'post'
+          url: 'https://dummyjson.com/users',
+          method: 'get'
         },
+        // 使用 httpRequest 自定义请求，配置 withCredentials: false 解决跨域
+       // httpRequest: (params) => this.fetchWithCORS(params),
+        // 字段映射：适配 DummyJSON API 返回格式
         configTableOut: {
           total: 'total',
-          pageSize: 'pageSize',
-          current: 'pageIndex',
-          tableData: 'data'
+          pageSize: 'limit',
+          current: 'skip',
+          tableData: 'users'
         },
         listenToCallBack: {
           brcb: (params) => {
-            // 请求前格式化参数
-            const { pageSize, pageIndex, ...rest } = params
-            return { pageNum: pageIndex, pageSize, ...rest }
+            // DummyJSON 使用 skip 作为偏移量
+            const { pageSize, pageIndex } = params
+            return { 
+              limit: pageSize,
+              skip: (pageIndex - 1) * pageSize
+            }
           },
           qrcb: (res) => {
-            console.log('查询结果:', res)
+            console.log('DummyJSON API 查询结果:', res)
+          }
+        }
+      },
+
+      // 自定义请求实例演示
+      customHttpData: [],
+      customHttpColumns: [
+        { key: 'id', label: 'ID', width: 80 },
+        { key: 'title', label: '商品名称' },
+        { key: 'brand', label: '品牌', width: 120 },
+        { key: 'category', label: '分类', width: 120 },
+        { 
+          key: 'price', 
+          label: '价格', 
+          width: 100,
+          render: (h, { row }) => (
+            <span style="color: #f56c6c; font-weight: bold;">¥{row.price}</span>
+          )
+        },
+        { 
+          key: 'stock', 
+          label: '库存', 
+          width: 100,
+          render: (h, { row }) => (
+            <el-tag type={row.stock > 50 ? 'success' : 'warning'} size="small">{row.stock}</el-tag>
+          )
+        }
+      ],
+      customHttpPagination: { pageIndex: 1, pageSize: 10, total: 0 },
+      customHttpOptions: {
+        isInitRun: true,
+        border: true,
+        tabHeight: 350,
+        heightType: 'height',
+        size: 'mini',
+        // 使用真实免费 API: https://dummyjson.com/products
+        apiParams: {
+          url: 'https://dummyjson.com/products',
+          method: 'get'
+        },
+        // 自定义 httpRequest：展示如何统一处理请求头、错误等
+        httpRequest: (params) => this.customHttpRequest(params),
+        // 字段映射：适配 DummyJSON API 返回格式
+        configTableOut: {
+          total: 'total',
+          pageSize: 'limit',
+          current: 'skip',
+          tableData: 'products'
+        },
+        listenToCallBack: {
+          brcb: (params) => {
+            console.log('【自定义请求拦截】请求参数:', params)
+            // 可以在这里添加统一的参数处理，如添加时间戳、签名等
+            const { pageSize, pageIndex } = params
+            return { 
+              limit: pageSize,
+              skip: (pageIndex - 1) * pageSize
+            }
+          },
+          qrcb: (res) => {
+            console.log('【自定义响应拦截】响应结果:', res)
+            // 可以在这里添加统一的响应处理，如错误提示、数据转换等
+            this.$message.success('数据加载成功（通过自定义 httpRequest）')
           }
         }
       },
@@ -607,58 +708,107 @@ export default {
         }
       ],
 
-      // 联动查询示例
+      // 联动查询示例 - 使用 JSONPlaceholder 免费 API
       linkageData: [],
       linkageColumns: [
         { key: 'id', label: '编号', width: 80 },
-        { key: 'name', label: '名称' },
-        { key: 'status', label: '状态' },
-        { key: 'createTime', label: '创建时间' }
+        { key: 'title', label: '标题' },
+        { 
+          key: 'userId', 
+          label: '用户ID',
+          width: 100,
+          render: (h, { row }) => (
+            <el-tag size="mini">用户{row.userId}</el-tag>
+          )
+        },
+        { 
+          key: 'body', 
+          label: '内容',
+          render: (h, { row }) => <span>{row.body.substring(0, 50) + '...'}</span>
+        }
       ],
       linkagePagination: { pageIndex: 1, pageSize: 10, total: 0 },
       linkageOptions: {
         isInitRun: true,
         border: true,
-        apiParams: { url: '/api/list', method: 'post' },
-        configTableOut: { total: 'total', pageSize: 'pageSize', current: 'pageIndex', tableData: 'data' }
+        heightType: 'max-height',
+        // 使用免费 API: https://jsonplaceholder.typicode.com/posts
+        apiParams: { 
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          method: 'get',
+          model: {}  // 绑定空模型，实际参数在 brcb 中处理
+        },
+        // JSONPlaceholder 返回数组，需要特殊处理
+        configTableOut: { 
+          total: 'total', 
+          pageSize: 'pageSize', 
+          current: 'pageIndex', 
+          tableData: 'data' 
+        },
+        listenToCallBack: {
+          brcb: (params) => {
+            // 过滤空值参数，避免 API 返回空结果
+            const result = {}
+            
+            // 只添加有值的参数
+            if (params.userId && params.userId !== '') {
+              result.userId = params.userId
+            }
+            
+            // JSONPlaceholder 的 title 需要完全匹配，这里用 q 进行全文搜索
+            if (params.title && params.title.trim()) {
+              result.q = params.title.trim()
+            }
+            
+            console.log('联动查询参数:', result)
+            return result
+          },
+          qrcb: (res) => {
+            // JSONPlaceholder 返回数组，需要包装成分页格式
+            console.log('响应数据结构:', res)
+            if (Array.isArray(res.data)) {
+              return {
+                data: res.data.slice(0, 10),
+                total: 100,  // JSONPlaceholder 固定返回100条
+                pageSize: 10,
+                pageIndex: 1
+              }
+            }
+            return res
+          }
+        }
       },
       linkageFormData: {
-        keyword: '',
-        status: '',
-        dateRange: []
+        userId: '',
+        title: ''
       },
       linkageFormConfig: [
         {
-          prop: 'keyword',
-          label: '关键词',
-          span: 8,
-          formtype: 'Input',
-          attrs: { placeholder: '请输入', clearable: true }
-        },
-        {
-          prop: 'status',
-          label: '状态',
+          prop: 'userId',
+          label: '用户ID',
           span: 8,
           formtype: 'Select',
-          attrs: { placeholder: '请选择', clearable: true },
+          attrs: { placeholder: '请选择用户', clearable: true },
           dataOptions: [
             { label: '全部', value: '' },
-            { label: '启用', value: '1' },
-            { label: '禁用', value: '0' }
+            { label: '用户1', value: '1' },
+            { label: '用户2', value: '2' },
+            { label: '用户3', value: '3' }
           ]
         },
         {
-          prop: 'dateRange',
-          label: '时间范围',
+          prop: 'title',
+          label: '标题搜索',
           span: 8,
-          formtype: 'datePicker',
-          attrs: {
-            type: 'datetimerange',
-            style: "width:100%",
-            valueFormat: 'yyyy-MM-dd HH:mm:ss',
-            startPlaceholder: '开始时间',
-            endPlaceholder: '结束时间'
-          }
+          formtype: 'Input',
+          attrs: { placeholder: '请输入标题关键词', clearable: true }
+        },
+        {
+          prop: 'resetPlaceholder',
+          label: '内容',
+          span: 8,
+          formtype: 'Input',
+          attrs: { disabled: true }
         }
       ],
       linkageLayoutProps: {
@@ -837,6 +987,96 @@ export default {
     }
   },
   methods: {
+    // ===== 自定义请求实例方法 - 展示统一处理请求头、错误、Loading =====
+    customHttpRequest(params) {
+      const { url, formParams, headers = {}, method = 'get' } = params
+      
+      // 构建 URL 和查询参数
+      let requestUrl = url
+      if (method.toLowerCase() === 'get' && formParams) {
+        const queryParams = new URLSearchParams()
+        Object.keys(formParams).forEach(key => {
+          if (formParams[key] !== undefined && formParams[key] !== null && formParams[key] !== '') {
+            queryParams.append(key, formParams[key])
+          }
+        })
+        const queryString = queryParams.toString()
+        if (queryString) {
+          requestUrl += (requestUrl.includes('?') ? '&' : '?') + queryString
+        }
+      }
+      
+      // 模拟添加统一的请求头（如 Token）
+      const customHeaders = {
+        'Content-Type': 'application/json',
+        'X-Custom-Header': 'es-table-demo',
+        'X-Request-Time': new Date().toISOString(),
+        ...headers
+      }
+      
+      console.log('【自定义 httpRequest】请求配置:', {
+        url: requestUrl,
+        method,
+        headers: customHeaders,
+        formParams
+      })
+      
+      // 使用 fetch API 发送请求
+      return fetch(requestUrl, {
+        method: method.toUpperCase(),
+        headers: customHeaders,
+        credentials: 'omit' // 不携带 credentials，避免 CORS 问题
+      })
+        .then(res => {
+          if (!res.ok) {
+            // 统一错误处理
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`)
+          }
+          return res.json()
+        })
+        .then(data => {
+          // 可以在这里添加统一的响应数据处理
+          console.log('【自定义 httpRequest】响应数据:', data)
+          return { data }
+        })
+        .catch(err => {
+          // 统一错误提示
+          console.error('【自定义 httpRequest】请求失败:', err)
+          this.$message.error('请求失败: ' + err.message)
+          throw err
+        })
+    },
+
+    // ===== 使用 fetch API 发送请求，配置 credentials: 'omit' 解决跨域问题 =====
+    fetchWithCORS(params) {
+      const { url, formParams, headers = {}, method = 'get' } = params
+      
+      // 构建 URL 和查询参数
+      let requestUrl = url
+      if (method.toLowerCase() === 'get' && formParams) {
+        const queryParams = new URLSearchParams()
+        Object.keys(formParams).forEach(key => {
+          if (formParams[key] !== undefined && formParams[key] !== null && formParams[key] !== '') {
+            queryParams.append(key, formParams[key])
+          }
+        })
+        const queryString = queryParams.toString()
+        if (queryString) {
+          requestUrl += (requestUrl.includes('?') ? '&' : '?') + queryString
+        }
+      }
+      
+      // 使用 fetch API，设置 credentials: 'omit' 不携带 cookie，解决跨域问题
+      return fetch(requestUrl, {
+        method: method.toUpperCase(),
+        headers: {
+          'Content-Type': 'application/json',
+          ...headers
+        },
+        credentials: 'omit' // 关键：不携带 credentials，避免 CORS 问题
+      }).then(res => res.json())
+    },
+
     // ===== 代码折叠控制 =====
     toggleCode(scene) {
       this.codeExpanded[scene] = !this.codeExpanded[scene]

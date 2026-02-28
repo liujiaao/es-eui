@@ -19,6 +19,11 @@ Vue.use(esEui, {
                     url,
                     contentType: 'application/json',
                     method: options?.method || 'POST',
+                    headers: {
+                        ...(headers || {}),
+                        // 'Access-Control-Allow-Origin': '*',
+
+                    },
                     //   data: formParams
                     // ...options,
                 }
@@ -27,6 +32,7 @@ Vue.use(esEui, {
                 } else {
                     opt.data = formParams
                 }
+
                 return http(opt)
             },
             paginationLayout: () => ({

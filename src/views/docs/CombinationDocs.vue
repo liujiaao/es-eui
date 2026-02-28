@@ -22,7 +22,7 @@
         <h2 class="section-title">场景一：查询表单联动</h2>
       </div>
       <p class="section-desc">EsForm 作为查询条件，EsTable 展示查询结果。表单提交后自动触发表格刷新：</p>
-    <p>EsForm 作为查询条件，EsTable 展示查询结果。表单提交后自动触发表格刷新。</p>
+
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -32,7 +32,7 @@
             :form-item-list="queryFormItems"
             :model="queryFormData"
             :layout-form-props="{ fromLayProps: { inline: true, size: 'mini' }, rowLayProps: { gutter: 10 } }"
-            :configBtn="[{ name: '查询', type: 'primary', onClick: ( model, refs) => handleSearch(refs, model) }, { name: '重置', onClick: (refs, model) => handleReset(refs, model) }]"
+            :configBtn="[{ name: '查询', type: 'primary', onClick: ( model, refs) => handleSearch(refs, model) }, { name: '重置', onClick: (model, refs) => handleReset(refs, model) }]"
           />
           <!-- <div class="query-actions">
             <el-button type="primary" size="small" icon="el-icon-search" @click="handleSearch">查询</el-button>
@@ -42,13 +42,36 @@
         <es-table
           ref="tableWithQuery"
           :columns="tableColumns"
+          :data-source.sync="tableWithQueryData"
+            :pagination="tableWithQueryPagination"
           :options="{ 
             border: true, 
             stripe: true,
-            isInitRun: false,  // 不自动请求，等待点击查询
+            tabHeight: 250,
+            heightType: 'height',
+            isInitRun: true,  // 不自动请求，等待点击查询
+            // 使用真实免费 API: https://dummyjson.com/users
             apiParams: {
-              url: '/api/users',
-              model: queryFormData  // 绑定查询参数
+              url: 'https://dummyjson.com/users',
+              method: 'get'
+            },
+            // 使用 httpRequest 自定义请求，配置 credentials: 'omit' 解决跨域
+            httpRequest: (params) => this.fetchWithCORS(params),
+            configTableOut: {
+              total: 'total',
+              pageSize: 'limit',
+              current: 'skip',
+              tableData: 'users'
+            },
+            listenToCallBack: {
+              brcb: (params) => {
+                // DummyJSON 使用 skip/limit 作为分页参数
+                const { pageSize, pageIndex } = params
+                return { 
+                  limit: pageSize,
+                  skip: (pageIndex - 1) * pageSize
+                }
+              }
             }
           }"
         />
@@ -73,12 +96,13 @@
         <h2 class="section-title">场景二：表单内嵌表格</h2>
       </div>
       <p class="section-desc">在 EsForm 表单中使用自定义渲染，内嵌 EsTable 表格，实现复杂的数据录入场景：</p>
-    <p>在 EsForm 表单中使用自定义渲染，内嵌 EsTable 表格，实现复杂的数据录入场景。</p>
+
 
     <div class="demo-block">
       <div class="demo-block__body">
         <es-form
           ref="formWithTable"
+    
           :form-item-list="formWithTableItems"
           :model="formWithTableData"
         />
@@ -107,7 +131,7 @@
         <h2 class="section-title">场景三：弹窗 + 原生表单</h2>
       </div>
       <p class="section-desc">在弹窗中使用原生 Element UI 表单，适合简单表单场景：</p>
-    <p>在弹窗中使用原生 Element UI 表单，适合简单表单场景。</p>
+
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -133,7 +157,7 @@
         <h2 class="section-title">场景四：弹窗 + EsForm（推荐）</h2>
       </div>
       <p class="section-desc">在弹窗中使用 EsForm 组件，通过 JSX 渲染，支持复杂的表单配置和验证：</p>
-    <p>在弹窗中使用 EsForm 组件，通过 JSX 渲染，支持复杂的表单配置和验证。</p>
+    
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -159,7 +183,7 @@
         <h2 class="section-title">场景五：弹窗 + EsTable</h2>
       </div>
       <p class="section-desc">在弹窗中使用 EsTable 表格，实现数据选择功能：</p>
-    <p>在弹窗中使用 EsTable 表格，实现数据选择功能。</p>
+   
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -188,7 +212,7 @@
         <h2 class="section-title">场景六：三者组合（完整场景）</h2>
       </div>
       <p class="section-desc">在弹窗中同时使用 EsTable 和 EsForm，实现表格查询+表单编辑的完整功能：</p>
-    <p>在弹窗中同时使用 EsTable 和 EsForm，实现表格查询+表单编辑的完整功能。</p>
+ 
 
     <div class="demo-block">
       <div class="demo-block__body">
@@ -281,18 +305,41 @@
         <es-table
           ref="tableWithFormQuery"
           :columns="tableWithFormColumns"
+          :data-source.sync="tableWithFormData"
           :options="{
             border: true,
             stripe: true,
-            isInitRun: false,
-            showHeaderBar: true,
+            isInitRun: true,
+            tabHeight: 300,
+            heightType: 'max-height',
+          //  showHeaderBar: true,
+            // 使用免费 API: https://jsonplaceholder.typicode.com/posts
             apiParams: {
-              url: '/api/data/list',
-              model: tableQueryForm
+              url: 'https://jsonplaceholder.typicode.com/posts',
+              method: 'get',
+              model: {}
+            },
+            configTableOut: {
+              total: 'total',
+              pageSize: 'pageSize',
+              current: 'pageIndex',
+              tableData: 'data'
             },
             listenToCallBack: {
               brcb: (params) => this.handleBeforeQuery(params),
-              qrcb: (res) => console.log('查询结果:', res)
+              qrcb: (res) => {
+            
+                // JSONPlaceholder 返回数组，需要包装成分页格式
+                if (Array.isArray(res)) {
+                  return {
+                    data: res.slice(0, 10),
+                    total: 100, // JSONPlaceholder 固定返回100条
+                    pageSize: 10,
+                    pageIndex: params.pageIndex || 1
+                  }
+                }
+                return res
+              }
             }
           }"
         >
@@ -306,8 +353,8 @@
                 rowLayProps: { gutter: 15 }
               }"
               :configBtn="[
-                { name: '查询', type: 'primary', icon: 'el-icon-search', onClick: () => handleTableQuery() },
-                { name: '重置', icon: 'el-icon-refresh', onClick: () => handleTableReset() },
+                { name: '查询', type: 'primary', icon: 'el-icon-search', key: 'query', triggerEvent: true },
+                { name: '重置', icon: 'el-icon-refresh',  key: 'rest', triggerEvent: true },
                 { name: '新增', type: 'success', icon: 'el-icon-plus', onClick: () => handleTableAdd() }
               ]"
             />
@@ -539,16 +586,24 @@ export default {
           }
         }
       ],
+      // 场景一表格列配置 - 适配 DummyJSON API
+      tableWithQueryData: [],
+      tableWithQueryPagination: {
+        pageIndex: 1, pageSize: 10, total: 0
+      },
       tableColumns: [
         { key: 'id', label: 'ID', width: 80 },
-        { key: 'name', label: '姓名', width: 120 },
+        { key: 'firstName', label: '名', width: 120 },
+        { key: 'lastName', label: '姓', width: 120 },
         { key: 'email', label: '邮箱' },
-        { key: 'status', label: '状态', width: 100, render: (h, { row }) => (
-          <el-tag type={row.status === '1' ? 'success' : 'danger'}>
-            {row.status === '1' ? '启用' : '禁用'}
-          </el-tag>
-        )},
-        { key: 'createTime', label: '创建时间', width: 180 }
+        {
+          key: 'image',
+          label: '头像',
+          width: 80,
+          render: (h, { row }) => (
+            <el-avatar size="small" src={row.image} />
+          )
+        }
       ],
 
       // ===== 场景2: 表单内嵌表格 =====
@@ -665,26 +720,24 @@ export default {
           }
         }
       ],
+      // 场景九表格列配置 - 适配 JSONPlaceholder API
+      tableWithFormData: [],
       tableWithFormColumns: [
         { key: 'id', label: 'ID', width: 80 },
-        { key: 'name', label: '名称', width: 180 },
-        { key: 'category', label: '分类', width: 120 },
+        { key: 'title', label: '标题', width: 280 },
         {
-          key: 'status',
-          label: '状态',
+          key: 'userId',
+          label: '用户ID',
           width: 100,
-          render: (h, { row }) => {
-            const statusMap = {
-              '1': { type: 'success', text: '启用' },
-              '0': { type: 'danger', text: '禁用' }
-            }
-            const status = statusMap[row.status] || { type: 'info', text: '未知' }
-            return <el-tag type={status.type} size="small">{status.text}</el-tag>
-          }
+          render: (h, { row }) => (
+            <el-tag size="mini" type="info">用户{row.userId}</el-tag>
+          )
         },
-        { key: 'price', label: '价格', width: 120, render: (h, { row }) => `¥${row.price}` },
-        { key: 'stock', label: '库存', width: 100 },
-        { key: 'createTime', label: '创建时间', width: 180 },
+        {
+          key: 'body',
+          label: '内容',
+          render: (h, { row }) => <span>{row.body.substring(0, 50) + '...'}</span> 
+        },
         {
           key: 'action',
           label: '操作',
@@ -786,7 +839,7 @@ export default {
                   )
                 }
               ]}
-              options={{ border: true }}
+              options={{ border: true}}
             />
           )
         }
@@ -808,7 +861,7 @@ export default {
         { 
           key: 'age', 
           label: '年龄', 
-          width: 100,
+       
           render: (h, { row }) => row.editing ? (
             <el-input-number v-model={row.age} size="small" min={1} max={150} />
           ) : <span>{ row.age }</span>
@@ -866,17 +919,44 @@ export default {
         })
       }
     },
+
+    // ===== 使用 fetch API 发送请求，配置 credentials: 'omit' 解决跨域问题 =====
+    fetchWithCORS(params) {
+      const { url, formParams, headers = {}, method = 'get' } = params
+      
+      // 构建 URL 和查询参数
+      let requestUrl = url
+      if (method.toLowerCase() === 'get' && formParams) {
+        const queryParams = new URLSearchParams()
+        Object.keys(formParams).forEach(key => {
+          if (formParams[key] !== undefined && formParams[key] !== null && formParams[key] !== '') {
+            queryParams.append(key, formParams[key])
+          }
+        })
+        const queryString = queryParams.toString()
+        if (queryString) {
+          requestUrl += (requestUrl.includes('?') ? '&' : '?') + queryString
+        }
+      }
+      
+      // 使用 fetch API，设置 credentials: 'omit' 不携带 cookie，解决跨域问题
+      return fetch(requestUrl, {
+        method: method.toUpperCase(),
+        headers: {
+          'Content-Type': 'application/json',
+          ...headers
+        },
+        credentials: 'omit' // 关键：不携带 credentials，避免 CORS 问题
+      }).then(res => res.json())
+    },
+
     handleSearch(refs, model) {
       // 手动触发表格刷新
-      // console.log('model///', model)
       this.$refs.tableWithQuery.httpRquestInstace()
     },
-    handleReset() {
-      this.queryFormData = {
-        name: '',
-        status: '',
-        dateRange: []
-      }
+    handleReset(refs, model) {
+
+     refs.resetFields()
       this.$nextTick(() => {
         this.handleSearch()
       })
@@ -900,22 +980,74 @@ export default {
 
     // ===== 场景3: useDialog + 原生表单 =====
     openNativeFormDialog() {
-     // const formData = Vue.observable({ name: '', email: '' })
-     const { formData } = this
+      // 创建响应式表单数据
+      const formData = Vue.observable({
+        name: '',
+        email: ''
+      })
+      
+      // 保存表单引用，用于手动触发校验
+      let formRef = null
+      
       dialogInstance({
         title: '原生表单弹窗',
-        key: '原生表单弹窗',
+        key: 'nativeFormDialog',
         width: '500px',
-        render: (h) => (
-          <el-form ref="nativeForm" model={formData} label-width="80px" size="small">
-            <el-form-item label="姓名" prop="name" rules={[{ required: true, message: '请输入姓名' }]}>
-              <el-input v-model={formData.name} />
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email" rules={[{ required: true, message: '请输入邮箱' }, { type: 'email', message: '邮箱格式错误' }]}>
-              <el-input v-model={formData.email} />
-            </el-form-item>
-          </el-form>
-        ),
+        // 关键：使用 DOM 属性和事件监听，确保响应式正确
+        render: (h) => {
+          return (
+            <el-form 
+              ref="nativeForm" 
+              props={{ model: formData }}
+              label-width="80px" 
+              size="small"
+            >
+              <el-form-item 
+                label="姓名" 
+                prop="name"
+                rules={[{ required: true, message: '请输入姓名', trigger: 'blur' }]}
+              >
+                <el-input 
+                  attrs={{ value: formData.name }}
+                  on={{ 
+                    input: (val) => { 
+                      formData.name = val 
+                      // 输入时清除当前字段的错误状态
+                      if (formRef) {
+                        formRef.clearValidate('name')
+                      }
+                    },
+              
+                  }}
+                  placeholder="请输入姓名"
+                />
+              </el-form-item>
+              <el-form-item 
+                label="邮箱" 
+                prop="email"
+                rules={[
+                  { required: true, message: '请输入邮箱', trigger: 'blur' },
+                  { type: 'email', message: '邮箱格式错误', trigger: 'blur' }
+                ]}
+              >
+                <el-input 
+                  attrs={{ value: formData.email }}
+                  on={{ 
+                    input: (val) => { 
+                      formData.email = val 
+                      // 输入时清除当前字段的错误状态
+                      if (formRef) {
+                        formRef.clearValidate('email')
+                      }
+                    }
+           
+                  }}
+                  placeholder="请输入邮箱"
+                />
+              </el-form-item>
+            </el-form>
+          )
+        },
         configBtn: [
           {
             name: '取消',
@@ -926,15 +1058,14 @@ export default {
             name: '确定',
             type: 'primary',
             key: 'confirm',
-            onClick: (instantce, { close, getRefs }) => {
-                console.log('closeInstance///', formData)
-              // const form = getRefs('nativeForm')
-              // form.validate((valid) => {
-              //   if (valid) {
-              //     this.$message.success(`提交成功: ${formData.name}`)
-              //     close()
-              //   }
-              // })
+            onClick: (instance, { close, getRefs }) => {
+              formRef = getRefs('nativeForm')
+              formRef.validate((valid) => {
+                if (valid) {
+                  this.$message.success(`提交成功: ${formData.name} / ${formData.email}`)
+                  close()
+                }
+              })
             }
           }
         ]
@@ -972,13 +1103,13 @@ export default {
             onClick: (instance, { close, getRefs }) => {
               const formRef = getRefs('esFormInDialog')
               console.log('formRef.validate', formRef)
-              {/* formRef.validate((valid) => {
+              formRef.validate((valid) => {
                 if (valid) {
                   this.$message.success('保存成功')
                   console.log('表单数据:', formData)
                   close()
                 }
-              }) */}
+              })
             }
           }
         ]
@@ -1071,7 +1202,7 @@ export default {
                   { key: 'price', label: '价格', render: (h, { row }) => `¥${row.price}` },
                   { key: 'stock', label: '库存',  }
                 ]}
-                options={{ border: true, highlightCurrentRow: true }}
+                options={{ border: true, highlightCurrentRow: true, heightType: 'height', tabHeight: 150 }}
                 on-current-change={(row) => { selectedRow = row }}
                 style="margin-bottom: 20px;"
               />
@@ -1095,7 +1226,7 @@ export default {
                     attrs: { min: 1 },
                     formItemOptions: { rules: [{ required: true, message: '请输入数量' }] }
                   },
-                  { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 2 } }
+                  { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 2 }, formItemOptions: { rules: [{ required: true, message: '请输入备注' }] } }
                 ]}
                 formModel={this.formData}
               />
@@ -1114,7 +1245,7 @@ export default {
             onClick: (instantce, { close, getRefs }) => {
               // 关键修复：使用响应式的 this.formData
               console.log('configBtn onClick - this.formData:', this.formData)
-              {/* if (!selectedRow) {
+              if (!selectedRow) {
                 this.$message.warning('请先选择产品')
                 return
               }
@@ -1125,7 +1256,7 @@ export default {
                   this.$message.success('订单提交成功')
                   close()
                 }
-              }) */}
+              })
             }
           }
         ]
@@ -1149,6 +1280,10 @@ export default {
     },
     saveInlineEdit() {
       console.log('保存所有数据:', this.inlineEditData)
+      this.inlineEditData = this.inlineEditData.map(item => {
+            item.editing = false
+            return item
+      })
       this.$message.success('所有修改已保存')
     },
 
@@ -1184,25 +1319,43 @@ export default {
     // ===== 场景9: 表格内嵌表单联动查询 =====
     // 查询前回调：格式化参数
     handleBeforeQuery(params) {
-      if (params.dateRange && params.dateRange.length === 2) {
-        params.startDate = params.dateRange[0]
-        params.endDate = params.dateRange[1]
-        delete params.dateRange
+      const result = {}
+      
+      // JSONPlaceholder 支持的分页参数：_page 和 _limit
+      if (params.pageIndex) {
+        result._page = params.pageIndex
       }
-      return params
+      if (params.pageSize) {
+        result._limit = params.pageSize
+      }
+      
+      // 只添加有值的过滤参数（空字符串会导致 API 返回空结果）
+      if (params.keyword && params.keyword.trim()) {
+        // JSONPlaceholder 的 title 查询需要完全匹配，这里用 q 进行全文搜索
+        result.q = params.keyword.trim()
+      }
+      
+      // userId 过滤（必须是数字且不为空）
+      if (params.status && params.status !== '') {
+        // 使用 status 作为 userId 过滤（模拟关联）
+        result.userId = params.status
+      }
+      
+      console.log('查询参数:', result)
+      return result
     },
     // 查询
     handleTableQuery() {
       this.$refs.tableWithFormQuery.httpRquestInstace()
     },
-    // 重置
+    // 重置：清空表单并刷新
     handleTableReset() {
-      this.tableQueryForm = {
-        keyword: '',
-        status: '',
-        category: '',
-        dateRange: []
-      }
+      // 重置表单数据
+      this.tableQueryForm.keyword = ''
+      this.tableQueryForm.status = ''
+      this.tableQueryForm.category = ''
+      this.tableQueryForm.dateRange = []
+      
       this.$nextTick(() => {
         this.handleTableQuery()
       })
@@ -1213,7 +1366,8 @@ export default {
     },
     // 编辑
     handleTableEdit(row) {
-      this.$message.info(`编辑: ${row.name}`)
+
+      this.$message.info(`编辑: ${row.title}`)
     },
     // 删除
     handleTableDelete(row) {
@@ -1339,9 +1493,7 @@ export default {
   .query-form-section {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 15px;
-    padding: 15px;
-    background: #f5f7fa;
+
     border-radius: 4px;
 
     ::v-deep .es-form {
@@ -1355,7 +1507,7 @@ export default {
   }
 
   .form-actions {
-    margin-top: 20px;
+
     text-align: center;
   }
 

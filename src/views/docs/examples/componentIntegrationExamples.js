@@ -7,6 +7,7 @@ export const tableFormQueryExample = `<template>
     <div class="query-section">
       <es-form
         ref="queryForm"
+        :data-source.sync="tableWithQueryData"
         :form-item-list="queryFormItems"
         :model="queryFormData"
         :layout-form-props="{ fromLayProps: { inline: true, size: 'small' } }"
@@ -26,13 +27,33 @@ export const tableFormQueryExample = `<template>
     <es-table
       ref="dataTable"
       :columns="tableColumns"
+       :pagination="tableWithQueryPagination"
       :options="{ 
         border: true, 
         stripe: true,
         isInitRun: true,
+        // 使用真实免费 API: https://dummyjson.com/users
         apiParams: {
-          url: '/api/users',
-          model: queryFormData  // 查询参数自动绑定
+          url: 'https://dummyjson.com/users',
+          method: 'get'
+        },
+        // 使用 httpRequest 自定义请求，配置 credentials: 'omit' 解决跨域
+       // httpRequest: (params) => this.fetchWithCORS(params),
+        configTableOut: {
+          total: 'total',
+          pageSize: 'limit',
+          current: 'skip',
+          tableData: 'users'
+        },
+        listenToCallBack: {
+          brcb: (params) => {
+            // DummyJSON 使用 skip/limit 作为分页参数
+            const { pageSize, pageIndex } = params
+            return { 
+              limit: pageSize,
+              skip: (pageIndex - 1) * pageSize
+            }
+          }
         }
       }"
     />
@@ -77,26 +98,58 @@ export {
           attrs: { type: 'daterange', valueFormat: 'yyyy-MM-dd' }
         }
       ],
+      tableWithQueryData: [],
+        tableWithQueryPagination: {
+        pageIndex: 1, pageSize: 10, total: 0
+      },
       // 表格列配置
       tableColumns: [
         { key: 'id', label: 'ID', width: 80 },
-        { key: 'name', label: '姓名', width: 120 },
+        { key: 'firstName', label: '名', width: 120 },
+        { key: 'lastName', label: '姓', width: 120 },
         { key: 'email', label: '邮箱' },
-        { 
-          key: 'status', 
-          label: '状态', 
-          width: 100,
+        {
+          key: 'image',
+          label: '头像',
+          width: 80,
           render: (h, { row }) => (
-            <el-tag type={row.status === '1' ? 'success' : 'danger'}>
-              {row.status === '1' ? '启用' : '禁用'}
-            </el-tag>
+            <el-avatar size="small" src={row.image} />
           )
-        },
-        { key: 'createTime', label: '创建时间', width: 180 }
+        }
       ]
     }
   },
   methods: {
+    // 使用 fetch API 发送请求，配置 credentials: 'omit' 解决跨域问题
+    fetchWithCORS(params) {
+      const { url, formParams, headers = {}, method = 'get' } = params
+      
+      // 构建 URL 和查询参数
+      let requestUrl = url
+      if (method.toLowerCase() === 'get' && formParams) {
+        const queryParams = new URLSearchParams()
+        Object.keys(formParams).forEach(key => {
+          if (formParams[key] !== undefined && formParams[key] !== null && formParams[key] !== '') {
+            queryParams.append(key, formParams[key])
+          }
+        })
+        const queryString = queryParams.toString()
+        if (queryString) {
+          requestUrl += (requestUrl.includes('?') ? '&' : '?') + queryString
+        }
+      }
+      
+      // 使用 fetch API，设置 credentials: 'omit' 不携带 cookie，解决跨域问题
+      return fetch(requestUrl, {
+        method: method.toUpperCase(),
+        headers: {
+          'Content-Type': 'application/json',
+          ...headers
+        },
+        credentials: 'omit' // 关键：不携带 credentials，避免 CORS 问题
+      }).then(res => res.json())
+    },
+
     // 查询方法：手动触发表格刷新
     handleSearch() {
       // 调用 es-table 的 httpRquestInstace 方法手动刷新
@@ -104,12 +157,8 @@ export {
     },
     
     // 重置方法：清空表单并刷新表格
-    handleReset() {
-      this.queryFormData = {
-        name: '',
-        status: '',
-        dateRange: []
-      }
+    handleReset(refs, model) {
+ 
       this.$nextTick(() => {
         this.handleSearch()
       })
@@ -197,7 +246,7 @@ export default {
                   )
                 }
               ]}
-              options={{ border: true }}
+              options={{ border: true,  heightType: 'max-height'  }}
             />
           )
         }
@@ -224,6 +273,7 @@ export const dialogNativeFormExample = `<template>
 </template>
 
 <script>
+import Vue from 'vue'
 import { useDialog } from '@/components/es-eui'
 
 const dialog = useDialog()
@@ -231,49 +281,78 @@ const dialog = useDialog()
 export default {
   methods: {
     openDialog() {
-      const formData = { name: '', email: '' }
+      // 创建响应式表单数据
+      const formData = Vue.observable({ name: '', email: '' })
+      let formRef = null
       
       dialog({
         title: '原生表单弹窗',
+        key: 'nativeFormDialog',
         width: '500px',
-        // 使用 JSX 渲染原生表单
-        render: (h) => (
-          <el-form 
-            ref="nativeForm" 
-            model={formData} 
-            label-width="80px"
-            rules={{
-              name: [{ required: true, message: '请输入姓名' }],
-              email: [
-                { required: true, message: '请输入邮箱' },
-                { type: 'email', message: '邮箱格式错误' }
-              ]
-            }}
-          >
-            <el-form-item label="姓名" prop="name">
-              <el-input v-model={formData.name} />
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model={formData.email} />
-            </el-form-item>
-          </el-form>
-        ),
+        // 关键：使用 props 绑定和 onBlur 手动触发校验
+        render: (h) => {
+          return (
+            <el-form 
+              ref="nativeForm" 
+              props={{ model: formData }}
+              label-width="80px"
+              size="small"
+            >
+              <el-form-item 
+                label="姓名" 
+                prop="name"
+                rules={[{ required: true, message: '请输入姓名', trigger: 'blur' }]}
+              >
+                <el-input 
+                  attrs={{ value: formData.name }}
+                  on={{ 
+                    input: (val) => { 
+                      formData.name = val 
+                      if (formRef) formRef.clearValidate('name')
+                    }
+               
+                  }}
+                  placeholder="请输入姓名"
+                />
+              </el-form-item>
+              <el-form-item 
+                label="邮箱" 
+                prop="email"
+                rules={[
+                  { required: true, message: '请输入邮箱', trigger: 'blur' },
+                  { type: 'email', message: '邮箱格式错误', trigger: 'blur' }
+                ]}
+              >
+                <el-input 
+                  attrs={{ value: formData.email }}
+                  on={{ 
+                    input: (val) => { 
+                      formData.email = val 
+                      if (formRef) formRef.clearValidate('email')
+                    }
+                 
+                  }}
+                  placeholder="请输入邮箱"
+                />
+              </el-form-item>
+            </el-form>
+          )
+        },
         configBtn: [
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance, { close }) => close()
           },
           {
             name: '确定',
             type: 'primary',
             key: 'confirm',
-            // 使用 getRefs 获取表单引用
-            onClick: ({ close, getRefs }) => {
-              const form = getRefs('nativeForm')
-              form.validate((valid) => {
+            onClick: (instance, { close, getRefs }) => {
+              formRef = getRefs('nativeForm')
+              formRef.validate((valid) => {
                 if (valid) {
-                  console.log('表单数据:', formData)
+                  this.$message.success('提交成功')
                   close()
                 }
               })
@@ -766,24 +845,56 @@ export const tableWithFormQueryExample = `<template>
         stripe: true,
         isInitRun: true,        // 初始化自动查询
         showHeaderBar: true,    // 显示头部栏
+        // 使用免费 API: https://jsonplaceholder.typicode.com/posts
         apiParams: {
-          url: '/api/data/list',
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          method: 'get',
           model: queryForm       // 查询参数对象
+        },
+        configTableOut: {
+          total: 'total',
+          pageSize: 'pageSize',
+          current: 'pageIndex',
+          tableData: 'data'
         },
         // 监听查询前回调，可以修改参数
         listenToCallBack: {
           brcb: (params) => {
-            // 查询前回调：格式化参数
-            if (params.dateRange && params.dateRange.length === 2) {
-              params.startDate = params.dateRange[0]
-              params.endDate = params.dateRange[1]
-              delete params.dateRange
+            // 查询前回调：格式化参数，过滤空值，适配 JSONPlaceholder API
+            const result = {}
+            
+            // JSONPlaceholder 支持的分页参数：_page 和 _limit
+            if (params.pageIndex) {
+              result._page = params.pageIndex
             }
-            return params
+            if (params.pageSize) {
+              result._limit = params.pageSize
+            }
+            
+            // 只添加有值的过滤参数（空字符串会导致 API 返回空结果）
+            if (params.keyword && params.keyword.trim()) {
+              // JSONPlaceholder 的 title 查询需要完全匹配，这里用 q 进行全文搜索
+              result.q = params.keyword.trim()
+            }
+            
+            // userId 过滤（必须是数字且不为空）
+            if (params.status && params.status !== '') {
+              result.userId = params.status
+            }
+            
+            return result
           },
           qrcb: (res) => {
-            // 查询后回调：处理响应数据
-            console.log('查询结果:', res)
+            // JSONPlaceholder 返回数组，包装成分页格式
+            if (Array.isArray(res)) {
+              return {
+                data: res.slice(0, 10),
+                total: 100, // JSONPlaceholder 固定返回100条
+                pageSize: 10,
+                pageIndex: 1
+              }
+            }
+            return res
           }
         }
       }"
@@ -810,18 +921,18 @@ export const tableWithFormQueryExample = `<template>
               name: '查询', 
               type: 'primary', 
               icon: 'el-icon-search',
-              onClick: (refs, model) => handleSearch() 
+              onClick: () => handleSearch() 
             },
             { 
               name: '重置', 
               icon: 'el-icon-refresh',
-              onClick: (refs, model) => handleReset() 
+              onClick: () => handleReset() 
             },
             { 
               name: '新增', 
               type: 'success', 
               icon: 'el-icon-plus',
-              onClick: (refs, model) => handleAdd() 
+              onClick: () => handleAdd() 
             }
           ]"
         />
@@ -899,27 +1010,23 @@ export default {
           }
         }
       ],
-      // 表格列配置
+      // 表格列配置 - 适配 JSONPlaceholder API
       columns: [
         { key: 'id', label: 'ID', width: 80 },
-        { key: 'name', label: '名称', width: 180 },
-        { key: 'category', label: '分类', width: 120 },
+        { key: 'title', label: '标题', width: 280 },
         {
-          key: 'status',
-          label: '状态',
+          key: 'userId',
+          label: '用户ID',
           width: 100,
-          render: (h, { row }) => {
-            const statusMap = {
-              '1': { type: 'success', text: '启用' },
-              '0': { type: 'danger', text: '禁用' }
-            }
-            const status = statusMap[row.status] || { type: 'info', text: '未知' }
-            return <el-tag type={status.type} size="small">{status.text}</el-tag>
-          }
+          render: (h, { row }) => (
+            <el-tag size="mini" type="info">用户{row.userId}</el-tag>
+          )
         },
-        { key: 'price', label: '价格', width: 120, render: (h, { row }) => \`¥\${row.price}\` },
-        { key: 'stock', label: '库存', width: 100 },
-        { key: 'createTime', label: '创建时间', width: 180 },
+        {
+          key: 'body',
+          label: '内容',
+          render: (h, { row }) => row.body.substring(0, 50) + '...'
+        },
         {
           key: 'action',
           label: '操作',
@@ -997,5 +1104,3 @@ export default {
   padding-top: 4px;
 }
 </style>`;
-
-// 文件中的变量已使用 export const 导出，无需重复导出

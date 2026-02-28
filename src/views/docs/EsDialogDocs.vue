@@ -812,7 +812,7 @@ export default {
               { prop: 'age', label: '年龄', span: 12, formtype: 'Input', attrs: { placeholder: '请输入年龄' } },
               { prop: 'email', label: '邮箱', span: 24, formtype: 'Input', attrs: { placeholder: '请输入邮箱' } }
             ]}
-            formModel={this.formData}
+            model={this.formData}
             layout-form-props={{
               fromLayProps: { labelWidth: '80px' },
               rowLayProps: { gutter: 20 }
@@ -942,7 +942,7 @@ export default {
                 attrs: { type: 'textarea', rows: 3 }
               }
             ]}
-            formModel={this.userFormData}
+            model={this.userFormData}
             layout-form-props={{
               fromLayProps: { labelWidth: '80px', size: 'small' },
               rowLayProps: { gutter: 20 }

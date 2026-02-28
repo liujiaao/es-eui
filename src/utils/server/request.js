@@ -10,7 +10,7 @@ const service = axios.create({
   baseURL: process.env.NODE_ENV === 'development' ? process.env.BASE_API : apiurl,
   contentType: 'application/json;charset=UTF-8',
   timeout: 60000,
-  withCredentials: true
+  // withCredentials: true
 })
 
 // request interceptor

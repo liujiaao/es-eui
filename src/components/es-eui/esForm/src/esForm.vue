@@ -87,7 +87,7 @@
               </div>
             </div>
             <el-form-item
-              v-else
+              v-if="!btnColSpanRow && configBtn.length"
               :label="' '"
               :label-width="fromProps.labelBtnWidth ? fromProps.labelBtnWidth : fromProps.labelWidth"
               :class="{formItemCols: (getBtnColSpan === 24)}"
@@ -786,6 +786,9 @@ export default {
         }
       } else if (key === 'rest') { // 否则就是重置接口
         $ref.resetFields()
+        if(this.isParentTable) {
+          this.$parent.httpRquestInstace(model)
+        }
       }
     },
     formInputComponents(item) {
@@ -1096,7 +1099,7 @@ capitalize(str) {
    ::v-deep .el-form-item__content {
     //  line-height: 25px;
      font-weight: 400;
-      height: 32px;
+     
    }
    ::v-deep .el-form-item__label{
     // line-height: 25px;

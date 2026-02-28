@@ -3,7 +3,7 @@
   <div
     :ref="tableContainer"
     class="table_component"
-    :style="{height: tabHeight }"
+    :style="{height: (heightType == 'max-height' && tabHeight == '100%') ? 300 + 'px' : tabHeight }"
   >
     <div class="table_containers">
       <div
@@ -45,7 +45,7 @@
           class="el-es_tables"
           :border="attrs.border"
           style="width:100%;"
-          :[this.heightType]="tableHeight"
+          :[heightType]="tableHeight"
           v-bind="attrs"
           :data="dataSource"
           v-on="$listeners"
@@ -315,7 +315,7 @@ export default {
       if (this.options.heightType && typeof this.options.heightType === 'string') {
         return this.options.heightType
       }
-      return 'max-height'
+      return 'auto'
     },
 
     showVisible() {
@@ -534,7 +534,7 @@ export default {
     getListenToCallBack(eventName, params) {
       const eventNameList = [
         { eventName: 'brcb', isReturn: true }, // 查询前参数过滤或处理
-        { eventName: 'qrcb', isReturn: false } // 查询respons回调
+        { eventName: 'qrcb', isReturn: true } // 查询respons回调
       ]
       const hasEventNameIndex = eventNameList.findIndex((it) => it.eventName === eventName)
       if (this.isListenToCallBack && this.isListenToCallBack[eventName] && hasEventNameIndex !== -1) {
@@ -642,7 +642,10 @@ export default {
         const formData = Object.keys(formInstance).length ? (formInstance?.model || {}) : this.getListEntry || {}
         const fnParams = this.getListenToCallBack('brcb', { ...formData, ...params, ...(this.options?.apiParams?.model || {}) })
         const _params_ = fnParams && Object.prototype.toString.call(fnParams).slice(8, -1) === 'Object' ? fnParams : { ...formData, ...(this.options?.apiParams?.model || {}), ...params }
-       
+        const requestOption = {...(this.options?.apiParams?.options || {})}
+        if(this.options?.apiParams?.method) {
+          requestOption.method = this.options?.apiParams?.method
+        }
         if (this.isHttpRequest) {
           // 自定义接口实例
           if (!this.loadingStatus) {
@@ -656,14 +659,16 @@ export default {
               url: this.options?.apiParams?.url || this.options?.actionUrl || '',
               formParams: { ..._params_ },
               headers: { ...(this.options?.apiParams?.headers || {}) },
-              ...(this.options?.apiParams?.options || {}),
+              ...requestOption,
               ..._params
             })
             .then((res) => {
+            
               this.loadingStatus = false
-              this.getListenToCallBack('qrcb', res)
+              const responsData = this.getListenToCallBack('qrcb', res)
+              const formatResPonsData = responsData || res
               if (typeof success === 'function' && Object.prototype.toString.call(res).slice(8, -1) === 'Object' && Object.keys(res).length) {
-                success(res)
+                success(formatResPonsData)
               }
             })
             .catch((e) => {
@@ -685,14 +690,18 @@ export default {
               url: this.options?.apiParams?.url || this.options?.actionUrl || '',
               formParams: { ..._params_ },
               headers: { ...(this.options?.apiParams?.headers || {}) },
-              ...(this.options?.apiParams?.options || {}),
+              ...requestOption,
               ..._params
             })
               .then((res) => {
+          
                 this.loadingStatus = false
-                this.getListenToCallBack('qrcb', res)
+           
+              const responsData = this.getListenToCallBack('qrcb', res)
+              const formatResPonsData = responsData || res
                 if (typeof success === 'function' && Object.prototype.toString.call(res).slice(8, -1) === 'Object' && Object.keys(res).length) {
-                  success(res)
+                  console.log('formatResPonsData', responsData)
+                  success(formatResPonsData)
                 }
               })
               .catch((e) => {
@@ -1111,7 +1120,7 @@ export default {
                          0 // 额外安全余量，防止舍入误差
 
       this.tableHeight = Math.max(Math.floor(tableHeight), 100)
-      console.log('tableHeight计算结果: ', tableHeight)
+      console.log('tableHeight计算结果: ', tableBodyAvailableHeight)
     },
     firstWordUpperCase(str) {
       return str.toLowerCase().replace(/(\s|^)[a-z]/g, function(char) {
@@ -1169,8 +1178,8 @@ export default {
       return findForm(this.$children) || {}
     },
     handleIndexChange(val) {
-      console.log('changeIndex', this.getFormInstace(), this.$slots.default)
-      if (Object.keys(this.getFormInstace()).length && this.isRequesConf) {
+      console.log('changeIndex', this.getFormInstace())
+      if (this.isRequesConf) {
         this.changePageIndexRquest(val)
       } else {
         this.$emit('update:pagination', this.onpagination)

@@ -51,11 +51,54 @@ export default function useDialog() {
             }
         }
 
-        // 内容最大高 = 视口高 - 预留区（标题+按钮+安全区）
+        // 内容最大高 = 视口高 - 弹窗非内容区域高度（标题+底部按钮+边距+安全区）
         function getMaxContentHeight() {
-            const viewH = window.innerHeight
-            // 预留：标题 55 + 按钮 60 + 安全 20 = 135
-            return Math.max(viewH - 135, 200) // 最低 200px
+            // 尝试多种方式获取最准确的视口高度
+            // 1. visualViewport API (最准确，支持缩放的视口)
+            // 2. document.documentElement.clientHeight (不包含滚动条)
+            // 3. window.innerHeight (包含滚动条)
+            const visualViewportH = window.visualViewport ? window.visualViewport.height : 0
+            const clientHeight = document.documentElement.clientHeight || 0
+            const innerHeight = window.innerHeight || 0
+
+            // 取最大值作为视口高度
+            const viewH = Math.max(visualViewportH, clientHeight, innerHeight)
+
+            // 如果获取不到有效值，使用屏幕高度作为备选
+            const screenH = window.screen?.height || 1080
+            const finalViewH = viewH > 100 ? viewH : screenH * 0.9
+
+            // 计算弹窗非内容区域预留高度：
+            // - 弹窗外边距：上下各 8vh ≈ 16vh 总视口高度 (Element UI 默认 .el-dialog__wrapper margin: 8vh 0)
+            // - 弹窗头部（标题 + 关闭按钮 + padding）：约 54px
+            // - 弹窗内容区 padding：上下各 20px = 40px
+            // - 弹窗底部按钮区：约 60px（含 padding）
+            // - 安全余量：20px
+            const marginVh = 0.16 // 16vh 转换为视口比例
+            const marginPx = finalViewH * marginVh
+            const headerHeight = 54
+            const contentPadding = 40
+            const footerHeight = showDefaultButtons || configBtn.length > 0 ? 60 : 20
+            const safeMargin = 20
+
+            const reservedHeight = marginPx + headerHeight + contentPadding + footerHeight + safeMargin
+            const maxHeight = Math.max(finalViewH - reservedHeight, 200)
+
+            console.log('getMaxContentHeight///', {
+                visualViewportH,
+                clientHeight,
+                innerHeight,
+                screenH,
+                finalViewH,
+                marginPx,
+                headerHeight,
+                contentPadding,
+                footerHeight,
+                reservedHeight,
+                maxHeight
+            })
+
+            return maxHeight
         }
 
         // ---------- 清理 EsForm 组件中的 undefined 监听器 ----------
@@ -140,8 +183,8 @@ export default function useDialog() {
                             class: 'dialog-content-wrapper',
                             style: {
                                 maxHeight: getMaxContentHeight() + 'px',
-                                overflowY: 'auto',
-                                overflowX: 'clip',
+                                // overflowY: 'auto',
+                                // overflowX: 'clip',
                             },
                         },
                         [vnode]
