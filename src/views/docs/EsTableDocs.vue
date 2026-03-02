@@ -193,7 +193,57 @@
       </div>
     </div>
 
-    <h3>5. 操作列与表格实例</h3>
+    <h3>5. 跨页选择记忆</h3>
+    <p>开启 <code>multiSelect</code> 和 <code>cachePageSelection</code>，实现跨页多选记忆功能：</p>
+
+    <div class="demo-block">
+      <div class="demo-block__header">
+        <span class="demo-block__title">跨页选择记忆演示</span>
+        <span class="demo-block__badge">企业级功能</span>
+      </div>
+      <div class="demo-block__body">
+        <div style="margin-bottom: 15px; padding: 10px; background: #f5f7fa; border-radius: 4px;">
+          <el-tag type="success" style="margin-right: 10px;">
+            <i class="el-icon-check" /> 已选择 {{ selectedRows.length }} 项
+          </el-tag>
+          <el-button size="small" type="primary" plain @click="handleClearSelection">
+            <i class="el-icon-delete" /> 清空选择
+          </el-button>
+          <el-button size="small" type="info" plain @click="getSelectedData">
+            <i class="el-icon-view" /> 查看选中项
+          </el-button>
+        </div>
+        <es-table
+          ref="multiSelectTable"
+          :data-source.sync="multiSelectData"
+          :columns="multiSelectColumns"
+          :pagination="multiSelectPagination"
+          :options="multiSelectOptions"
+          @selection-change="handleSelectionChange"
+        />
+      </div>
+      <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.sceneMultiSelect }">
+        <div class="code-header" @click="toggleCode('sceneMultiSelect')">
+          <i :class="codeExpanded.sceneMultiSelect ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+          <span>{{ codeExpanded.sceneMultiSelect ? '收起代码' : '展开代码' }}</span>
+        </div>
+        <pre v-show="codeExpanded.sceneMultiSelect"><code>{{ multiSelectExample }}</code></pre>
+      </div>
+    </div>
+
+    <div class="tips-box tips-box--success">
+      <h4>💡 跨页选择记忆使用说明</h4>
+      <ul>
+        <li><strong>multiSelect</strong>：开启多选功能，表格左侧显示复选框</li>
+        <li><strong>cachePageSelection</strong>：开启跨页记忆，切换分页时保留已选项</li>
+        <li><strong>rowkey</strong>：必须配置，指定行唯一标识键（如 'id'），用于跨页识别同一行</li>
+        <li><strong>multipleSelection</strong>：组件内部属性，获取当前选中的所有行数据（包括其他页）</li>
+        <li><strong>clearAllSelection()</strong>：清空所有选择（跨页）</li>
+        <li><strong>selection-change</strong>：事件返回当前页选中的行，但组件内部会维护跨页状态</li>
+      </ul>
+    </div>
+
+    <h3>6. 操作列与表格实例</h3>
     <p>通过 instance 获取表格实例，调用方法（刷新、获取选中项等）：</p>
 
     <div class="demo-block">
@@ -536,6 +586,7 @@ import {
   customHttpExample,
   renderColumnExample,
   linkageExample,
+  multiSelectExample,
   actionColumnExample,
   realWorldExample
 } from './examples/esTableExamples'
@@ -820,6 +871,45 @@ export default {
         { name: '重置', key: 'rest', triggerEvent: true, icon: 'el-icon-refresh' }
       ],
 
+      // 跨页选择记忆示例 - 使用 DummyJSON API
+      selectedRows: [],
+      multiSelectData: [],
+      multiSelectColumns: [
+        { type: 'selection', width: 55 },
+        { key: 'id', label: 'ID', width: 80 },
+        { key: 'firstName', label: '名', width: 100 },
+        { key: 'lastName', label: '姓', width: 100 },
+        { key: 'age', label: '年龄', width: 80 },
+        { key: 'gender', label: '性别', width: 80 },
+        { key: 'email', label: '邮箱' }
+      ],
+      multiSelectPagination: { pageIndex: 1, pageSize: 5, total: 0 },
+      multiSelectOptions: {
+        isInitRun: true,
+        border: true,
+        multiSelect: true,           // 开启多选
+        cachePageSelection: true,    // 开启跨页记忆
+        rowkey: 'id',                // 必须：指定行唯一标识键
+        size: 'small',
+        apiParams: {
+          url: 'https://dummyjson.com/users',
+          method: 'get'
+        },
+        httpRequest: (params) => this.fetchWithCORS(params),
+        configTableOut: {
+          total: 'total',
+          pageSize: 'limit',
+          current: 'skip',
+          tableData: 'users'
+        },
+        listenToCallBack: {
+          brcb: (params) => ({
+            limit: params.pageSize,
+            skip: (params.pageIndex - 1) * params.pageSize
+          })
+        }
+      },
+
       // 操作列示例
       actionData: [
         { id: 1, name: '政策A', status: '1' },
@@ -971,6 +1061,7 @@ export default {
       customHttpExample,
       renderColumnExample,
       linkageExample,
+      multiSelectExample,
       actionColumnExample,
       realWorldExample,
 
@@ -981,6 +1072,7 @@ export default {
         scene3: false,
         scene4: false,
         scene5: false,
+        sceneMultiSelect: false,
         scene6: false,
         scene7: false
       }
@@ -1112,6 +1204,35 @@ export default {
         this.$message.success('删除成功')
         instance?.httpRquestInstace()
       })
+    },
+
+    // ===== 跨页选择记忆 - 选择变化事件 =====
+    handleSelectionChange(rows) {
+      this.selectedRows = rows
+    },
+    
+    // ===== 跨页选择记忆 - 清空选择 =====
+    handleClearSelection() {
+      this.$refs.multiSelectTable?.clearAllSelection()
+      this.selectedRows = []
+    },
+    
+    // ===== 跨页选择记忆 - 获取所有选中项 =====
+    getSelectedData() {
+      // 通过组件内部的 multipleSelection 属性获取选中的行
+      const allSelected = this.$refs.multiSelectTable?.multipleSelection || []
+      if (allSelected.length === 0) {
+        this.$message.warning('请至少选择一项')
+        return
+      }
+      
+      // 显示选中项信息
+      const names = allSelected.map(row => row.name).join(', ')
+      this.$message.success(`共选择 ${allSelected.length} 项: ${names}`)
+      
+      // 控制台输出详细信息
+      console.log('【跨页选择】所有选中项:', allSelected)
+      console.log('【跨页选择】选中项ID:', allSelected.map(row => row.id))
     }
   }
 }
