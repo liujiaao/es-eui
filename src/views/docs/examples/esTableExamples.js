@@ -465,6 +465,123 @@ export default {
 }
 </script>`;
 
+export const multiSelectExample = `<!-- 跨页选择记忆 - 支持多选并保持跨页选择状态 -->
+<template>
+  <div>
+    <!-- 选择统计和操作按钮 -->
+    <div style="margin-bottom: 15px;">
+      <el-tag type="success" style="margin-right: 10px;">
+        已选择 {{ selectedRows.length }} 项
+      </el-tag>
+      <el-button size="small" @click="clearSelection">
+        清空选择
+      </el-button>
+      <el-button size="small" type="primary" @click="viewSelected">
+        查看选中项
+      </el-button>
+    </div>
+    
+    <es-table
+      ref="multiTable"
+      :data-source.sync="tableData"
+      :columns="columns"
+      :pagination="pagination"
+      :options="tableOptions"
+      @selection-change="handleSelectionChange"
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      // 当前页选中的行（selection-change事件返回）
+      selectedRows: [],
+      
+      // 表格数据（从API获取）
+      tableData: [],
+      
+      // 列配置
+      columns: [
+        { type: 'selection', width: 55 },  // 多选列（必须）
+        { key: 'id', label: 'ID', width: 80 },
+        { key: 'firstName', label: '名', width: 100 },
+        { key: 'lastName', label: '姓', width: 100 },
+        { key: 'age', label: '年龄', width: 80 },
+        { key: 'gender', label: '性别', width: 80 },
+        { key: 'email', label: '邮箱' }
+      ],
+      
+      // 分页配置
+      pagination: { 
+        pageIndex: 1, 
+        pageSize: 5,
+        total: 0
+      },
+      
+      // 表格选项 - 使用API
+      tableOptions: {
+        isInitRun: true,
+        border: true,
+        multiSelect: true,        // 开启多选功能
+        cachePageSelection: true, // 开启跨页选择记忆
+        rowkey: 'id',             // 必须：指定行唯一标识键
+        size: 'small',
+        apiParams: {
+          url: 'https://dummyjson.com/users',
+          method: 'get'
+        },
+        httpRequest: (params) => {
+          // 使用fetch避免CORS问题
+          const { url, formParams } = params
+          const queryString = new URLSearchParams(formParams).toString()
+          const requestUrl = queryString ? \`\${url}?\${queryString}\` : url
+          return fetch(requestUrl, { 
+            method: 'GET',
+            credentials: 'omit'
+          }).then(res => res.json())
+        },
+        configTableOut: {
+          total: 'total',
+          pageSize: 'limit',
+          current: 'skip',
+          tableData: 'users'
+        },
+        listenToCallBack: {
+          brcb: (params) => ({
+            limit: params.pageSize,
+            skip: (params.pageIndex - 1) * params.pageSize
+          })
+        }
+      }
+    }
+  },
+  
+  methods: {
+    // 选择变化事件（仅返回当前页选中的行）
+    handleSelectionChange(rows) {
+      this.selectedRows = rows
+      console.log('当前页选中:', rows)
+    },
+    
+    // 清空所有选择（跨页）
+    clearSelection() {
+      this.$refs.multiTable.clearAllSelection()
+      this.selectedRows = []
+    },
+    
+    // 查看所有选中的数据（跨页）
+    viewSelected() {
+      // 通过组件内部的 multipleSelection 属性获取跨页所有选中项
+      const allSelected = this.$refs.multiTable.multipleSelection || []
+      this.$message.success(\`共选择 \${allSelected.length} 项\`)
+      console.log('所有选中项:', allSelected)
+    }
+  }
+}
+<\/script>`;
+
 export const actionColumnExample = `<!-- 操作列与表格实例 -->
 <template>
   <es-table
