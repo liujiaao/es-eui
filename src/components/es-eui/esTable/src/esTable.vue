@@ -3,7 +3,7 @@
   <div
     :ref="tableContainer"
     class="table_component"
-    :style="{height: (heightType == 'max-height' && tabHeight == '100%') ? 300 + 'px' : tabHeight }"
+    :style="{height: (heightType == 'max-height' && !attrs.tabHeight) ? 300 + 'px' : tabHeight }"
   >
     <div class="table_containers">
       <div
@@ -48,24 +48,43 @@
           :[heightType]="tableHeight"
           v-bind="attrs"
           :data="dataSource"
+          :row-key="attrs.rowKey"
+          :expand-row-keys="attrs.expandRowKeys"
+          :tree-props="attrs.treeProps"
+          :default-expand-all="attrs.defaultExpandAll"
+          :lazy="attrs.lazy"
+          :load="lazyLoad"
+          :span-method="attrs.spanMethod"
           v-on="$listeners"
           @sort-change="changeTableSort"
           @selection-change="handleSelectionChange"
+          @expand-change="handleExpandChange"
         >
-          <!-- <el-table-column
-            v-if="attrs.expand"
+          <!-- 展开行 - 仅当 expand 为 true 且 columns 中没有展开列时自动创建 -->
+          <el-table-column
+            v-if="attrs.expand && !hasExpandColumn"
             label=""
             type="expand"
             width="60"
             align="center"
           >
             <template v-slot="scope">
+              <!-- 支持 render 函数方式：expandRender -->
+              <RenderDom
+                v-if="attrs.expandRender && typeof attrs.expandRender === 'function'"
+                :row="scope.row"
+                :index="scope.$index"
+                :column="scope.column"
+                :render="attrs.expandRender"
+              />
+              <!-- 也支持插槽方式 -->
               <slot
+                v-else
                 :scope="scope"
                 name="tableExpand"
               />
             </template>
-          </el-table-column> -->
+          </el-table-column>
           <column-item
             v-for="(cols,index) in columnsfilter"
             :key="cols.prop || cols.key || index"
@@ -110,14 +129,30 @@
   </div>
 </template>
 <script>
-import { Table } from 'element-ui'
-import columnItem from './columnItem'
-import tableBtns from './tableBtns'
-import resizeObserver from './resizeObserver'
+  import { Table } from 'element-ui'
+  import columnItem from './columnItem'
+  import tableBtns from './tableBtns'
+  import resizeObserver from './resizeObserver'
+
+  // 展开行 Render 组件
+  const RenderDom = {
+    functional: true,
+    props: {
+      row: Object,
+      index: Number,
+      column: Object,
+      render: Function
+    },
+    render(createElement, ctx) {
+      const { row, index, column } = ctx.props
+      return ctx.props.render(createElement, { row, index, column })
+    }
+  }
 
 const defaultOptions = {
   multiSelect: false,
   expand: false,
+  expandRowKeys: [], // 默认展开的行的 key 数组
   snIndex: false,
   loading: false, // 表格动画
   border: false,
@@ -130,7 +165,8 @@ export default {
   name: 'EsTable',
   components: {
     columnItem,
-    tableBtns
+    tableBtns,
+    RenderDom
   },
   inject: {
     getVisibleShow: {
@@ -350,6 +386,10 @@ export default {
         this.tableKey = 'table_key' + parseInt(Math.random() * 1e10)
       }, 100)
       return this.columns?.filter(item => !item.hidCol)
+    },
+    // 检查是否存在展开列（type: 'expand'）
+    hasExpandColumn() {
+      return this.columns?.some(col => col.type === 'expand')
     },
     // 表格属性对象
     attrs() {
@@ -1188,6 +1228,20 @@ export default {
     },
     changeTableSort(column) {
       this.$emit('change-table-sort', column)
+    },
+    // 懒加载回调 - 当展开树形节点时触发
+    lazyLoad(row, treeNode, resolve) {
+      // 如果用户配置了 lazyLoad 回调，则调用用户的回调
+      if (this.options.lazyLoad && typeof this.options.lazyLoad === 'function') {
+        this.options.lazyLoad(row, treeNode, resolve)
+      } else {
+        // 默认空实现
+        resolve([])
+      }
+    },
+    // 展开行变化回调
+    handleExpandChange(row, expanded) {
+      this.$emit('expand-change', row, expanded)
     }
   }
 }

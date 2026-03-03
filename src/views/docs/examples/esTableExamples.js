@@ -709,6 +709,198 @@ export default {
 }
 </script>`;
 
+export const groupColumnExample = `<!-- 多级表头（复杂嵌套） - 通过 groups 属性实现多级表头 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="{ border: true }"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { 
+          id: 1, 
+          name: '张三', 
+          age: 25, 
+          phone: '13800138000', 
+          email: 'zhangsan@example.com',
+          qq: '123456789',
+          wechat: 'zhangsan_wx',
+          address: '北京市朝阳区',
+          score: { chinese: 85, math: 90, english: 88 }
+        },
+        { 
+          id: 2, 
+          name: '李四', 
+          age: 30, 
+          phone: '13900139000', 
+          email: 'lisi@example.com',
+          qq: '987654321',
+          wechat: 'lisi_wx',
+          address: '上海市浦东新区',
+          score: { chinese: 78, math: 95, english: 82 }
+        },
+        { 
+          id: 3, 
+          name: '王五', 
+          age: 28, 
+          phone: '13700137000', 
+          email: 'wangwu@example.com',
+          qq: '111222333',
+          wechat: 'wangwu_wx',
+          address: '广州市天河区',
+          score: { chinese: 92, math: 88, english: 90 }
+        }
+      ],
+      // 列配置 - 使用 groups 属性实现多级表头
+      columns: [
+        // 第一级：基本信息
+        {
+          label: '基本信息',     // 一级表头名称
+          prop: 'baseInfo',      // 虚拟属性名（不实际对应数据）
+          groups: [              // 二级列定义
+            { key: 'id', label: 'ID', width: 60 },
+            { key: 'name', label: '姓名', width: 100 },
+            { key: 'age', label: '年龄', width: 80 }
+          ]
+        },
+        // 第一级：联系方式（包含二级嵌套）
+        {
+          label: '联系方式',
+          prop: 'contact',
+          groups: [
+            {
+              label: '电话',
+              prop: 'phone',
+              // 二级嵌套 - 三级表头
+              groups: [
+                { key: 'phone', label: '手机号', width: 130 },
+                { key: 'phone2', label: '备用电话', width: 130 }
+              ]
+            },
+            {
+              label: '网络联系方式',
+              prop: 'online',
+              groups: [
+                { key: 'email', label: '邮箱', width: 180 },
+                { 
+                  key: 'qq', 
+                  label: 'QQ号', 
+                  width: 120,
+                  // 支持 render 函数
+                  render: (h, { row }) => <el-tag size="mini">{row.qq}</el-tag>
+                },
+                { key: 'wechat', label: '微信', width: 120 }
+              ]
+            }
+          ]
+        },
+        // 第一级：其他信息
+        {
+          label: '其他信息',
+          groups: [
+            { key: 'address', label: '地址' },
+            {
+              label: '成绩',
+              prop: 'score',
+              groups: [
+                { key: 'score.chinese', label: '语文', width: 80 },
+                { key: 'score.math', label: '数学', width: 80 },
+                { key: 'score.english', label: '英语', width: 80 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+</script>`;
+
+export const expandRowExample = `<!-- 展开行 - 支持展开指定行 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="tableOptions"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        {
+          id: 1,
+          name: '张三',
+          age: 25,
+          phone: '13800138000',
+          email: 'zhangsan@example.com',
+          address: '北京市朝阳区建国路88号'
+        },
+        {
+          id: 2,
+          name: '李四',
+          age: 30,
+          phone: '13900139000',
+          email: 'lisi@example.com',
+          address: '上海市浦东新区世纪大道1000号'
+        },
+        {
+          id: 3,
+          name: '王五',
+          age: 28,
+          phone: '13700137000',
+          email: 'wangwu@example.com',
+          address: '广州市天河区天河路385号'
+        }
+      ],
+      columns: [
+        // 展开列：设置 type: 'expand' 和 render 函数
+        {
+          key: 'id',
+          label: 'ID',
+          width: 60,
+          type: 'expand',  // 关键：展开列类型
+          render: (h, { row }) => {
+            return (
+              <div style="padding: 20px;">
+                <el-descriptions column={2} border>
+                  <el-descriptions-item label="姓名">{rowcriptions-item>
+                  <el-descriptions-item label="年龄.name}</el-des">{row.age}</el-descriptions-item>
+                  <el-descriptions-item label="手机号">{row.phone}</el-descriptions-item>
+                  <el-descriptions-item label="邮箱">{row.email}</el-descriptions-item>
+                  <el-descriptions-item label="地址" span={2}>{row.address}</el-descriptions-item>
+                  <el-descriptions-item label="备注" span={2}>
+                    <el-tag size="small">用户ID: {row.id}</el-tag>
+                  </el-descriptions-item>
+                </el-descriptions>
+              </div>
+            )
+          }
+        },
+        { key: 'name', label: '姓名', width: 100 },
+        { key: 'age', label: '年龄', width: 80 },
+        { key: 'phone', label: '手机', width: 130 },
+        { key: 'email', label: '邮箱' }
+      ],
+      tableOptions: {
+        border: true,
+        rowKey: 'id',  // 必须：用于展开行的唯一标识
+        // 控制默认展开的行（只展开 id 为 1 的行）
+        expandRowKeys: ['1']
+      }
+    }
+  }
+}
+</script>`;
+
 export const realWorldExample = `<!-- 生产级实战：政策管理表格 -->
 <template>
   <div class="policy-manage">
@@ -998,6 +1190,500 @@ export default {
       }).then(() => {
         instance.httpRquestInstace()
       })
+    }
+  }
+}
+</script>`;
+
+export const treeTableExample = `<!-- 树形表格 - 支持懒加载 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="tableOptions"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      // 树形表格数据
+      tableData: [
+        {
+          id: 1,
+          name: '北京市分公司',
+          leader: '张三',
+          memberCount: 50,
+          children: [
+            {
+              id: 11,
+              name: '朝阳区营业部',
+              leader: '李四',
+              memberCount: 20,
+              children: [
+                { id: 111, name: '朝阳一部', leader: '王五', memberCount: 8 },
+                { id: 112, name: '朝阳二部', leader: '赵六', memberCount: 12 }
+              ]
+            },
+            { id: 12, name: '海淀区营业部', leader: '钱七', memberCount: 30 }
+          ]
+        },
+        {
+          id: 2,
+          name: '上海市分公司',
+          leader: '孙八',
+          memberCount: 40,
+          children: [
+            { id: 21, name: '浦东新区营业部', leader: '周九', memberCount: 25 },
+            { id: 22, name: '徐汇区营业部', leader: '吴十', memberCount: 15 }
+          ]
+        },
+        {
+          id: 3,
+          name: '广州市分公司',
+          leader: '郑十一',
+          memberCount: 35,
+          children: []
+        }
+      ],
+      columns: [
+        // 树形表格列：设置 key 和 label
+        { key: 'name', label: '组织名称', width: 200 },
+        { key: 'leader', label: '负责人', width: 120 },
+        {
+          key: 'memberCount',
+          label: '成员数量',
+          width: 100,
+          render: (h, { row }) => {
+            return (
+              <el-tag size="mini" type={row.memberCount > 20 ? 'success' : 'info'}>
+                {row.memberCount}人
+              </el-tag>
+            )
+          }
+        },
+        {
+          key: 'hasChildren',
+          label: '状态',
+          width: 100,
+          render: (h, { row }) => {
+            const hasChildren = row.children && row.children.length > 0
+            return hasChildren
+              ? <el-tag size="mini" type="warning">有下属</el-tag>
+              : <el-tag size="mini" type="info">无下属</el-tag>
+          }
+        }
+      ],
+      tableOptions: {
+        border: true,
+        rowKey: 'id',  // 必须：树形表格必须指定 row-key
+        // 树形表格配置
+        defaultExpandAll: true,  // 默认展开所有行
+        treeProps: {            // 树形属性配置
+          children: 'children', // 指定子数据字段
+          hasChildren: 'hasChildren'  // 指定是否有子节点字段
+        }
+        // 注意：懒加载时不需要 defaultExpandAll，而是通过 lazy 和 lazyLoad 配置
+        // lazy: true,
+        // lazyLoad: (row, treeNode, resolve) => {
+        //   // 模拟异步加载子节点
+        //   setTimeout(() => {
+        //     const children = [
+        //       { id: row.id + '1', name: '子部门1', leader: '负责人1', memberCount: 10 },
+        //       { id: row.id + '2', name: '子部门2', leader: '负责人2', memberCount: 15 }
+        //     ]
+        //     resolve(children)
+        //   }, 500)
+        // }
+      }
+    }
+  }
+}
+</script>`;
+
+export const lazyLoadTreeExample = `<!-- 懒加载树形表格 - 点击展开时加载子节点 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="tableOptions"
+    @expand-change="handleExpandChange"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      // 初始只显示根节点
+      tableData: [
+        { id: 1, name: '北京市分公司', leader: '张三', memberCount: 50, hasChildren: true },
+        { id: 2, name: '上海市分公司', leader: '孙八', memberCount: 40, hasChildren: true },
+        { id: 3, name: '广州市分公司', leader: '郑十一', memberCount: 35, hasChildren: true }
+      ],
+      columns: [
+        { key: 'name', label: '组织名称', width: 220 },
+        { key: 'leader', label: '负责人', width: 120 },
+        {
+          key: 'memberCount',
+          label: '成员数量',
+          width: 100,
+          render: (h, { row }) => <el-tag size="mini">{row.memberCount}人</el-tag>
+        },
+        {
+          key: 'status',
+          label: '状态',
+          render: (h, { row }) => (
+            row.hasChildren
+              ? <el-tag size="mini" type="warning">有下属</el-tag>
+              : <el-tag size="mini" type="info">无下属</el-tag>
+          )
+        }
+      ],
+      tableOptions: {
+        border: true,
+        rowKey: 'id',     // 必须：用于标识每一行
+        // 懒加载配置
+        lazy: true,       // 开启懒加载
+        treeProps: {      // 树形属性配置
+          children: 'children',
+          hasChildren: 'hasChildren'
+        },
+        // 懒加载回调：点击展开时触发
+        lazyLoad: (row, treeNode, resolve) => {
+          // 模拟异步请求子节点数据
+          // 实际项目中在这里调用 API 获取子部门
+          console.log('懒加载子节点:', row, treeNode)
+          
+          setTimeout(() => {
+            // 根据不同父节点返回不同的子节点数据
+            const childrenData = this.getChildrenByParent(row.id)
+            resolve(childrenData)
+          }, 500)  // 模拟 500ms 延迟
+        }
+      }
+    }
+  },
+  
+  methods: {
+    // 模拟根据父ID获取子节点数据
+    getChildrenByParent(parentId) {
+      const mockData = {
+        1: [
+          { id: 11, name: '朝阳区营业部', leader: '李四', memberCount: 20, hasChildren: true },
+          { id: 12, name: '海淀区营业部', leader: '钱七', memberCount: 30, hasChildren: false }
+        ],
+        11: [
+          { id: 111, name: '朝阳一部', leader: '王五', memberCount: 8, hasChildren: false },
+          { id: 112, name: '朝阳二部', leader: '赵六', memberCount: 12, hasChildren: false }
+        ],
+        2: [
+          { id: 21, name: '浦东新区营业部', leader: '周九', memberCount: 25, hasChildren: false },
+          { id: 22, name: '徐汇区营业部', leader: '吴十', memberCount: 15, hasChildren: false }
+        ],
+        3: [
+          { id: 31, name: '天河区营业部', leader: '陈十二', memberCount: 18, hasChildren: false },
+          { id: 32, name: '越秀区营业部', leader: '林十三', memberCount: 17, hasChildren: false }
+        ]
+      }
+      return mockData[parentId] || []
+    },
+    
+    // 展开行变化事件
+    handleExpandChange(row, expanded) {
+      console.log('展开状态变化:', row.name, expanded ? '展开' : '收起')
+    }
+  }
+}
+</script>`;
+
+export const mergeCellsExample = `<!-- 合并行或列 - 使用 span-method 实现单元格合并 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="tableOptions"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { id: 1, category: '电子产品', product: 'iPhone 15', sales: 1200, revenue: 1200000 },
+        { id: 2, category: '电子产品', product: 'MacBook Pro', sales: 800, revenue: 1600000 },
+        { id: 3, category: '电子产品', product: 'iPad Pro', sales: 600, revenue: 600000 },
+        { id: 4, category: '服装', product: '运动T恤', sales: 2000, revenue: 400000 },
+        { id: 5, category: '服装', product: '牛仔裤', sales: 1500, revenue: 450000 },
+        { id: 6, category: '食品', product: '有机牛奶', sales: 5000, revenue: 250000 }
+      ],
+      columns: [
+        { key: 'category', label: '分类', width: 150 },
+        { key: 'product', label: '产品名称', width: 150 },
+        { key: 'sales', label: '销量', width: 100 },
+        { key: 'revenue', label: '销售额', width: 120 }
+      ],
+      tableOptions: {
+        border: true,
+        // 合并单元格方法
+        spanMethod: ({ row, column, rowIndex, columnIndex }) => {
+          // 合并分类列：相同分类的行合并
+          if (columnIndex === 0) {
+            const categoryRowSpan = this.getCategoryRowSpan(row.category, rowIndex)
+            if (categoryRowSpan > 0) {
+              return { rowspan: categoryRowSpan, colspan: 1 }
+            } else {
+              return { rowspan: 0, colspan: 0 }
+            }
+          }
+        }
+      }
+    }
+  },
+  
+  methods: {
+    getCategoryRowSpan(category, currentIndex) {
+      let rowSpan = 0
+      for (let i = currentIndex; i >= 0; i--) {
+        if (this.tableData[i].category === category) {
+          rowSpan++
+        } else {
+          break
+        }
+      }
+      let hasMore = false
+      for (let i = currentIndex + rowSpan; i < this.tableData.length; i++) {
+        if (this.tableData[i].category === category) {
+          hasMore = true
+          break
+        } else {
+          break
+        }
+      }
+      if (hasMore) {
+        return 0
+      }
+      return rowSpan
+    }
+  }
+}
+</script>`;
+
+export const complexMergeExample = `<!-- 复杂合并示例 - 横向和纵向同时合并 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="tableOptions"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { id: 1, region: '华东区', quarter: 'Q1', month: '1月', sales: 120000, target: 100000, achievement: '120%' },
+        { id: 2, region: '华东区', quarter: 'Q1', month: '2月', sales: 150000, target: 100000, achievement: '150%' },
+        { id: 3, region: '华东区', quarter: 'Q1', month: '3月', sales: 90000, target: 100000, achievement: '90%' },
+        { id: 4, region: '华东区', quarter: 'Q2', month: '4月', sales: 110000, target: 110000, achievement: '100%' },
+        { id: 5, region: '华南区', quarter: 'Q1', month: '1月', sales: 80000, target: 80000, achievement: '100%' },
+        { id: 6, region: '华南区', quarter: 'Q1', month: '2月', sales: 95000, target: 80000, achievement: '119%' },
+        { id: 7, region: '华南区', quarter: 'Q2', month: '4月', sales: 105000, target: 90000, achievement: '117%' }
+      ],
+      columns: [
+        { key: 'region', label: '区域', width: 100 },
+        { key: 'quarter', label: '季度', width: 80 },
+        { key: 'month', label: '月份', width: 80 },
+        { key: 'sales', label: '销售额', width: 100 },
+        { key: 'target', label: '目标', width: 100 },
+        { key: 'achievement', label: '完成率', width: 100 }
+      ],
+      tableOptions: {
+        border: true,
+        spanMethod: ({ row, column, rowIndex, columnIndex }) => {
+          const data = this.tableData
+          
+          // 合并区域列
+          if (columnIndex === 0) {
+            const rowSpan = this.getMergeSpan(data, rowIndex, 'region')
+            if (rowSpan > 0) {
+              return { rowspan: rowSpan, colspan: 1 }
+            }
+            return { rowspan: 0, colspan: 0 }
+          }
+          
+          // 合并季度列
+          if (columnIndex === 1) {
+            if (rowIndex > 0 && data[rowIndex - 1].region === row.region) {
+              return { rowspan: 0, colspan: 0 }
+            }
+            let rowspan = 0
+            for (let i = rowIndex; i < data.length; i++) {
+              if (data[i].region === row.region && data[i].quarter === row.quarter) {
+                rowspan++
+              } else {
+                break
+              }
+            }
+            return { rowspan, colspan: 1 }
+          }
+          
+          // 合并月份列
+          if (columnIndex === 2) {
+            if (rowIndex > 0 && data[rowIndex - 1].quarter === row.quarter && data[rowIndex - 1].region === row.region) {
+              return { rowspan: 0, colspan: 0 }
+            }
+            let rowspan = 0
+            for (let i = rowIndex; i < data.length; i++) {
+              ifregion === row.region (data[i]. && data[i].quarter === row.quarter) {
+                rowspan++
+              } else {
+                break
+              }
+            }
+            return { rowspan, colspan: 1 }
+          }
+        }
+      }
+    }
+  },
+  
+  methods: {
+    getMergeSpan(data, rowIndex, key) {
+      const currentValue = data[rowIndex][key]
+      if (rowIndex > 0 && data[rowIndex - 1][key] === currentValue) {
+        return 0
+      }
+      let span = 0
+      for (let i = rowIndex; i < data.length; i++) {
+        if (data[i][key] === currentValue) {
+          span++
+        } else {
+          break
+        }
+      }
+      return span
+    }
+  }
+}
+</script>`;
+
+export const configBtnExample = `<!-- 表格按钮配置 - 通过 configBtn 配置表格顶部操作按钮 -->
+<template>
+  <es-table
+    :data-source="tableData"
+    :columns="columns"
+    :options="tableOptions"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { id: 1, name: '张三', age: 25, email: 'zhangsan@example.com' },
+        { id: 2, name: '李四', age: 30, email: 'lisi@example.com' },
+        { id: 3, name: '王五', age: 28, email: 'wangwu@example.com' }
+      ],
+      columns: [
+        { key: 'id', label: 'ID', width: 80 },
+        { key: 'name', label: '姓名', width: 120 },
+        { key: 'age', label: '年龄', width: 80 },
+        { key: 'email', label: '邮箱' }
+      ],
+      tableOptions: {
+        border: true,
+        // 表格顶部按钮配置
+        configBtn: [
+          // 左侧按钮 (code: 1)
+          {
+            code: 1,
+            name: '新增',
+            icon: 'el-icon-plus',
+            type: 'primary',
+            click: () => {
+              this.$message.success('点击了新增按钮')
+            }
+          },
+          {
+            code: 1,
+            name: '导入',
+            icon: 'el-icon-upload2',
+            click: () => {
+              this.$message.info('点击了导入按钮')
+            }
+          },
+          // 右侧按钮 (code: 2)
+          {
+            code: 2,
+            name: '导出',
+            icon: 'el-icon-download',
+            type: 'warning',
+            click: () => {
+              this.$message.info('点击了导出按钮')
+            }
+          },
+          {
+            code: 2,
+            name: '高级搜索',
+            icon: 'el-icon-search',
+            isHide: false,
+            click: () => {
+              this.$message.info('点击了高级搜索按钮')
+            }
+          }
+        ],
+        // 左侧静态文字
+        leftText: '已选择 0 项'
+      }
+    }
+  }
+}
+</script>`;
+
+export const fullHeightExample = `<!-- 继承父容器高度 - 使用 tabHeight: '100%' -->
+<template>
+  <!-- 父容器需要设置具体高度 -->
+  <div style="height: 400px;">
+    <es-table
+      :data-source="tableData"
+      :columns="columns"
+      :options="tableOptions"
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [
+        { id: 1, name: '张三', age: 25, email: 'zhangsan@example.com', address: '北京市朝阳区' },
+        { id: 2, name: '李四', age: 30, email: 'lisi@example.com', address: '上海市浦东新区' },
+        { id: 3, name: '王五', age: 28, email: 'wangwu@example.com', address: '广州市天河区' },
+        { id: 4, name: '赵六', age: 35, email: 'zhaoliu@example.com', address: '深圳市南山区' },
+        { id: 5, name: '钱七', age: 27, email: 'qianqi@example.com', address: '杭州市西湖区' },
+        { id: 6, name: '孙八', age: 32, email: 'sunba@example.com', address: '成都市高新区' },
+        { id: 7, name: '周九', age: 29, email: 'zhoujiu@example.com', address: '武汉市洪山区' },
+        { id: 8, name: '吴十', age: 31, email: 'wushi@example.com', address: '南京市鼓楼区' }
+      ],
+      columns: [
+        { key: 'id', label: 'ID', width: 80 },
+        { key: 'name', label: '姓名', width: 100 },
+        { key: 'age', label: '年龄', width: 80 },
+        { key: 'email', label: '邮箱', width: 200 },
+        { key: 'address', label: '地址' }
+      ],
+      tableOptions: {
+        border: true,
+        // 关键：设置 tabHeight 为 '100%' 继承父容器高度
+        tabHeight: '100%',
+        heightType: 'max-height'
+      }
     }
   }
 }

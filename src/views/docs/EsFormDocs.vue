@@ -89,6 +89,7 @@
             :form-item-list="layoutFormConfig"
             :model="layoutFormData"
             :layout-form-props="layoutProps"
+            :config-btn="layoutConfigBtn"
           />
         </div>
         <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene3 }">
@@ -211,6 +212,61 @@
           </div>
           <pre v-show="codeExpanded.scene7"><code>{{ dynamicRuleExample }}</code></pre>
         </div>
+      </div>
+    </section>
+
+    <!-- 接口请求配置 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);">
+          <i class="el-icon-connection" />
+        </div>
+        <h2 class="section-title">接口请求配置</h2>
+      </div>
+      <p class="section-desc">通过 <code>apiParams</code> 配置，表单控件可自动请求远程数据加载选项</p>
+
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">接口请求示例</span>
+          <span class="demo-block__badge">自动加载</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            :form-item-list="apiRequestConfig"
+            :model="apiRequestData"
+            :layout-form-props="apiRequestLayoutProps"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene9 }">
+          <div class="code-header" @click="toggleCode('scene9')">
+            <i :class="codeExpanded.scene9 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene9 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene9"><code>{{ apiRequestExample }}</code></pre>
+        </div>
+      </div>
+
+      <div class="tips-box tips-box--info">
+        <h4>📡 apiParams 配置说明</h4>
+        <ul>
+          <li><code>url</code>：请求地址（必填）</li>
+          <li><code>method</code>：请求方法，默认 GET</li>
+          <li><code>model</code>：请求参数对象</li>
+          <li><code>headers</code>：请求头配置</li>
+          <li><code>options</code>：其他 axios 配置</li>
+          <li><code>httpRequest</code>：自定义请求方法（函数）</li>
+          <li><code>listenToCallBack</code>：回调配置 <code>brcb</code>（请求前）、<code>qrcb</code>（响应后）、<code>crtn</code>（数据转换）</li>
+        </ul>
+      </div>
+
+      <div class="tips-box tips-box--success">
+        <h4>💡 进阶技巧</h4>
+        <ul>
+          <li><strong>自定义请求</strong>：设置 <code>httpRequest</code> 函数可完全自定义请求逻辑</li>
+          <li><strong>请求前处理</strong>：使用 <code>listenToCallBack.brcb</code> 过滤或处理请求参数</li>
+          <li><strong>响应后处理</strong>：使用 <code>listenToCallBack.qrcb</code> 处理响应数据</li>
+          <li><strong>数据转换</strong>：使用 <code>listenToCallBack.crtn</code> 转换选项数据格式</li>
+        </ul>
       </div>
     </section>
 
@@ -354,6 +410,11 @@
           <tr>
             <td>on</td>
             <td>事件监听：change、input、enter 等</td>
+            <td>Object</td>
+          </tr>
+          <tr>
+            <td>apiParams</td>
+            <td>接口请求配置 { url, method, model, headers, options, httpRequest, listenToCallBack }</td>
             <td>Object</td>
           </tr>
         </tbody>
@@ -528,7 +589,8 @@ import {
   dynamicFieldExample,
   customRenderExample,
   dynamicRuleExample,
-  realWorldFormExample
+  realWorldFormExample,
+  apiRequestExample
 } from './examples/esFormExamples'
 
 export default {
@@ -582,6 +644,22 @@ export default {
         fromLayProps: { labelWidth: '120px', size: 'small', minfoldRows: 2 },
         rowLayProps: { gutter: 20 }
       },
+      // 布局表单按钮配置（用于显示折叠/展开按钮）
+      layoutConfigBtn: [
+        {
+          name: '查询',
+          type: 'primary',
+          onClick: (model, formRef) => {
+            this.$message.success('查询参数: ' + JSON.stringify(model))
+          }
+        },
+        {
+          name: '重置',
+          onClick: (model, formRef) => {
+            formRef.resetFields()
+          }
+        }
+      ],
 
       // 验证示例
       validateFormData: { username: '', email: '', phone: '', password: '', confirmPassword: '' },
@@ -794,6 +872,7 @@ export default {
       customRenderExample,
       dynamicRuleExample,
       realWorldFormExample,
+      apiRequestExample,
 
       // 代码折叠状态
       codeExpanded: {
@@ -804,7 +883,85 @@ export default {
         scene5: false,
         scene6: false,
         scene7: false,
-        scene8: false
+        scene8: false,
+        scene9: false
+      },
+
+      // 接口请求示例
+      apiRequestData: {
+        province: '',
+        city: '',
+        category: ''
+      },
+      apiRequestConfig: [
+        {
+          prop: 'province',
+          label: '远程选项',
+          span: 8,
+          formtype: 'Select',
+          attrs: { placeholder: '请选择' },
+          // 使用免费 API 获取数据
+          apiParams: {
+            url: 'https://jsonplaceholder.typicode.com/posts',
+            method: 'GET'
+          },
+          // 数据转换：将 API 返回的数据转换为 options 格式
+          listenToCallBack: {
+            crtn: (data) => {
+              // 假设 API 返回数组，转换为 { label, value } 格式
+              console.log('API 返回的数据为:', data)
+              if (Array.isArray(data)) {
+                return data.slice(0, 10).map(item => ({
+                  label: item.title?.substring(0, 20) || item.name || '未知',
+                  value: item.id
+                }))
+              }
+              return []
+            }
+          }
+        },
+        {
+          prop: 'city',
+          label: '城市',
+          span: 8,
+          formtype: 'Select',
+          attrs: { placeholder: '请选择城市' },
+          // 静态数据示例
+          dataOptions: [
+            { label: '北京', value: 'beijing' },
+            { label: '上海', value: 'shanghai' },
+            { label: '广州', value: 'guangzhou' },
+            { label: '深圳', value: 'shenzhen' }
+          ]
+        },
+        {
+          prop: 'category',
+          label: '远程选项2',
+          span: 8,
+          formtype: 'Select',
+          attrs: { placeholder: '请选择' },
+          // 使用 JSONPlaceholder API
+          apiParams: {
+            url: 'https://jsonplaceholder.typicode.com/users',
+            method: 'GET'
+          },
+          // 数据转换
+          listenToCallBack: {
+            crtn: (data) => {
+              if (Array.isArray(data)) {
+                return data.slice(0, 10).map(item => ({
+                  label: item.name || '未知',
+                  value: item.id
+                }))
+              }
+              return []
+            }
+          }
+        }
+      ],
+      apiRequestLayoutProps: {
+        fromLayProps: { labelWidth: '100px', size: 'small' },
+        rowLayProps: { gutter: 20 }
       }
     }
   },
@@ -1032,7 +1189,7 @@ export default {
 
     &--full {
       .demo-block__body {
-        min-height: 400px;
+      //  min-height: 400px;
       }
     }
 

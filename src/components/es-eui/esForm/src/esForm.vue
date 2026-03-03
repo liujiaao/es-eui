@@ -9,7 +9,7 @@
         v-bind="rowLayout"
       >
      
-        <template v-for="(item, index) in formItem">
+        <template v-for="(item, index) in formItemRowsList">
           <el-col v-show="!item.isfold" :key="item.prop" :span="item.span">
             <el-form-item
               :label="item.label"
@@ -451,18 +451,27 @@ export default {
       },
       immediate: true
     },
-    formItemList: {
+    formItem: {
       async handler(val) {
-        const rows = await this.getEveryFormQueryFiled(val)
-        this.formItemRowsList = val.map((it) => {
-          const reslutApiOption = rows.find((item) => item.prop === it.prop)
-          if (reslutApiOption) {
-            it.dataOptions = reslutApiOption.listData
-          }
-          return it
-        })
+         const hasApiUrl = val.findIndex((it) => it.apiParams && Object.prototype.toString.call(it.apiParams).slice(8, -1) === 'Object' && it.apiParams.url)
+         const apiUrlList = val.filter((it) => it.apiParams && Object.prototype.toString.call(it.apiParams).slice(8, -1) === 'Object' && it.apiParams.url && (!it.dataOptions || !it.dataOptions?.length)) 
+        if(hasApiUrl !== -1 && apiUrlList.length) {
+            const rows = await this.getEveryFormQueryFiled(apiUrlList)
+            this.formItemRowsList = val.map((it) => {
+              const reslutApiOption = rows.find((item) => item.prop === it.prop)
+              if (reslutApiOption) {
+                it.dataOptions = reslutApiOption.listData
+              }
+              return it
+            })
+          
+        } else {
+            this.formItemRowsList = val
+        }
+
       },
-      immediate: true
+      immediate: true,
+      deep: true
     }
   },
   created() {
@@ -608,7 +617,8 @@ export default {
               ...(options || {}),
               success: (res) => {
                 const configRows = this.formatConfigout(res, ['total', 'listData'], rows)
-                resolve({ data: res, configRows })
+     
+                resolve({ data: res?.data, configRows })
               },
               fail: (err) => {
                 reject(err)
@@ -649,6 +659,12 @@ export default {
         const formItemParams = this.getListenToCallBack('brcb', { ...params, ...(options?.apiParams?.model || {}) }, option)
         const initFormParams =
           formItemParams && Object.prototype.toString.call(formItemParams).slice(8, -1) === 'Object' ? formItemParams : { ...params, ...(options?.apiParams?.model || {}) }
+        
+        const requestOption = {...(options?.apiParams?.options || {})}
+        if(options?.apiParams?.method) {
+          requestOption.method = options?.apiParams?.method
+        }
+
         if (options.httpRequest && typeof options.httpRequest === 'function') {
           // 自定义接口实例
           options
@@ -656,7 +672,7 @@ export default {
               url: options?.apiParams?.url,
               headers: { ...(options?.apiParams?.headers || {}) },
               formParams: initFormParams,
-              ...(options?.apiParams?.options || {})
+              ...requestOption
             })
             .then((res) => {
               if (typeof success === 'function' && Object.prototype.toString.call(res).slice(8, -1) === 'Object' && Object.keys(res).length) {
@@ -675,7 +691,7 @@ export default {
               url: options?.apiParams?.url,
               headers: { ...(options?.apiParams?.headers || {}) },
               formParams: initFormParams,
-              ...(options?.apiParams?.options || {})
+              ...requestOption
             })
               .then((res) => {
                 if (typeof success === 'function' && Object.prototype.toString.call(res).slice(8, -1) === 'Object' && Object.keys(res).length) {
@@ -715,7 +731,7 @@ export default {
     },
     getfilterRequestLIst(propListKey) {
       if (!propListKey || !propListKey.length) return []
-      const requestList = this.formItemList.filter((it) => {
+      const requestList = this.formItemRowsList.filter((it) => {
         return propListKey.find((its) => its === it.prop)
       })
       return requestList
@@ -738,6 +754,7 @@ export default {
           const apiUrlList = rowsList.filter((it) => it.apiParams && Object.prototype.toString.call(it.apiParams).slice(8, -1) === 'Object' && it.apiParams.url)
           const apiReulst = []
           // 使用自定义包装器处理所有 Promise
+     
           const wrappedPromises = apiUrlList.map((option) => {
             const { url, headers, model, options } = option.apiParams
             const { httpRequest } = option
@@ -748,18 +765,19 @@ export default {
 
           results.forEach((item, index) => {
             if (item.status === 'fulfilled') {
-              const { configRows } = item.value
+              const { configRows, data } = item.value
               // getListenToCallBack
               const newListOptions =
                 apiUrlList[index]?.listenToCallBack && typeof apiUrlList[index].listenToCallBack?.crtn === 'function' && this.hasReturnStatement(apiUrlList[index].listenToCallBack?.crtn)
-                  ? this.getListenToCallBack('crtn', (configRows?.listData || apiUrlList[index]?.dataOptions || []), apiUrlList[index]) // apiUrlList[index].callOptionListFormat(configRows?.listData || apiUrlList[index]?.dataOptions || [])
-                  : (configRows?.listData || apiUrlList[index]?.dataOptions || [])// apiUrlList[index].callOptionListFormat
+                  ? this.getListenToCallBack('crtn', (Array.isArray(configRows?.listData) && configRows?.listData.length ? configRows?.listData : (Array.isArray(data) && data.length ? data : apiUrlList[index]?.dataOptions || [])), apiUrlList[index]) // apiUrlList[index].callOptionListFormat(configRows?.listData || apiUrlList[index]?.dataOptions || [])
+                  : (configRows?.listData || data || apiUrlList[index]?.dataOptions || [])// apiUrlList[index].callOptionListFormat
 
               apiReulst.push({ prop: apiUrlList[index].prop, listData: Array.isArray(newListOptions) ? newListOptions : configRows?.listData || apiUrlList[index]?.dataOptions || [] })
             } else {
               // console.error(`[失败] URL ${urls[index]}: ${result.reason}`);
             }
           })
+
           resolve(apiReulst)
         } catch (e) {
           resolve([])
@@ -1099,6 +1117,17 @@ capitalize(str) {
    ::v-deep .el-form-item__content {
     //  line-height: 25px;
      font-weight: 400;
+     .el-checkbox-group{
+       height: 32px;
+     }
+    .el-rate{
+      height: inherit;
+      line-height:inherit;
+          .el-rate__item{
+      vertical-align: baseline;
+     }
+    }
+  
      
    }
    ::v-deep .el-form-item__label{

@@ -143,6 +143,7 @@ export const layoutExample = `<template>
     :form-item-list="formItemList"
     :model="formData"
     :layout-form-props="layoutProps"
+    :config-btn="configBtn"
   />
 </template>
 
@@ -169,6 +170,22 @@ export default {
           gutter: 20  // 栅格间距
         }
       },
+      // 按钮配置（用于显示折叠/展开按钮）
+      configBtn: [
+        {
+          name: '查询',
+          type: 'primary',
+          onClick: (model) => {
+            console.log('查询参数:', model)
+          }
+        },
+        {
+          name: '重置',
+          onClick: (model, formRef) => {
+            formRef.resetFields()
+          }
+        }
+      ],
       formItemList: [
         {
           prop: 'field1',
@@ -741,6 +758,82 @@ export default {
 }
 </script>`;
 
+export const apiRequestExample = `<template>
+  <es-form
+    :form-item-list="formItemList"
+    :model="formData"
+    :layout-form-props="layoutProps"
+  />
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      formData: {
+        province: '',
+        city: '',
+        category: ''
+      },
+      layoutProps: {
+        fromLayProps: { labelWidth: '100px', size: 'small' },
+        rowLayProps: { gutter: 20 }
+      },
+      formItemList: [
+        {
+          prop: 'province',
+          label: '省份',
+          span: 8,
+          formtype: 'Select',
+          attrs: { placeholder: '请选择省份' },
+          // 使用 apiParams 配置接口请求
+          apiParams: {
+            url: 'https://dummyjson.com/products/categories',
+            // 数据转换回调
+            listenToCallBack: {
+              crtn: (data) => {
+                if (Array.isArray(data)) {
+                  return data.map(item => ({
+                    label: typeof item === 'string' ? item : item.name || item.title,
+                    value: typeof item === 'string' ? item : item.slug || item.id
+                  }))
+                }
+                return []
+              }
+            }
+          }
+        },
+        {
+          prop: 'city',
+          label: '城市',
+          span: 8,
+          formtype: 'Select',
+          attrs: { placeholder: '请选择城市' },
+          // 静态数据
+          dataOptions: [
+            { label: '北京', value: 'beijing' },
+            { label: '上海', value: 'shanghai' },
+            { label: '广州', value: 'guangzhou' },
+            { label: '深圳', value: 'shenzhen' }
+          ]
+        },
+        {
+          prop: 'category',
+          label: '商品分类',
+          span: 8,
+          formtype: 'Select',
+          attrs: { placeholder: '请选择分类' },
+          // 简单 API 请求
+          apiParams: {
+            url: 'https://dummyjson.com/products/categories'
+          }
+        }
+      ]
+    }
+  }
+}
+</script>`;
+
 // 为了保持向后兼容，导出旧的示例名称
 export const renderTemplateExample = controlsExample;
 export const renderCustomComponentExample = customRenderExample;
@@ -749,4 +842,3 @@ export const apiDataOptionsExample = validationExample;
 export const multipleControlsExample = controlsExample;
 export const cascaderExample = controlsExample;
 export const uploadExample = controlsExample;
-export const apiRequestExample = validationExample;

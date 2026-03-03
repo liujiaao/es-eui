@@ -158,7 +158,8 @@
       columnbindAttr (cols) {
         let options = {}
         for (let t in cols) {
-          if (t === 'groups' || t === 'scopedSlots' || t === 'render') {
+          // 过滤掉不需要传递给 el-table-column 的属性
+          if (t === 'groups' || t === 'scopedSlots' || t === 'render' || t === 'columnIndex') {
             continue
           } else if (t.indexOf('-') >= 0) {
             let newkey = ''
@@ -183,10 +184,22 @@
         if (!options['align']) {
           options.align = 'center'
         }
-        if(!options.formatter&&options.prop){ 
-          options.formatter= (row)=>{ 
-            return row[options.prop]===""||row[options.prop]===null||row[options.prop]===undefined 
-            ?"--":row[options.prop]
+        if(!options.formatter && options.prop){ 
+          // 支持点号语法访问嵌套属性（如 score.chinese）
+          options.formatter = (row)=> { 
+            const prop = options.prop
+            // 尝试用点号分隔访问嵌套属性
+            let value = row
+            if (prop && prop.includes('.')) {
+              const keys = prop.split('.')
+              for (const key of keys) {
+                value = value?.[key]
+              }
+            } else {
+              value = row[prop]
+            }
+            return value===""||value===null||value===undefined 
+              ?"--":value
           }
         }
         return options
