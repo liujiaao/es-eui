@@ -8,7 +8,7 @@
       <el-row
         v-bind="rowLayout"
       >
-     
+      
         <template v-for="(item, index) in formItemRowsList">
           <el-col v-show="!item.isfold" :key="item.prop" :span="item.span">
             <el-form-item
@@ -23,7 +23,7 @@
                   :index="index"
                   :model="model"
                 />
-             
+              
               </template>
               <template v-else>
                 <RenderDom
@@ -127,7 +127,7 @@ export default {
   name: 'EsForm',
   components: {
     RenderBtn: {
-      functional: true, // 函数式组件 - 无 data 和 this 上下文 => better render
+      functional: true,
       props: {
         row: Object,
         formItemList: Array,
@@ -135,12 +135,6 @@ export default {
         render: Function,
         ellipsis: Boolean
       },
-
-      /**
-         * @param {Function} createElement - 原生创建dom元素的方法， 弃用，推荐使用 jsx
-         * @param {Object} ctx - 渲染的节点的this对象
-         * @argument 传递参数 row index
-         */
       render(createElement, ctx) {
         const { formItemList, formModel, row } = ctx.props
         const renderContent = ctx.props.render(row, formModel, formItemList) || ''
@@ -148,7 +142,7 @@ export default {
       }
     },
     RenderDom: {
-      functional: true, // 函数式组件 - 无 data 和 this 上下文 => better render
+      functional: true,
       props: {
         row: Object,
         index: Number,
@@ -157,20 +151,16 @@ export default {
         model: Object,
         ellipsis: Boolean
       },
-      /**
-         * @param {Function} createElement - 原生创建dom元素的方法， 弃用，推荐使用 jsx
-         * @param {Object} ctx - 渲染的节点的this对象
-         * @argument 传递参数 row index
-         */
       render(createElement, ctx) {
         const { row, index, model } = ctx.props
-        // 清理 row.on，只保留函数值，防止 undefined 事件处理器
+
         const cleanOn = row?.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
           if (typeof val === 'function') acc[key] = val
           return acc
         }, {}) : {}
-        const safeRow = row ? { ...row, on: cleanOn } : { on: {} }
-        // console.log('modelRender',  model)
+        // 使用 Object.assign 替代展开操作符，确保函数属性不被丢失
+        const safeRow = row ? Object.assign({}, row, { on: cleanOn }) : { on: {} }
+     
         const renderContent = ctx.props.render(createElement, (model || {}), safeRow) || ''
         return typeof renderContent === 'string' ? createElement('span', renderContent) : renderContent
       }
@@ -208,7 +198,6 @@ export default {
         return {}
       }
     },
-    // 别名：用于 JSX 中绕过 model 关键字限制
     formModel: {
       type: Object,
       default: function() {
@@ -239,7 +228,6 @@ export default {
     }
   },
   computed: {
-    // 使用 formModel（别名）或 model（标准）
     currentModel() {
       return this.formModel !== null ? this.formModel : this.model
     },
@@ -278,13 +266,12 @@ export default {
       })
       return components
     },
-    formItemListfilter() { // 表单控件参数过滤
+    formItemListfilter() {
       return this.formItemList.map((it) => {
         const item = { ...it }
         if (!item.span) {
           item.span = 6
         }
-        // 处理 prop 为函数的情况，每次计算时都执行
         if (item.prop && typeof item.prop === 'function') {
           item.prop = item.prop()
         }
@@ -303,17 +290,17 @@ export default {
     isBtnHiden() {
       return this.layoutFormProps?.fromLayProps?.isBtnHiden || false
     },
-    rowLayout() { // row 栅格布局参数
+    rowLayout() {
       const rowLayoutProps = this.layoutFormProps?.rowLayProps || {}
          if(!rowLayoutProps.gutter){
              rowLayoutProps.gutter = 10
          }
       return rowLayoutProps
     },
-    formLayout() { // form 布局参数
+    formLayout() {
       return this.layoutFormProps?.fromLayProps || {}
     },
-    fromProps() { // from表单属性
+    fromProps() {
       const formLayout = this.formLayout
             if(!formLayout.labelWidth) {
               formLayout.labelWidth = 'auto'
@@ -323,7 +310,7 @@ export default {
             }
       return { ...formLayout, model: this.currentModel }
     },
-    getBtnColSpan() { // 按钮折行计算方式
+    getBtnColSpan() {
       const { rowNum, columnRow } = this.getRowColsAlgorithm
       const lastColumn = columnRow.length ? (columnRow[rowNum - 1] ? columnRow[rowNum - 1] : columnRow[columnRow.length - 1]) : []
       let totalSpan = 0
@@ -337,7 +324,7 @@ export default {
       }
       return 24
     },
-    getRowColsAlgorithm() { // 折行计算方式
+    getRowColsAlgorithm() {
       let pre = 0
       const groupArrayList = []
       const columnRows = []
@@ -367,7 +354,6 @@ export default {
             if (pre === 24) {
               const statIndex = columnRows.length ? columnRows[columnRows.length - 1].endIndex : 0
               const endIndex = (i + 1)
-              // debugger
               columnRows.push({ statIndex, endIndex })
               pre = 0
             }
@@ -383,11 +369,6 @@ export default {
         return it.map(its => rowColIndex += 1)
       })
 
-      //  const opt = {
-      //     columnRow,
-      //     rowNum: columnRow.length,
-      //     columnNodeIndex: columnRow.map(it => it[it.length - 1])
-      //   }
       const opts = {
         columnRow: columRowIndexs,
         rowNum: columRowIndexs.length,
@@ -395,12 +376,9 @@ export default {
       }
       return opts
     },
-    formItem() { // 表单控件折行处理逻辑
+    formItem() {
       const minFoldRow = this.layoutFormProps?.fromLayProps?.minfoldRows || 0
-      // const isMinFoldRow = this.isfold
-      const {
-        // columnRow,
-        columnNodeIndex } = this.getRowColsAlgorithm
+      const { columnNodeIndex } = this.getRowColsAlgorithm
       if (this.folded) {
         const lastFoldIndex = columnNodeIndex.length
           ? (
@@ -424,19 +402,15 @@ export default {
         return { ...it, isfold: false }
       })
     },
-    isRenderBtn() { // 自定义按钮渲染
+    isRenderBtn() {
       if (typeof this.renderBtn === 'function') {
         return true
       }
       return false
     },
-    isfold() { // 折行状态
+    isfold() {
       const minFoldRow = this.layoutFormProps?.fromLayProps?.minfoldRows || 0
-      const {
-        //  columnRow,
-        rowNum
-        // columnNodeIndex
-      } = this.getRowColsAlgorithm
+      const { rowNum } = this.getRowColsAlgorithm
 
       if (minFoldRow && minFoldRow < rowNum) {
         return true
@@ -489,7 +463,6 @@ export default {
       }
       return false
     },
-    // 表单值列表查询输出字段配置
     configFormfield(options = {}) {
       if (
         options.configFormOut &&
@@ -527,51 +500,24 @@ export default {
         }
       }
     },
-  /*  findValueByKey(obj, key) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (Object.prototype.toString.call(obj).slice(8, -1) === 'Object' && obj.hasOwnProperty(key)) {
-        return obj[key]
-      }
-      for (const prop in obj) {
-        // eslint-disable-next-line no-prototype-builtins
-        if (obj.hasOwnProperty(prop) && Object.prototype.toString.call(obj[prop]).slice(8, -1) === 'Object') {
-          const value = this.findValueByKey(obj[prop], key)
-          if (value !== undefined) {
-            return value
-          }
-        }
-      }
-      return undefined
-    }, */
-
     findValueByKey(obj, key, depth = 0) {
-      // 最多递归三层
       if (depth > 3) {
         return undefined
       }
-      
-      // 先保存当前层找到的值
-      // eslint-disable-next-line no-prototype-builtins
       const currentValue = Object.prototype.toString.call(obj).slice(8, -1) === 'Object' && obj.hasOwnProperty(key) 
         ? obj[key] 
         : undefined
       
-      // 遍历子对象，查找更深的 key
       for (const prop in obj) {
-        // eslint-disable-next-line no-prototype-builtins
         if (obj.hasOwnProperty(prop) && Object.prototype.toString.call(obj[prop]).slice(8, -1) === 'Object') {
           const deepValue = this.findValueByKey(obj[prop], key, depth + 1)
-          // 如果在子对象中找到，返回更深层的值
           if (deepValue !== undefined) {
             return deepValue
           }
         }
       }
-      
-      // 子对象中没找到，返回当前层的值
       return currentValue
     },
-    // 配置值列表属性
     formatConfigout(row = {}, keyList = [], options = {}) {
       const configfieldOut = this.configFormfield(options)
       const configDataOption = {}
@@ -607,7 +553,6 @@ export default {
       }
       return configDataOption
     },
-    // 表单接口实例
     httpRquestFormInstace(model, options, rows) {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
@@ -617,7 +562,6 @@ export default {
               ...(options || {}),
               success: (res) => {
                 const configRows = this.formatConfigout(res, ['total', 'listData'], rows)
-     
                 resolve({ data: res?.data, configRows })
               },
               fail: (err) => {
@@ -637,8 +581,8 @@ export default {
     },
     getListenToCallBack(eventName, params, option) {
       const eventNameList = [
-        { eventName: 'brcb', isReturn: true }, // 查询前参数过滤或处理
-        { eventName: 'qrcb', isReturn: false }, // 查询respons回调
+        { eventName: 'brcb', isReturn: true },
+        { eventName: 'qrcb', isReturn: false },
         { eventName: 'crtn', isReturn: true }
       ]
       const hasEventNameIndex = eventNameList.findIndex((it) => it.eventName === eventName)
@@ -653,7 +597,6 @@ export default {
       }
     },
     queryTableListMethod(params, options, option) {
-      // 查询列表实例方法
       const { success, fail, ..._params } = options || {}
       if (options.apiParams && Object.prototype.toString.call(options.apiParams).slice(8, -1) === 'Object' && Object.keys(options.apiParams).length && options.apiParams.url) {
         const formItemParams = this.getListenToCallBack('brcb', { ...params, ...(options?.apiParams?.model || {}) }, option)
@@ -666,7 +609,6 @@ export default {
         }
 
         if (options.httpRequest && typeof options.httpRequest === 'function') {
-          // 自定义接口实例
           options
             .httpRequest({
               url: options?.apiParams?.url,
@@ -686,7 +628,6 @@ export default {
             })
         } else {
           if (this.$httpRequest) {
-            // 插件配置接口实例
             this.$httpRequest({
               url: options?.apiParams?.url,
               headers: { ...(options?.apiParams?.headers || {}) },
@@ -708,21 +649,15 @@ export default {
         }
       }
     },
-
-    /**
-     * 自定义包装器：将 Promise 包装为始终返回 { status: 'fulfilled' 或 'rejected', value 或 error } 的对象
-     * @param {Promise} promise 需要包装的原始 Promise
-     * @returns {Promise} 包装后的 Promise，永远不会 reject
-     */
     wrapPromise(promise) {
       return promise
         .then((value) => ({
-          status: 'fulfilled', // 标记成功状态
-          value: value // 成功时的值
+          status: 'fulfilled',
+          value: value
         }))
         .catch((error) => ({
-          status: 'rejected', // 标记失败状态
-          reason: error // 失败时的原因（错误对象或自定义信息）
+          status: 'rejected',
+          reason: error
         }))
     },
     hasReturnStatement(func) {
@@ -747,34 +682,29 @@ export default {
         return it
       })
     },
-    // 初始化值列表请求
     getEveryFormQueryFiled(rowsList) {
       return new Promise(async(resolve, reject) => {
         try {
           const apiUrlList = rowsList.filter((it) => it.apiParams && Object.prototype.toString.call(it.apiParams).slice(8, -1) === 'Object' && it.apiParams.url)
           const apiReulst = []
-          // 使用自定义包装器处理所有 Promise
-     
+      
           const wrappedPromises = apiUrlList.map((option) => {
             const { url, headers, model, options } = option.apiParams
             const { httpRequest } = option
             return this.wrapPromise(this.httpRquestFormInstace({ ...(model || {}) }, { httpRequest, apiParams: option.apiParams, ...(options || {}) }, option))
           })
-          // 执行所有 Promise 并处理结果
           const results = await Promise.all(wrappedPromises)
 
           results.forEach((item, index) => {
             if (item.status === 'fulfilled') {
               const { configRows, data } = item.value
-              // getListenToCallBack
               const newListOptions =
                 apiUrlList[index]?.listenToCallBack && typeof apiUrlList[index].listenToCallBack?.crtn === 'function' && this.hasReturnStatement(apiUrlList[index].listenToCallBack?.crtn)
-                  ? this.getListenToCallBack('crtn', (Array.isArray(configRows?.listData) && configRows?.listData.length ? configRows?.listData : (Array.isArray(data) && data.length ? data : apiUrlList[index]?.dataOptions || [])), apiUrlList[index]) // apiUrlList[index].callOptionListFormat(configRows?.listData || apiUrlList[index]?.dataOptions || [])
-                  : (configRows?.listData || data || apiUrlList[index]?.dataOptions || [])// apiUrlList[index].callOptionListFormat
+                  ? this.getListenToCallBack('crtn', (Array.isArray(configRows?.listData) && configRows?.listData.length ? configRows?.listData : (Array.isArray(data) && data.length ? data : apiUrlList[index]?.dataOptions || [])), apiUrlList[index])
+                  : (configRows?.listData || data || apiUrlList[index]?.dataOptions || [])
 
               apiReulst.push({ prop: apiUrlList[index].prop, listData: Array.isArray(newListOptions) ? newListOptions : configRows?.listData || apiUrlList[index]?.dataOptions || [] })
             } else {
-              // console.error(`[失败] URL ${urls[index]}: ${result.reason}`);
             }
           })
 
@@ -796,13 +726,12 @@ export default {
         }
       }
     },
-    // 自动触发逻辑接口
     queryTableRequest(model, $ref, key) {
-      if (key === 'query') { // 如果是查询，就调用查询接口
+      if (key === 'query') {
         if (this.isParentTable) {
           this.$parent.httpRquestInstace(model)
         }
-      } else if (key === 'rest') { // 否则就是重置接口
+      } else if (key === 'rest') {
         $ref.resetFields()
         if(this.isParentTable) {
           this.$parent.httpRquestInstace(model)
@@ -810,24 +739,22 @@ export default {
       }
     },
     formInputComponents(item) {
+      console.log('[formInputComponents] item.formtype:', item.formtype, 'capitalize:', this.capitalize(item.formtype))
       const h = this.$createElement
       const self = this
       const formPutList = new Map([
         ['Input', (createElement, model, row) => {
           const prop = row.prop
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
-          // 使用 self.currentModel 确保响应式更新
           const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
           const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
             if (key !== 'input' && typeof val === 'function') acc[key] = val
             return acc
           }, {}) : {}
 
-          // console.log('el-input///', model)
           return h('el-input', {
             attrs: attrs,
             props: { value: self.currentModel[prop] },
@@ -840,18 +767,15 @@ export default {
           ['InputNumber', (createElement, model, row) => {
           const prop = row.prop
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
-          // 使用 self.currentModel 确保响应式更新
           const inputHandler = typeof (row.on?.input) === 'function' ? row.on.input : (val) => self.$set(self.currentModel, prop, val)
           const otherHandlers = row.on ? Object.entries(row.on).reduce((acc, [key, val]) => {
             if (key !== 'input' && typeof val === 'function') acc[key] = val
             return acc
           }, {}) : {}
 
-          // console.log('el-input///22', model)
           return h('el-input-number', {
             attrs: attrs,
             props: { value: self.currentModel[prop] },
@@ -865,7 +789,6 @@ export default {
           const prop = row.prop
           const dataOptions = Array.isArray(row.dataOptions) ? row.dataOptions : (typeof row.dataOptions === 'function' ? row.dataOptions() : [])
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -888,7 +811,6 @@ export default {
         ['DatePicker', (createElement,model, row) => {
           const prop = row.prop
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -905,8 +827,7 @@ export default {
         }],
         ['TimePicker', (createElement,model, row) => {
           const prop = row.prop
-            const attrs = { ...(row.attrs || {}) }
-                // 处理 disabled 作为函数的情况
+            const attrs = { ...(row.attrs || {})}
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -925,7 +846,6 @@ export default {
           const prop = row.prop
           const dataOptions = Array.isArray(row.dataOptions) ? row.dataOptions : (typeof row.dataOptions === 'function' ? row.dataOptions() : [])
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -952,7 +872,6 @@ export default {
           const prop = row.prop
           const dataOptions = Array.isArray(row.dataOptions) ? row.dataOptions : (typeof row.dataOptions === 'function' ? row.dataOptions() : [])
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -966,7 +885,6 @@ export default {
             props: { value: self.currentModel[prop] },
             on: { ...otherHandlers, input: inputHandler }
           }, Array.isArray(dataOptions) ? dataOptions.map((item) => {
-           
             return h('el-radio', {
               props: { label: item.value, disabled: attrs.disabled }
             }, item.label)
@@ -976,7 +894,6 @@ export default {
           const prop = row.prop
           const dataOptions = Array.isArray(row.dataOptions) ? row.dataOptions : (typeof row.dataOptions === 'function' ? row.dataOptions() : [])
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -998,7 +915,6 @@ export default {
         ['Switch', (createElement,model, row) => {
           const prop = row.prop
            const attrs = { ...(row.attrs || {}) }
-            // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -1017,7 +933,6 @@ export default {
         ['Rate', (createElement,model, row) => {
           const prop = row.prop
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
@@ -1034,68 +949,172 @@ export default {
         }],
         ['Upload', (createElement,model, row) => {
           const prop = row.prop
-          // ① 一定要有 action，否则组件会抛错
           const attrs = { ...(row.attrs || {}) }
-          // 处理 disabled 作为函数的情况
           if (typeof attrs.disabled === 'function') {
             attrs.disabled = attrs.disabled()
           }
-          const uploadProps = {
-            action: attrs?.action || row.props?.action || '#', // 没有就填占位符
-            ...row.props,
-            ...attrs
+          
+          const currentFileList = model[prop] || []
+          const isCustomUpload = typeof row.httpRequest === 'function'
+          
+          // 定义成功处理函数 - 核心逻辑在这里
+          const processUploadSuccess = (response, file, fileList) => {
+            // 从响应中提取 URL（支持多种返回格式）
+            const url = response?.link || response?.url || response?.data?.link || response?.data?.url
+            
+            // 确保 file 对象有正确的 url 用于预览
+            if (url) {
+              file.url = url
+            }
+            
+            // 设置文件状态为成功
+            file.status = 'success'
+            file.response = response
+            
+            console.log('[Upload] 处理成功, url:', url, 'file:', file.name)
+            
+            // 调用用户定义的成功回调
+            if (row.on && typeof row.on.success === 'function') {
+              row.on.success(response, file, fileList)
+            }
+     
+            // 更新模型
+            self.$set(model, prop, [...fileList])
           }
+          
+          // 定义失败处理函数
+          const processUploadError = (err, file, fileList) => {
+            file.status = 'fail'
+            file.error = err
+            
+            console.log('[Upload] 处理失败', err)
+            
+            if (row.on && typeof row.on.error === 'function') {
+              row.on.error(err, file, fileList)
+            }
+            
+            self.$set(model, prop, [...fileList])
+          }
+          
+          // 创建自定义 httpRequest 包装
+          let httpRequestConfig = {}
+          if (isCustomUpload) {
+            // 如果有自定义 httpRequest，包装它以正确处理回调
+            httpRequestConfig.httpRequest = (options) => {
+              const { file, onSuccess, onError } = options
+              
+              return row.httpRequest({
+                file: file,
+                filename: file.name
+              }).then((res) => {
+                // 自定义请求成功
+                const response = res.data || res
+                
+                // 手动设置文件状态
+                file.status = 'success'
+                file.response = response
+                
+                const url = response?.link || response?.url || response?.data?.link || response?.data?.url
+                if (url) {
+                  file.url = url
+                }
+          
+                // 调用 Element UI 的 onSuccess 回调来触发成功事件
+                if (onSuccess) {
+                  onSuccess(response, file)
+                }
+                
+                return { code: 200, message: '上传成功', data: response }
+              }).catch((err) => {
+                // 上传失败
+                file.status = 'fail'
+                file.error = err
+                
+                if (onError) {
+                  onError(err, file)
+                }
+                
+                throw err
+              })
+            }
+          }
+          
+          const uploadProps = {
+            action: attrs?.action || row.props?.action || '#',
+            ...row.props,
+            ...attrs,
+            ...httpRequestConfig,
+            fileList: currentFileList,
+            onSuccess: processUploadSuccess,
+            onError: processUploadError,
+          }
+          
           const triggerVnode = row.triggerRender
             ? row.triggerRender(h)
             : h('el-button', { props: { size: 'small', type: 'primary' }}, '选择文件')
-          return h('el-upload', {
-            attrs: {
-              ...attrs
-            },
-            props: uploadProps,
-            on: {
-              ...(row.on || {}),
-              success: (response, file, fileList) => {
-                if (response.code === 0) {
-                  model[prop] = fileList
-                }
-              },
-              preview: (file) => {
-
-              },
-              remove: (file, fileList) => {
-                model[prop] = fileList
+          
+          const handleRemove = (file, fileList) => {
+            if (row.on && row.on.remove) {
+              row.on.remove(file, fileList)
+            }
+            self.$set(model, prop, [...fileList])
+          }
+          
+          const handleChange = (file, fileList) => {
+            // 如果文件已上传成功，确保 url 正确
+            if (file.status === 'success' && file.response) {
+              const url = file.response?.link || file.response?.url || file.response?.data?.link || file.response?.data?.url
+              if (url && !file.url) {
+                file.url = url
               }
             }
-          }, [
-            triggerVnode
-          ])
-
-
-        }] 
+            self.$set(model, prop, [...fileList])
+            if (row.on && row.on.change) {
+              row.on.change(file, fileList)
+            }
+          }
+          
+          // 事件监听 - 通过 on 传递
+          const uploadListeners = {
+            remove: handleRemove,
+            change: handleChange,
+       
+            preview: (file) => {
+              if (row.on && row.on.preview) {
+                row.on.preview(file)
+              }
+            },
+            download: (file) => {
+              if (row.on && row.on.download) {
+                row.on.download(file)
+              }
+            }
+          }
+          
+          return h('el-upload', {
+            attrs: { ...attrs },
+            props: uploadProps,
+            on: uploadListeners
+          }, [triggerVnode])
+        }]
       ])
       if (formPutList.get(this.capitalize(item.formtype)) && typeof formPutList.get(this.capitalize(item.formtype)) === 'function') {
         return formPutList.get(this.capitalize(item.formtype))
       }
-      return (createElement, model, row) => {}
+      return () => {}
     },
 
-capitalize(str) {
-  if (!str) return str;          // 空串直接返回
-  return str[0].toUpperCase() + str.slice(1);
-},
+    capitalize(str) {
+      if (!str) return str;
+      return str[0].toUpperCase() + str.slice(1);
+    },
     refsForm() {
-      for (const c in Form.methods) { // 拷贝继承Form方法到父组件
+      for (const c in Form.methods) {
         const methodItem = function(...params) {
-          // console.log('methods', this.$refs[this.refs])
           this.$refs[this.refs][c](...params)
         }
         this[c] = methodItem.bind(this)
-        /* this[c] = function (...params) {
-              this.$refs[this.refs][c](...params)
-             }.bind(this) */
       }
-      // console.log('methods', Form, this.$refs[this.refs])
       return this.$refs[this.refs]
     },
     confirm() {
@@ -1144,11 +1163,10 @@ capitalize(str) {
  ::v-deep .el-button [class*=el-icon-]+span {
      margin-left: 0px !important;
      padding: 0px 0px !important;
-}
-::v-deep .el-form-item.is-success::before, .el-form-item.is-validating::before {
-  background: none !important
-}
-  //.el-form-item--mini .el-form-item__content, .el-form-item--mini .el-form-item__label {}
+ }
+ ::v-deep .el-form-item.is-success::before, .el-form-item.is-validating::before {
+   background: none !important
+ }
 }
 .formItemCols{
   :deep(.elparent-form-item__content) {

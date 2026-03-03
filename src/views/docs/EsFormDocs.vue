@@ -270,6 +270,170 @@
       </div>
     </section>
 
+    <!-- 省市区三级联动 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <i class="el-icon-location" />
+        </div>
+        <h2 class="section-title">省市区三级联动</h2>
+      </div>
+      <p class="section-desc">使用 Cascader 级联选择器实现省市区三级联动，支持静态数据和远程加载</p>
+
+      <h3>1. 级联选择器实现（静态数据）</h3>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">省市区三级联动</span>
+          <span class="demo-block__badge">常用</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            ref="regionForm"
+            :form-item-list="regionFormConfig"
+            :model="regionFormData"
+            :layout-form-props="regionLayoutProps"
+            :config-btn="regionConfigBtn"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene10 }">
+          <div class="code-header" @click="toggleCode('scene10')">
+            <i :class="codeExpanded.scene10 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene10 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene10"><code>{{ regionLinkageExample }}</code></pre>
+        </div>
+      </div>
+
+      <h3>2. 远程加载实现（formItmeRequestInstance 方法）</h3>
+      <p>使用 <code>formItmeRequestInstance</code> 方法手动触发远程数据加载，实现动态级联：</p>
+
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">远程加载省市区</span>
+          <span class="demo-block__badge">进阶</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            ref="remoteRegionForm"
+            :form-item-list="remoteRegionFormConfig"
+            :model="remoteRegionFormData"
+            :layout-form-props="remoteRegionLayoutProps"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene11 }">
+          <div class="code-header" @click="toggleCode('scene11')">
+            <i :class="codeExpanded.scene11 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene11 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene11"><code>{{ remoteRegionLinkageExample }}</code></pre>
+        </div>
+      </div>
+
+      <div class="tips-box tips-box--info">
+        <h4>📋 Cascader 级联选择器配置说明</h4>
+        <ul>
+          <li><code>formtype: 'Cascader'</code>：使用级联选择器控件</li>
+          <li><code>props</code>：配置级联属性（value/label/children）映射</li>
+          <li><code>checkStrictly</code>：是否允许选择任意一级，false 为严格模式（选叶子节点）</li>
+          <li><code>filterable</code>：支持搜索过滤</li>
+          <li><code>clearable</code>：支持清空</li>
+        </ul>
+      </div>
+
+      <div class="tips-box tips-box--success">
+        <h4>💡 formItmeRequestInstance 方法</h4>
+        <ul>
+          <li><strong>作用</strong>：手动触发指定字段的远程数据加载</li>
+          <li><strong>参数</strong>：<code>(propListKey, options)</code></li>
+          <li><strong>使用场景</strong>：动态联动、条件请求、手动刷新等</li>
+          <li><strong>示例</strong>：<code>await formRef.formItmeRequestInstance(['province', 'city'])</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 图片上传 -->
+    <section class="modern-section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);">
+          <i class="el-icon-upload2" />
+        </div>
+        <h2 class="section-title">图片上传</h2>
+      </div>
+      <p class="section-desc">使用 Upload 组件实现图片上传功能，支持自定义上传接口和预览</p>
+
+      <h3>1. 单图片上传（使用免费接口）</h3>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">图片上传示例</span>
+          <span class="demo-block__badge">常用</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            ref="uploadForm"
+            :key="uploadFormKey"
+            :form-item-list="uploadFormConfig"
+            :model="uploadFormData"
+            :layout-form-props="uploadLayoutProps"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene12 }">
+          <div class="code-header" @click="toggleCode('scene12')">
+            <i :class="codeExpanded.scene12 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene12 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene12"><code>{{ imageUploadExample }}</code></pre>
+        </div>
+      </div>
+
+      <h3>2. 多图片上传（带预览和删除）</h3>
+      <div class="demo-block">
+        <div class="demo-block__header">
+          <span class="demo-block__title">多图片上传</span>
+          <span class="demo-block__badge">进阶</span>
+        </div>
+        <div class="demo-block__body">
+          <es-form
+            ref="multiUploadForm"
+            :key="multiUploadFormKey"
+            :form-item-list="multiUploadFormConfig"
+            :model="multiUploadFormData"
+            :layout-form-props="uploadLayoutProps"
+          />
+        </div>
+        <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene13 }">
+          <div class="code-header" @click="toggleCode('scene13')">
+            <i :class="codeExpanded.scene13 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
+            <span>{{ codeExpanded.scene13 ? '收起代码' : '展开代码' }}</span>
+          </div>
+          <pre v-show="codeExpanded.scene13"><code>{{ multiImageUploadExample }}</code></pre>
+        </div>
+      </div>
+
+      <div class="tips-box tips-box--info">
+        <h4>📤 Upload 组件配置说明</h4>
+        <ul>
+          <li><code>formtype: 'Upload'</code>：使用上传控件</li>
+          <li><code>props.action</code>：上传地址（必填）</li>
+          <li><code>props.accept</code>：接受的文件类型，如 <code>image/*</code></li>
+          <li><code>props.listType</code>：文件列表类型（text/picture/picture-card）</li>
+          <li><code>props.limit</code>：最大上传文件数</li>
+          <li><code>props.on-exceed</code>：超出限制时的回调</li>
+          <li><code>triggerRender</code>：自定义上传触发元素</li>
+          <li><code>on</code>：事件监听（success/remove/change 等）</li>
+        </ul>
+      </div>
+
+      <div class="tips-box tips-box--warning">
+        <h4>⚠️ 上传接口注意事项</h4>
+        <ul>
+          <li>生产环境请使用自己的图片服务器或云存储（OSS/AWS S3/七牛云等）</li>
+          <li>本示例使用 <code>httpRequest</code> 自定义上传请求，将图片转为 Base64 本地演示</li>
+          <li>实际项目中可替换为真实的上传接口，只需修改 <code>httpRequest</code> 方法即可</li>
+          <li>上传成功后组件会自动将文件信息存储到表单模型中</li>
+        </ul>
+      </div>
+    </section>
+
     <!-- 实战场景示例 -->
     <section class="modern-section">
       <div class="section-header">
@@ -590,7 +754,11 @@ import {
   customRenderExample,
   dynamicRuleExample,
   realWorldFormExample,
-  apiRequestExample
+  apiRequestExample,
+  regionLinkageExample,
+  remoteRegionLinkageExample,
+  imageUploadExample,
+  multiImageUploadExample
 } from './examples/esFormExamples'
 
 export default {
@@ -873,6 +1041,10 @@ export default {
       dynamicRuleExample,
       realWorldFormExample,
       apiRequestExample,
+      regionLinkageExample,
+      remoteRegionLinkageExample,
+      imageUploadExample,
+      multiImageUploadExample,
 
       // 代码折叠状态
       codeExpanded: {
@@ -884,7 +1056,282 @@ export default {
         scene6: false,
         scene7: false,
         scene8: false,
-        scene9: false
+        scene9: false,
+        scene10: false,
+        scene11: false,
+        scene12: false,
+        scene13: false
+      },
+
+      // 省市区三级联动示例（静态数据）
+      regionFormData: {
+        region: [],
+        address: ''
+      },
+      regionFormConfig: [
+        {
+          prop: 'region',
+          label: '省市区',
+          span: 24,
+          formtype: 'Cascader',
+          attrs: {
+            placeholder: '请选择省市区',
+            props: {
+              value: 'code',
+              label: 'name',
+              children: 'children',
+              checkStrictly: false
+            },
+            clearable: true,
+            filterable: true
+          },
+          dataOptions: [
+            {
+              code: '110000',
+              name: '北京市',
+              children: [
+                {
+                  code: '110100',
+                  name: '市辖区',
+                  children: [
+                    { code: '110101', name: '东城区' },
+                    { code: '110102', name: '西城区' },
+                    { code: '110105', name: '朝阳区' },
+                    { code: '110106', name: '丰台区' },
+                    { code: '110107', name: '石景山区' },
+                    { code: '110108', name: '海淀区' }
+                  ]
+                }
+              ]
+            },
+            {
+              code: '310000',
+              name: '上海市',
+              children: [
+                {
+                  code: '310100',
+                  name: '市辖区',
+                  children: [
+                    { code: '310101', name: '黄浦区' },
+                    { code: '310104', name: '徐汇区' },
+                    { code: '310105', name: '长宁区' },
+                    { code: '310106', name: '静安区' },
+                    { code: '310107', name: '普陀区' },
+                    { code: '310109', name: '虹口区' }
+                  ]
+                }
+              ]
+            },
+            {
+              code: '440000',
+              name: '广东省',
+              children: [
+                {
+                  code: '440100',
+                  name: '广州市',
+                  children: [
+                    { code: '440103', name: '荔湾区' },
+                    { code: '440104', name: '越秀区' },
+                    { code: '440105', name: '海珠区' },
+                    { code: '440106', name: '天河区' },
+                    { code: '440111', name: '白云区' }
+                  ]
+                },
+                {
+                  code: '440300',
+                  name: '深圳市',
+                  children: [
+                    { code: '440303', name: '罗湖区' },
+                    { code: '440304', name: '福田区' },
+                    { code: '440305', name: '南山区' },
+                    { code: '440306', name: '宝安区' },
+                    { code: '440307', name: '龙岗区' }
+                  ]
+                }
+              ]
+            }
+          ],
+          on: {
+            change: (value) => {
+              console.log('省市区选择变化:', value)
+            }
+          }
+        },
+        {
+          prop: 'address',
+          label: '详细地址',
+          span: 24,
+          formtype: 'Input',
+          attrs: {
+            placeholder: '请输入详细地址',
+            type: 'textarea',
+            rows: 2
+          }
+        }
+      ],
+      regionLayoutProps: {
+        fromLayProps: { labelWidth: '100px', size: 'small' },
+        rowLayProps: { gutter: 20 }
+      },
+      regionConfigBtn: [
+        {
+          name: '提交',
+          type: 'primary',
+          onClick: (model) => {
+            this.$message.success('提交成功！')
+            console.log('表单数据:', model)
+          }
+        },
+        {
+          name: '重置',
+          onClick: (model, formRef) => {
+            formRef.resetFields()
+          }
+        }
+      ],
+
+      // 远程加载省市区示例（使用可访问的测试API演示联动）
+      remoteRegionFormData: {
+        province: '',
+        city: '',
+        district: ''
+      },
+      remoteRegionFormConfig: [
+        {
+          prop: 'province',
+          label: '省份',
+          span: 8,
+          formtype: 'Select',
+          attrs: {
+            placeholder: '请选择省份',
+            clearable: true,
+            filterable: true
+          },
+          // 使用 JSONPlaceholder API 模拟省份数据加载
+          apiParams: {
+            url: 'https://jsonplaceholder.typicode.com/users',
+            method: 'GET',
+            options: {
+              method: 'GET'
+            }
+          },
+          // 自定义 httpRequest 方法，直接使用 axios
+          httpRequest: (config) => {
+            return new Promise((resolve, reject) => {
+              const xhr = new XMLHttpRequest()
+              xhr.open('GET', config.url, true)
+              xhr.onload = () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                  try {
+                    const data = JSON.parse(xhr.responseText)
+                    resolve({ data })
+                  } catch (e) {
+                    resolve({ data: [] })
+                  }
+                } else {
+                  reject(new Error('Request failed'))
+                }
+              }
+              xhr.onerror = () => reject(new Error('Network error'))
+              xhr.send()
+            })
+          },
+          listenToCallBack: {
+            crtn: (data) => {
+              console.log('省份crtn回调data///', data)
+              // 将API数据转换为省份选项格式
+              if (Array.isArray(data)) {
+                return data.slice(0, 10).map((item, index) => ({
+                  label: item.address?.city || `省份${index + 1}`,
+                  value: `province_${index + 1}`
+                }))
+              }
+              return []
+            }
+          },
+          on: {
+            change: (value) => {
+              // 省份变化时清空城市和区县
+              this.remoteRegionFormData.city = ''
+              this.remoteRegionFormData.district = ''
+              console.log('省份变化///', value)
+              // 动态加载城市数据
+             // this.loadCityData(value)
+
+              this.$refs.remoteRegionForm.formItmeRequestInstance(['city'])
+            }
+          }
+        },
+        {
+          prop: 'city',
+          label: '城市',
+          span: 8,
+          formtype: 'Select',
+          apiParams: {
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          method: 'GET',
+         },
+         listenToCallBack: {
+          crtn: (data) => {
+            // 将API数据转换为城市选项格式
+            console.log('城市crtn回调data///', data)
+            if (Array.isArray(data)) {
+              return data.slice(0, 8).map((item, index) => ({
+                label: item.title?.substring(0, 6) || `城市${index + 1}`,
+                value: `city_${item.id}`
+              }))
+            }
+            return []
+          }
+        },
+        attrs: {
+            placeholder: '请选择城市',
+            clearable: true,
+            filterable: true,
+            disabled: () => !this.remoteRegionFormData.province
+          },
+          dataOptions: [],
+          on: {
+               change: (value) => {
+                   this.remoteRegionFormData.district = ''
+                   this.$refs.remoteRegionForm.formItmeRequestInstance(['district'])
+               }
+          }
+        },
+        {
+          prop: 'district',
+          label: '区县',
+          span: 8,
+          formtype: 'Select',
+          apiParams: {
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          method: 'GET',
+         },
+         listenToCallBack: {
+          crtn: (data) => {
+            // 将API数据转换为城市选项格式
+            console.log('城市crtn回调data///', data)
+            if (Array.isArray(data)) {
+              return data.slice(0, 8).map((item, index) => ({
+                label: item.title?.substring(0, 6) || `城市${index + 1}`,
+                value: `city_${item.id}`
+              }))
+            }
+            return []
+          }
+        },
+          attrs: {
+            placeholder: '请选择区县',
+            clearable: true,
+            filterable: true,
+            disabled: () => !this.remoteRegionFormData.city
+          },
+          dataOptions: []
+        }
+      ],
+      remoteRegionLayoutProps: {
+        fromLayProps: { labelWidth: '100px', size: 'small' },
+        rowLayProps: { gutter: 20 }
       },
 
       // 接口请求示例
@@ -960,6 +1407,200 @@ export default {
         }
       ],
       apiRequestLayoutProps: {
+        fromLayProps: { labelWidth: '100px', size: 'small' },
+        rowLayProps: { gutter: 20 }
+      },
+
+      // 图片上传示例
+      uploadFormKey: 0,
+      uploadFormData: {
+        avatar: [],
+        name: ''
+      },
+      uploadFormConfig: [
+        {
+          prop: 'name',
+          label: '名称',
+          span: 24,
+          formtype: 'Input',
+          attrs: {
+            placeholder: '请输入名称'
+          }
+        },
+        {
+          prop: 'avatar',
+          label: '头像',
+          span: 24,
+          formtype: 'Upload',
+          props: {
+            action: '/api/upload',
+            accept: 'image/*',
+            listType: 'picture-card',
+            limit: 1,
+            showFileList: true,
+            onExceed: () => {
+              this.$message.warning('最多只能上传1张图片')
+            }
+          },
+          // 自定义上传请求 - 必须在 props 外面
+          httpRequest: (options) => {
+            return new Promise((resolve, reject) => {
+              const file = options.file
+              const reader = new FileReader()
+              reader.readAsDataURL(file)
+              reader.onload = () => {
+                // 模拟上传成功，返回 Base64 数据
+                const result = {
+                  success: true,
+                  link: reader.result, // Base64 数据
+                  filename: file.name
+                }
+                resolve({ data: result })
+              }
+              reader.onerror = () => {
+                reject(new Error('文件读取失败'))
+              }
+            })
+          },
+          triggerRender: (h) => {
+            return h('div', {
+              style: {
+                display: 'inline-block',
+                width: '148px',
+                height: '148px',
+                lineHeight: '146px'
+              }
+            }, [
+              h('i', {
+                class: 'el-icon-plus',
+                style: {
+                  fontSize: '28px',
+                  color: '#8c939d'
+                }
+              })
+            ])
+          },
+          on: {
+            success: (response, file, fileList) => {
+              console.log('上传成功:', response, file, fileList)
+              // 直接使用 fileList，保持 Element UI 需要的完整数据结构
+              this.uploadFormData.avatar = [...fileList]
+              this.$message.success('上传成功！')
+            },
+            remove: (file, fileList) => {
+              this.uploadFormData.avatar = [...fileList]
+            },
+            change: (file, fileList) => {
+              this.uploadFormData.avatar = [...fileList]
+            },
+            // 添加预览回调，支持点击文件查看大图
+            preview: (file) => {
+              if (file.url) {
+                // 可以在此处实现自定义预览逻辑
+                console.log('预览文件:', file.url)
+              }
+            }
+          }
+        }
+      ],
+
+      // 多图片上传示例
+      multiUploadFormKey: 0,
+      multiUploadFormData: {
+        gallery: [],
+        description: ''
+      },
+      multiUploadFormConfig: [
+        {
+          prop: 'description',
+          label: '描述',
+          span: 24,
+          formtype: 'Input',
+          attrs: {
+            placeholder: '请输入描述信息'
+          }
+        },
+        {
+          prop: 'gallery',
+          label: '相册',
+          span: 24,
+          formtype: 'Upload',
+          props: {
+            action: '/api/upload',
+            accept: 'image/*',
+            listType: 'picture-card',
+            limit: 9,
+            multiple: true,
+            showFileList: true,
+            onExceed: () => {
+              this.$message.warning('最多只能上传9张图片')
+            }
+          },
+          // 自定义上传请求 - 必须在 props 外面
+          httpRequest: (options) => {
+            return new Promise((resolve, reject) => {
+              const file = options.file
+               
+              const reader = new FileReader()
+              reader.readAsDataURL(file)
+              reader.onload = () => {
+                // 模拟上传成功，返回 Base64 数据
+                const result = {
+                  success: true,
+                  link: reader.result,
+                  url: reader.result,
+                  filename: file.name
+                }
+                 console.log('上传完成:', result)
+          
+                resolve({ data: result })
+              }
+              reader.onerror = () => {
+                reject(new Error('文件读取失败'))
+              }
+            })
+          },
+          triggerRender: (h) => {
+            return h('div', {
+              style: {
+                display: 'inline-block',
+                width: '148px',
+                height: '148px',
+                lineHeight: '146px'
+              }
+            }, [
+              h('i', {
+                class: 'el-icon-plus',
+                style: {
+                  fontSize: '28px',
+                  color: '#8c939d'
+                }
+              })
+            ])
+          },
+          on: {
+            success: (response, file, fileList) => {
+              // 直接使用 fileList，保持 Element UI 需要的完整数据结构
+              // this.multiUploadFormData.gallery = [...fileList]
+              // this.$message.success('上传成功！')
+              console.log('this.multiUploadFormData', this.multiUploadFormData)
+            },
+            remove: (file, fileList) => {
+              this.multiUploadFormData.gallery = [...fileList]
+            },
+            change: (file, fileList) => {
+              this.multiUploadFormData.gallery = [...fileList]
+            },
+            // 添加预览回调，支持点击文件查看大图
+            preview: (file) => {
+              if (file.url) {
+                console.log('预览文件:', file.url)
+              }
+            }
+          }
+        }
+      ],
+      uploadLayoutProps: {
         fromLayProps: { labelWidth: '100px', size: 'small' },
         rowLayProps: { gutter: 20 }
       }
@@ -1105,6 +1746,117 @@ export default {
       Object.keys(this.codeExpanded).forEach(key => {
         this.codeExpanded[key] = false
       })
+    },
+    // ===== 远程加载省市区联动 =====
+    async loadCityData(provinceCode) {
+      if (!provinceCode) return
+      
+      const formRef = this.$refs.remoteRegionForm
+      if (!formRef) return
+      
+      // 动态设置城市选项的 apiParams
+      this.remoteRegionFormConfig = this.remoteRegionFormConfig.map(cityItem => {
+           
+        if(cityItem.prop === 'city') {
+            // 使用相同的API模拟城市数据加载
+        // 实际项目中这里应该是后端提供的城市接口
+        cityItem.apiParams = {
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          method: 'GET',
+      
+        }
+        // 添加自定义 httpRequest
+        cityItem.httpRequest = (config) => {
+          return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET', config.url, true)
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  const data = JSON.parse(xhr.responseText)
+                  resolve({ data })
+                } catch (e) {
+                  resolve({ data: [] })
+                }
+              } else {
+                reject(new Error('Request failed'))
+              }
+            }
+            xhr.onerror = () => reject(new Error('Network error'))
+            xhr.send()
+          })
+        }
+        cityItem.listenToCallBack = {
+          crtn: (data) => {
+            // 将API数据转换为城市选项格式
+            console.log('城市crtn回调data///', data)
+            if (Array.isArray(data)) {
+              return data.slice(0, 8).map((item, index) => ({
+                label: item.title?.substring(0, 6) || `城市${index + 1}`,
+                value: `city_${item.id}`
+              }))
+            }
+            return []
+          }
+        }
+        // 启用城市选择
+        cityItem.attrs.disabled = false
+            }
+         return cityItem
+      })
+      // 调用 formItmeRequestInstance 手动加载城市数据
+        await formRef.formItmeRequestInstance(['city'])
+
+    /*  if (cityItem) {
+        // 使用相同的API模拟城市数据加载
+        // 实际项目中这里应该是后端提供的城市接口
+        cityItem.apiParams = {
+          url: 'https://jsonplaceholder.typicode.com/posts',
+          method: 'GET',
+          options: {
+            method: 'GET'
+          }
+        }
+        // 添加自定义 httpRequest
+        cityItem.httpRequest = (config) => {
+          return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET', config.url, true)
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  const data = JSON.parse(xhr.responseText)
+                  resolve({ data })
+                } catch (e) {
+                  resolve({ data: [] })
+                }
+              } else {
+                reject(new Error('Request failed'))
+              }
+            }
+            xhr.onerror = () => reject(new Error('Network error'))
+            xhr.send()
+          })
+        }
+        cityItem.httpRequest = {
+          crtn: (data) => {
+            // 将API数据转换为城市选项格式
+            console.log('城市crtn回调data///', data)
+            if (Array.isArray(data)) {
+              return data.slice(0, 8).map((item, index) => ({
+                label: item.title?.substring(0, 6) || `城市${index + 1}`,
+                value: `city_${item.id}`
+              }))
+            }
+            return []
+          }
+        }
+        // 启用城市选择
+        cityItem.attrs.disabled = false
+        
+        // 调用 formItmeRequestInstance 手动加载城市数据
+        await formRef.formItmeRequestInstance(['city'])
+      } */
     }
   }
 }
