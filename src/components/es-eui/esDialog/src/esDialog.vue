@@ -225,10 +225,10 @@ export default {
     handleClose() {
       
       if (typeof this.beforeClose === 'function') {
-        console.log('beforeClose///')
+  
         this.beforeClose(this.hide)
       } else {
-         console.log('beforeClose///22')
+   
         this.hide()
       }
     },
@@ -287,7 +287,7 @@ export default {
         wrapper.style.display = 'flex'
         wrapper.style.alignItems = 'center'
         wrapper.style.justifyContent = 'center'
-        console.log('[EsDialog] 已应用居中样式')
+     
       }
     }
   }

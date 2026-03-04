@@ -440,7 +440,7 @@ export default {
               await this.httpRquestInstace().catch(() => {})
             }
           }
-          console.log('visble///', val)
+
           if (this.$refs[this.tableId]?.doLayout) {
             this.$refs[this.tableId].doLayout()
           } else {
@@ -563,7 +563,7 @@ export default {
       if (event && event.keyCode === 9) { // 检查按键是否是Tab
         if (event.target.nodeName === 'TEXTAREA' || event.target.nodeName === 'INPUT') {
           // const activeRow = document.activeElement.parentNode.parentNode.parentNode;
-          console.log('Tab///', curRowIndex)
+
         } else {
           event.preventDefault()
         }
@@ -629,10 +629,10 @@ export default {
           if (isKeyUsed) {
             const rowData = this.findValueByKey(row, value)
             if (key === 'tableData') {
-              console.log('tableData///', this.findValueByKey(row, value))
+       
               this.tableData = Array.isArray(rowData) ? rowData : []
             } else {
-              console.log('total///', rowData, key, value)
+ 
               this.onpagination[key] = parseInt(rowData) || 0
               // paginationConfig.value[key] = typeof rowData === 'number' ? rowData : parseInt(rowData) || 0
             }
@@ -740,7 +740,7 @@ export default {
               const responsData = this.getListenToCallBack('qrcb', res)
               const formatResPonsData = responsData || res
                 if (typeof success === 'function' && Object.prototype.toString.call(res).slice(8, -1) === 'Object' && Object.keys(res).length) {
-                  console.log('formatResPonsData', responsData)
+            
                   success(formatResPonsData)
                 }
               })
@@ -828,7 +828,7 @@ export default {
           this.onpagination.current = 1
           this.queryTableListMethod(({ pageIndex: this.onpagination.current, pageSize: this.onpagination.pageSize, ...(model || {}) }), {
             success: (res) => {
-              console.log('res///Data', res)
+         
               this.formatConfigout(res, ['total', 'tableData'])
               this.$emit('update:pagination', this.onpagination)
               resolve(res)
@@ -1160,7 +1160,7 @@ export default {
                          0 // 额外安全余量，防止舍入误差
 
       this.tableHeight = Math.max(Math.floor(tableHeight), 100)
-      console.log('tableHeight计算结果: ', tableBodyAvailableHeight)
+ 
     },
     firstWordUpperCase(str) {
       return str.toLowerCase().replace(/(\s|^)[a-z]/g, function(char) {
@@ -1218,7 +1218,7 @@ export default {
       return findForm(this.$children) || {}
     },
     handleIndexChange(val) {
-      console.log('changeIndex', this.getFormInstace())
+   
       if (this.isRequesConf) {
         this.changePageIndexRquest(val)
       } else {

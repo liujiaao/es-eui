@@ -84,19 +84,19 @@ export default function useDialog() {
             const reservedHeight = marginPx + headerHeight + contentPadding + footerHeight + safeMargin
             const maxHeight = Math.max(finalViewH - reservedHeight, 200)
 
-            console.log('getMaxContentHeight///', {
-                visualViewportH,
-                clientHeight,
-                innerHeight,
-                screenH,
-                finalViewH,
-                marginPx,
-                headerHeight,
-                contentPadding,
-                footerHeight,
-                reservedHeight,
-                maxHeight
-            })
+            // console.log('getMaxContentHeight///', {
+            //     visualViewportH,
+            //     clientHeight,
+            //     innerHeight,
+            //     screenH,
+            //     finalViewH,
+            //     marginPx,
+            //     headerHeight,
+            //     contentPadding,
+            //     footerHeight,
+            //     reservedHeight,
+            //     maxHeight
+            // })
 
             return maxHeight
         }

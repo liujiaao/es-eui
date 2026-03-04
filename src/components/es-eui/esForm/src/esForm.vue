@@ -661,8 +661,30 @@ export default {
         }))
     },
     hasReturnStatement(func) {
-      const funcString = func.toString()
-      return /return\s+[^;]+;/.test(funcString) || /return;/.test(funcString)
+   const source = func.toString()
+  
+  // 1. 先处理箭头函数简写：() => expr（无花括号，必有返回值）
+  // 匹配 => 后面直接跟非 { 的内容（允许空格和换行）
+  if (/=\s*>\s*[^{]/.test(source)) {
+    return true
+  }
+  
+  // 2. 提取函数体（花括号内的内容，包括换行）
+  const bodyMatch = source.match(/{([\s\S]*)}/)
+  if (!bodyMatch) return false
+  
+  let body = bodyMatch[1]
+  
+  // 3. 移除注释（单行和多行）
+  body = body.replace(/\/\/.*/g, '').replace(/\/\*[\s\S]*?\*\//g, '')
+  
+  // 4. 移除字符串内容（单引号、双引号、模板字符串）
+  // 处理转义字符 \" \' \` \\ 等
+  body = body.replace(/(["'`])(?:\\.|(?!\1)[^\\])*?\1/g, '')
+  
+  // 5. 检查是否有独立的 return 关键字
+  // \b 确保是单词边界，避免匹配到变量名如 myReturn
+  return /\breturn\b/.test(body)
     },
     getfilterRequestLIst(propListKey) {
       if (!propListKey || !propListKey.length) return []
@@ -699,15 +721,14 @@ export default {
             if (item.status === 'fulfilled') {
               const { configRows, data } = item.value
               const newListOptions =
-                apiUrlList[index]?.listenToCallBack && typeof apiUrlList[index].listenToCallBack?.crtn === 'function' && this.hasReturnStatement(apiUrlList[index].listenToCallBack?.crtn)
+                (apiUrlList[index]?.listenToCallBack && typeof apiUrlList[index].listenToCallBack?.crtn === 'function' && this.hasReturnStatement(apiUrlList[index].listenToCallBack?.crtn))
                   ? this.getListenToCallBack('crtn', (Array.isArray(configRows?.listData) && configRows?.listData.length ? configRows?.listData : (Array.isArray(data) && data.length ? data : apiUrlList[index]?.dataOptions || [])), apiUrlList[index])
                   : (configRows?.listData || data || apiUrlList[index]?.dataOptions || [])
 
               apiReulst.push({ prop: apiUrlList[index].prop, listData: Array.isArray(newListOptions) ? newListOptions : configRows?.listData || apiUrlList[index]?.dataOptions || [] })
-            } else {
             }
           })
-
+ console.log('elSlect-dataOption2222', apiReulst)
           resolve(apiReulst)
         } catch (e) {
           resolve([])
@@ -739,7 +760,7 @@ export default {
       }
     },
     formInputComponents(item) {
-      console.log('[formInputComponents] item.formtype:', item.formtype, 'capitalize:', this.capitalize(item.formtype))
+   
       const h = this.$createElement
       const self = this
       const formPutList = new Map([
@@ -802,6 +823,7 @@ export default {
             props: { value: self.currentModel[prop] },
             on: { ...otherHandlers, input: inputHandler }
           }, Array.isArray(dataOptions) ? dataOptions.map((item, index) => {
+            console.log('elSlect-dataOption', dataOptions)
             return h('el-option', {
               key: index,
               props: { value: item.value, label: item.label }
@@ -971,7 +993,7 @@ export default {
             file.status = 'success'
             file.response = response
             
-            console.log('[Upload] 处理成功, url:', url, 'file:', file.name)
+         
             
             // 调用用户定义的成功回调
             if (row.on && typeof row.on.success === 'function') {
@@ -987,7 +1009,7 @@ export default {
             file.status = 'fail'
             file.error = err
             
-            console.log('[Upload] 处理失败', err)
+
             
             if (row.on && typeof row.on.error === 'function') {
               row.on.error(err, file, fileList)
@@ -1023,7 +1045,7 @@ export default {
                 file.status = 'success'
                 file.response = response
                 
-                console.log('[Upload] httpRequest 设置 file.url:', url, 'file:', file.name)
+              
            
                 // 调用 Element UI 的 onSuccess 回调来触发成功事件
                 if (onSuccess) {
@@ -1047,7 +1069,7 @@ export default {
           
           // 预览处理函数 - 需要在 props 中设置才能显示预览按钮
           const handlePreview = (file) => {
-            console.log('[Upload] preview事件触发, file.url:', file.url, 'file.status:', file.status)
+          
             if (row.on && typeof row.on.preview === 'function') {
               row.on.preview(file)
             }
