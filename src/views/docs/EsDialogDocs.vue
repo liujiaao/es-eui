@@ -33,6 +33,9 @@
           <div class="code-header" @click="toggleCode('scene1')">
             <i :class="codeExpanded.scene1 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene1 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(basicExample, 'scene1')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene1"><code>{{ basicExample }}</code></pre>
         </div>
@@ -49,6 +52,9 @@
           <div class="code-header" @click="toggleCode('scene2')">
             <i :class="codeExpanded.scene2 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene2 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(confirmExample, 'scene2')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene2"><code>{{ confirmExample }}</code></pre>
         </div>
@@ -65,6 +71,9 @@
           <div class="code-header" @click="toggleCode('scene3')">
             <i :class="codeExpanded.scene3 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene3 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(formDialogExample, 'scene3')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene3"><code>{{ formDialogExample }}</code></pre>
         </div>
@@ -81,6 +90,9 @@
           <div class="code-header" @click="toggleCode('scene4')">
             <i :class="codeExpanded.scene4 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene4 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(draggableExample, 'scene4')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene4"><code>{{ draggableExample }}</code></pre>
         </div>
@@ -97,6 +109,9 @@
           <div class="code-header" @click="toggleCode('scene5')">
             <i :class="codeExpanded.scene5 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene5 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(fullscreenExample, 'scene5')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene5"><code>{{ fullscreenExample }}</code></pre>
         </div>
@@ -113,6 +128,9 @@
           <div class="code-header" @click="toggleCode('scene6')">
             <i :class="codeExpanded.scene6 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene6 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(loadingExample, 'scene6')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene6"><code>{{ loadingExample }}</code></pre>
         </div>
@@ -129,6 +147,9 @@
           <div class="code-header" @click="toggleCode('scene7')">
             <i :class="codeExpanded.scene7 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene7 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(lifecycleExample, 'scene7')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene7"><code>{{ lifecycleExample }}</code></pre>
         </div>
@@ -145,6 +166,9 @@
           <div class="code-header" @click="toggleCode('scene8')">
             <i :class="codeExpanded.scene8 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene8 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(customStyleExample, 'scene8')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene8"><code>{{ customStyleExample }}</code></pre>
         </div>
@@ -173,6 +197,9 @@
           <div class="code-header" @click="toggleCode('scene9')">
             <i :class="codeExpanded.scene9 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene9 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(renderComponentExample, 'scene9')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene9"><code>{{ renderComponentExample }}</code></pre>
         </div>
@@ -189,6 +216,9 @@
           <div class="code-header" @click="toggleCode('scene10')">
             <i :class="codeExpanded.scene10 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene10 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(renderTableDialogExample, 'scene10')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene10"><code>{{ renderTableDialogExample }}</code></pre>
         </div>
@@ -205,6 +235,9 @@
           <div class="code-header" @click="toggleCode('scene11')">
             <i :class="codeExpanded.scene11 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene11 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(renderComplexDialogExample, 'scene11')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene11"><code>{{ renderComplexDialogExample }}</code></pre>
         </div>
@@ -225,6 +258,9 @@
           <div class="code-header" @click="toggleCode('scene12')">
             <i :class="codeExpanded.scene12 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
             <span>{{ codeExpanded.scene12 ? '收起代码' : '展开代码' }}</span>
+            <span class="copy-btn" @click.stop="copyCode(realWorldDialogExample, 'scene12')">
+              <i class="el-icon-document-copy"></i> 复制
+            </span>
           </div>
           <pre v-show="codeExpanded.scene12"><code>{{ realWorldDialogExample }}</code></pre>
         </div>
@@ -746,6 +782,30 @@ export default {
     }
   },
   methods: {
+    // ===== 代码复制功能 =====
+    copyCode(code) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+          this.$message.success('代码已复制到剪贴板')
+        }).catch(() => {
+          this.$message.error('复制失败，请手动复制')
+        })
+      } else {
+        // 兼容不支持 navigator.clipboard 的浏览器
+        const textarea = document.createElement('textarea')
+        textarea.value = code
+        document.body.appendChild(textarea)
+        textarea.select()
+        try {
+          document.execCommand('copy')
+          this.$message.success('代码已复制到剪贴板')
+        } catch (err) {
+          this.$message.error('复制失败，请手动复制')
+        }
+        document.body.removeChild(textarea)
+      }
+    },
+
     // ===== 代码折叠控制 =====
     toggleCode(scene) {
       this.codeExpanded[scene] = !this.codeExpanded[scene]
@@ -1389,6 +1449,31 @@ export default {
         span {
           font-size: 13px;
           color: #606266;
+        }
+
+        .copy-btn {
+          margin-left: auto;
+          padding: 4px 12px;
+          font-size: 12px;
+          color: #409eff;
+          background: #fff;
+          border: 1px solid #409eff;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          &:hover {
+            background: #409eff;
+            color: #fff;
+          }
+
+          i {
+            margin-right: 4px;
+            color: inherit;
+          }
         }
       }
 

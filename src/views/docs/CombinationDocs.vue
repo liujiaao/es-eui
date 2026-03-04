@@ -80,6 +80,9 @@
         <div class="code-header" @click="toggleCode('scene1')">
           <i :class="codeExpanded.scene1 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene1 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(tableFormQueryExample, 'scene1')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene1"><code>{{ tableFormQueryExample }}</code></pre>
       </div>
@@ -115,6 +118,9 @@
         <div class="code-header" @click="toggleCode('scene2')">
           <i :class="codeExpanded.scene2 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene2 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(formWithTableExample, 'scene2')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene2"><code>{{ formWithTableExample }}</code></pre>
       </div>
@@ -141,6 +147,9 @@
         <div class="code-header" @click="toggleCode('scene3')">
           <i :class="codeExpanded.scene3 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene3 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(dialogNativeFormExample, 'scene3')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene3"><code>{{ dialogNativeFormExample }}</code></pre>
       </div>
@@ -167,6 +176,9 @@
         <div class="code-header" @click="toggleCode('scene4')">
           <i :class="codeExpanded.scene4 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene4 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(dialogEsFormExample, 'scene4')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene4"><code>{{ dialogEsFormExample }}</code></pre>
       </div>
@@ -196,6 +208,9 @@
         <div class="code-header" @click="toggleCode('scene5')">
           <i :class="codeExpanded.scene5 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene5 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(dialogEsTableExample, 'scene5')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene5"><code>{{ dialogEsTableExample }}</code></pre>
       </div>
@@ -225,6 +240,9 @@
         <div class="code-header" @click="toggleCode('scene6')">
           <i :class="codeExpanded.scene6 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene6 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(dialogFullFeatureExample, 'scene6')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene6"><code>{{ dialogFullFeatureExample }}</code></pre>
       </div>
@@ -258,6 +276,9 @@
         <div class="code-header" @click="toggleCode('scene7')">
           <i :class="codeExpanded.scene7 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene7 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(inlineEditExample, 'scene7')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene7"><code>{{ inlineEditExample }}</code></pre>
       </div>
@@ -283,6 +304,9 @@
         <div class="code-header" @click="toggleCode('scene8')">
           <i :class="codeExpanded.scene8 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene8 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(nestedDialogExample, 'scene8')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene8"><code>{{ nestedDialogExample }}</code></pre>
       </div>
@@ -365,6 +389,9 @@
         <div class="code-header" @click="toggleCode('scene9')">
           <i :class="codeExpanded.scene9 ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"></i>
           <span>{{ codeExpanded.scene9 ? '收起代码' : '展开代码' }}</span>
+          <span class="copy-btn" @click.stop="copyCode(tableWithFormQueryExample, 'scene9')">
+            <i class="el-icon-document-copy"></i> 复制
+          </span>
         </div>
         <pre v-show="codeExpanded.scene9"><code>{{ tableWithFormQueryExample }}</code></pre>
       </div>
@@ -1379,6 +1406,30 @@ export default {
       })
     },
 
+    // ===== 代码复制功能 =====
+    copyCode(code) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code).then(() => {
+          this.$message.success('代码已复制到剪贴板')
+        }).catch(() => {
+          this.$message.error('复制失败，请手动复制')
+        })
+      } else {
+        // 兼容不支持 navigator.clipboard 的浏览器
+        const textarea = document.createElement('textarea')
+        textarea.value = code
+        document.body.appendChild(textarea)
+        textarea.select()
+        try {
+          document.execCommand('copy')
+          this.$message.success('代码已复制到剪贴板')
+        } catch (err) {
+          this.$message.error('复制失败，请手动复制')
+        }
+        document.body.removeChild(textarea)
+      }
+    },
+
     // ===== 代码折叠控制 =====
     toggleCode(scene) {
       this.codeExpanded[scene] = !this.codeExpanded[scene]
@@ -1471,6 +1522,22 @@ export default {
         span {
           font-size: 13px;
           color: #606266;
+        }
+
+        .copy-btn {
+          margin-left: auto;
+          padding: 2px 8px;
+          font-size: 12px;
+          color: #409EFF;
+          cursor: pointer;
+          border: 1px solid #409EFF;
+          border-radius: 3px;
+          transition: all 0.3s;
+
+          &:hover {
+            background: #409EFF;
+            color: #fff;
+          }
         }
       }
 

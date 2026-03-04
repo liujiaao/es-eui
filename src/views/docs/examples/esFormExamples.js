@@ -834,7 +834,7 @@ export default {
 }
 </script>`;
 
-// 单图片上传示例（本地Base64演示）
+// 单图片上传示例（使用 Blob 流链接，支持预览）
 export const imageUploadExample = `<template>
   <es-form
     ref="uploadForm"
@@ -883,17 +883,23 @@ export default {
               this.$message.warning('最多只能上传1张图片')
             }
           },
-          // 自定义上传请求 - 必须在 props 外面
+          // 自定义上传请求 - 将 Base64 转换为 Blob 流链接，提升性能
           httpRequest: (options) => {
             return new Promise((resolve, reject) => {
               const file = options.file
               const reader = new FileReader()
               reader.readAsDataURL(file)
               reader.onload = () => {
-                // 模拟上传成功，返回 Base64 数据
+                // 将 Base64 转换为 Blob 流链接
+                const base64Data = reader.result
+                const blob = this.dataURItoBlob(base64Data)
+                const blobUrl = URL.createObjectURL(blob)
+                
+                // 返回 Blob 流链接，支持预览
                 const result = {
                   success: true,
-                  link: reader.result,
+                  link: blobUrl,  // Blob 流链接
+                  url: blobUrl,
                   filename: file.name
                 }
                 resolve({ data: result })
@@ -926,37 +932,54 @@ export default {
             // 上传成功回调
             success: (response, file, fileList) => {
               console.log('上传成功:', response)
-              if (response.success && response.link) {
-                this.formData.avatar = [{
-                  name: file.name,
-                  url: response.link
-                }]
-                this.$message.success('上传成功！')
-              }
             },
             // 删除文件回调
             remove: (file, fileList) => {
-              this.formData.avatar = fileList
+              this.formData.avatar = [...fileList]
             },
             // 文件变化回调
             change: (file, fileList) => {
-              this.formData.avatar = fileList
+              this.formData.avatar = [...fileList]
             },
-            // 预览回调
+            // 预览回调 - 点击放大镜按钮触发
             preview: (file) => {
               if (file.url) {
+                // 可在此处实现自定义预览逻辑，如打开新窗口
                 console.log('预览文件:', file.url)
+                // 示例：使用 Element UI 的图片预览功能
+                this.$alert(\`<img src="\${file.url}" style="width:100%;"/>\`, '图片预览', {
+                  dangerouslyUseHTMLString: true,
+                  closeOnClickModal: true
+                })
               }
             }
           }
         }
       ]
     }
+  },
+  methods: {
+    // Base64 转 Blob 工具方法
+    dataURItoBlob(dataURI) {
+      const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+      const byteString = atob(dataURI.split(',')[1])
+      const arrayBuffer = new ArrayBuffer(byteString.length)
+      const uint8Array = new Uint8Array(arrayBuffer)
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([arrayBuffer], { type: mimeString })
+    },
+    
+    // 创建 Blob URL
+    createBlobUrl(blob) {
+      return URL.createObjectURL(blob)
+    }
   }
 }
 </script>`;
 
-// 多图片上传示例（本地Base64演示）
+// 多图片上传示例（带预览和删除）
 export const multiImageUploadExample = `<template>
   <es-form
     ref="uploadForm"
@@ -1000,22 +1023,29 @@ export default {
             accept: 'image/*',
             listType: 'picture-card',
             limit: 9,
+            multiple: true,
             showFileList: true,
             onExceed: () => {
               this.$message.warning('最多只能上传9张图片')
             }
           },
-          // 自定义上传请求 - 必须在 props 外面
+          // 自定义上传请求 - 将 Base64 转换为 Blob 流链接
           httpRequest: (options) => {
             return new Promise((resolve, reject) => {
               const file = options.file
               const reader = new FileReader()
               reader.readAsDataURL(file)
               reader.onload = () => {
-                // 模拟上传成功，返回 Base64 数据
+                // 将 Base64 转换为 Blob 流链接
+                const base64Data = reader.result
+                const blob = this.dataURItoBlob(base64Data)
+                const blobUrl = URL.createObjectURL(blob)
+                
+                // 返回 Blob 流链接
                 const result = {
                   success: true,
-                  link: reader.result,
+                  link: blobUrl,
+                  url: blobUrl,
                   filename: file.name
                 }
                 resolve({ data: result })
@@ -1047,36 +1077,48 @@ export default {
           on: {
             // 上传成功回调
             success: (response, file, fileList) => {
-              if (response.success && response.link) {
-                const newFile = {
-                  name: file.name,
-                  url: response.link
-                }
-                const index = fileList.findIndex(f => f.uid === file.uid)
-                if (index !== -1) {
-                  fileList[index] = newFile
-                }
-                this.formData.gallery = [...fileList]
-                this.$message.success('上传成功！')
-              }
+              console.log('上传成功:', response)
             },
             // 删除文件回调
             remove: (file, fileList) => {
-              this.formData.gallery = fileList
+              this.formData.gallery = [...fileList]
             },
             // 文件变化回调
             change: (file, fileList) => {
-              this.formData.gallery = fileList
+              this.formData.gallery = [...fileList]
             },
-            // 预览回调
+            // 预览回调 - 点击放大镜按钮触发
             preview: (file) => {
               if (file.url) {
                 console.log('预览文件:', file.url)
+                // 示例：使用 Element UI 的图片预览功能
+                this.$alert(\`<img src="\${file.url}" style="width:100%;"/>\`, '图片预览', {
+                  dangerouslyUseHTMLString: true,
+                  closeOnClickModal: true
+                })
               }
             }
           }
         }
       ]
+    }
+  },
+  methods: {
+    // Base64 转 Blob 工具方法
+    dataURItoBlob(dataURI) {
+      const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+      const byteString = atob(dataURI.split(',')[1])
+      const arrayBuffer = new ArrayBuffer(byteString.length)
+      const uint8Array = new Uint8Array(arrayBuffer)
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([arrayBuffer], { type: mimeString })
+    },
+    
+    // 创建 Blob URL
+    createBlobUrl(blob) {
+      return URL.createObjectURL(blob)
     }
   }
 }

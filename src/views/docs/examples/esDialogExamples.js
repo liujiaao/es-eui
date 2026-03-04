@@ -86,11 +86,15 @@ export default {
         render: (h, ctx) => (
           <es-form
             form-item-list={[
-              { prop: 'name', label: '姓名', formtype: 'Input', attrs: { placeholder: '请输入姓名' } },
-              { prop: 'age', label: '年龄', formtype: 'Input', attrs: { placeholder: '请输入年龄' } },
-              { prop: 'email', label: '邮箱', formtype: 'Input', attrs: { placeholder: '请输入邮箱' } }
+              { prop: 'name', label: '姓名', span: 12, formtype: 'Input', attrs: { placeholder: '请输入姓名' } },
+              { prop: 'age', label: '年龄', span: 12, formtype: 'Input', attrs: { placeholder: '请输入年龄' } },
+              { prop: 'email', label: '邮箱', span: 24, formtype: 'Input', attrs: { placeholder: '请输入邮箱' } }
             ]}
             model={this.formData}
+            layout-form-props={{
+              fromLayProps: { labelWidth: '80px' },
+              rowLayProps: { gutter: 20 }
+            }}
           />
         ),
         configBtn: [
@@ -419,6 +423,7 @@ export default {
   data() {
     return {
       activeTab: 'basic',
+      newTag: '',
       formData: {
         projectName: '',
         description: '',
@@ -436,7 +441,7 @@ export default {
         width: '700px',
         // JSX 支持复杂的条件渲染和循环
         render: (h, ctx) => (
-          <el-tabs v-model={this.activeTab}>
+          <el-tabs value={this.activeTab} on-input={val => { this.activeTab = val }}>
             <el-tab-pane label="基本信息" name="basic">
               <es-form
                 form-item-list={[

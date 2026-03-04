@@ -27,18 +27,20 @@ export const tableFormQueryExample = `<template>
     <es-table
       ref="dataTable"
       :columns="tableColumns"
-       :pagination="tableWithQueryPagination"
-      :options="{ 
-        border: true, 
+      :pagination="tableWithQueryPagination"
+      :options="{
+        border: true,
         stripe: true,
-        isInitRun: true,
+        tabHeight: 250,
+        heightType: 'height',
+        isInitRun: false,
         // 使用真实免费 API: https://dummyjson.com/users
         apiParams: {
           url: 'https://dummyjson.com/users',
           method: 'get'
         },
         // 使用 httpRequest 自定义请求，配置 credentials: 'omit' 解决跨域
-       // httpRequest: (params) => this.fetchWithCORS(params),
+        // httpRequest: (params) => this.fetchWithCORS(params),
         configTableOut: {
           total: 'total',
           pageSize: 'limit',
@@ -49,7 +51,7 @@ export const tableFormQueryExample = `<template>
           brcb: (params) => {
             // DummyJSON 使用 skip/limit 作为分页参数
             const { pageSize, pageIndex } = params
-            return { 
+            return {
               limit: pageSize,
               skip: (pageIndex - 1) * pageSize
             }
@@ -373,6 +375,7 @@ export const dialogEsFormExample = `<template>
 </template>
 
 <script>
+import Vue from 'vue'
 import { useDialog } from '@/components/es-eui'
 
 const dialog = useDialog()
@@ -380,11 +383,12 @@ const dialog = useDialog()
 export default {
   methods: {
     openDialog() {
-      const formData = { 
-        name: '', 
-        status: '', 
-        remark: '' 
-      }
+      // 使用 Vue.observable 创建响应式表单数据
+      const formData = Vue.observable({
+        name: '',
+        status: '',
+        remark: ''
+      })
       
       dialog({
         title: 'EsForm 弹窗',
@@ -394,49 +398,51 @@ export default {
           <es-form
             ref="esFormInDialog"
             form-item-list={[
-              { 
-                prop: 'name', 
-                label: '名称', 
-                span: 12, 
+              {
+                prop: 'name',
+                label: '名称',
+                span: 12,
                 formtype: 'Input',
                 formItemOptions: {
                   rules: [{ required: true, message: '请输入名称' }]
                 }
               },
-              { 
-                prop: 'status', 
-                label: '状态', 
-                span: 12, 
+              {
+                prop: 'status',
+                label: '状态',
+                span: 12,
                 formtype: 'Select',
+                attrs: { style: 'width: 100%'},
                 dataOptions: [
                   { label: '启用', value: '1' },
                   { label: '禁用', value: '0' }
                 ]
               },
-              { 
-                prop: 'remark', 
-                label: '备注', 
-                span: 24, 
+              {
+                prop: 'remark',
+                label: '备注',
+                span: 24,
                 formtype: 'Input',
                 attrs: { type: 'textarea', rows: 3 }
               }
             ]}
-            model={formData}
+            formModel={formData}
           />
         ),
         configBtn: [
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance,{ close }) => close()
           },
           {
             name: '保存',
             type: 'primary',
             key: 'save',
-            onClick: ({ close, getRefs }) => {
+            onClick: (instance, { close, getRefs }) => {
               // 获取 EsForm 组件引用
               const formRef = getRefs('esFormInDialog')
+              console.log('formRef.validate', formRef)
               // 调用 EsForm 的 validate 方法
               formRef.validate((valid) => {
                 if (valid) {
@@ -540,123 +546,105 @@ export const dialogFullFeatureExample = `<template>
 <script>
 import { useDialog } from '@/components/es-eui'
 
-const dialog = useDialog()
-
 export default {
-  methods: {
-    openDialog() {
-      // 查询条件数据
-      const queryData = { keyword: '' }
-      // 表格数据
-      const tableData = [
+  data() {
+    return {
+      queryData: { keyword: '' },
+      tableData: [
         { id: 1, name: '产品A', price: 100, stock: 50 },
         { id: 2, name: '产品B', price: 200, stock: 30 },
         { id: 3, name: '产品C', price: 150, stock: 100 }
-      ]
-      // 表单数据
-      const formData = { quantity: 1, remark: '' }
+      ],
+      formData: { selectedProduct: null, quantity: 1, remark: '' }
+    }
+  },
+  methods: {
+    openDialog() {
+      const { queryData, tableData } = this
       let selectedRow = null
-
-      dialog({
+      
+      // 关键修复：重置响应式 formData，确保数据是响应式的
+      this.formData.selectedProduct = null
+      this.formData.quantity = 1
+      this.formData.remark = ''
+      
+      useDialog()({
+        key: 'fullFeatureDialog',
         title: '选择产品并填写订单',
         width: '800px',
         height: '600px',
         render: (h, ctx) => (
-          <div>
-            {/* 搜索区域 */}
-            <div style="margin-bottom: 15px;">
-              <el-input 
-                v-model={queryData.keyword} 
-                placeholder="搜索产品" 
-                size="small"
-                style="width: 200px; margin-right: 10px;"
-              >
-                <el-button slot="append" icon="el-icon-search" />
-              </el-input>
+            <div>
+              <div style="margin-bottom: 15px;">
+                <el-input
+                  v-model={queryData.keyword}
+                  placeholder="搜索产品"
+                  size="small"
+                  style="width: 200px; margin-right: 10px;"
+                >
+                  <el-button slot="append" icon="el-icon-search" />
+                </el-input>
+              </div>
+              <es-table
+                ref="productTable"
+                data-source={tableData.filter(item => !queryData.keyword || item.name.includes(queryData.keyword))}
+                columns={[
+                  { key: 'id', label: 'ID', width: 80 },
+                  { key: 'name', label: '产品名称'},
+                  { key: 'price', label: '价格', render: (h, { row }) => \`¥\${row.price}\` },
+                  { key: 'stock', label: '库存',  }
+                ]}
+                options={{ border: true, highlightCurrentRow: true, heightType: 'height', tabHeight: 150 }}
+                on-current-change={(row) => { selectedRow = row }}
+                style="margin-bottom: 20px;"
+              />
+              <el-divider content-position="left">订单信息</el-divider>
+              <es-form
+                ref="orderForm"
+                form-item-list={[
+                  {
+                    prop: 'selectedProduct',
+                    label: '已选产品',
+                    span: 24,
+                    formtype: 'Input',
+                    attrs: { disabled: false },
+                    itemValue: selectedRow ? selectedRow.name : '请从上方表格选择产品'
+                  },
+                  {
+                    prop: 'quantity',
+                    label: '购买数量',
+                    span: 12,
+                    formtype: 'InputNumber',
+                    attrs: { min: 1 },
+                    formItemOptions: { rules: [{ required: true, message: '请输入数量' }] }
+                  },
+                  { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 2 }, formItemOptions: { rules: [{ required: true, message: '请输入备注' }] } }
+                ]}
+                formModel={this.formData}
+              />
             </div>
-
-            {/* 产品列表表格 */}
-            <es-table
-              ref="productTable"
-              data-source={tableData.filter(item => 
-                !queryData.keyword || item.name.includes(queryData.keyword)
-              )}
-              columns={[
-                { key: 'id', label: 'ID', width: 80 },
-                { key: 'name', label: '产品名称', width: 150 },
-                { 
-                  key: 'price', 
-                  label: '价格', 
-                  width: 100,
-                  render: (h, { row }) => \`¥\${row.price}\`
-                },
-                { key: 'stock', label: '库存', width: 100 }
-              ]}
-              options={{ border: true, highlightCurrentRow: true }}
-              on-current-change={(row) => { selectedRow = row }}
-              style="margin-bottom: 20px;"
-            />
-
-            <el-divider content-position="left">订单信息</el-divider>
-
-            {/* 订单表单 */}
-            <es-form
-              ref="orderForm"
-              form-item-list={[
-                { 
-                  prop: 'selectedProduct', 
-                  label: '已选产品', 
-                  span: 24, 
-                  formtype: 'Input',
-                  attrs: { disabled: true },
-                  itemValue: selectedRow ? selectedRow.name : '请从上方表格选择产品'
-                },
-                { 
-                  prop: 'quantity', 
-                  label: '购买数量', 
-                  span: 12, 
-                  formtype: 'InputNumber',
-                  attrs: { min: 1 },
-                  formItemOptions: {
-                    rules: [{ required: true, message: '请输入数量' }]
-                  }
-                },
-                { 
-                  prop: 'remark', 
-                  label: '备注', 
-                  span: 24, 
-                  formtype: 'Input',
-                  attrs: { type: 'textarea', rows: 2 }
-                }
-              ]}
-              model={formData}
-            />
-          </div>
         ),
         configBtn: [
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (instance, { close }) => close()
           },
           {
             name: '提交订单',
             type: 'primary',
             key: 'submit',
-            onClick: ({ close, getRefs }) => {
-              // 先检查是否选择了产品
+            onClick: (instantce, { close, getRefs }) => {
+              // 关键修复：使用响应式的 this.formData
+              console.log('configBtn onClick - this.formData:', this.formData)
               if (!selectedRow) {
                 this.$message.warning('请先选择产品')
                 return
               }
-              // 再验证表单
               const formRef = getRefs('orderForm')
               formRef.validate((valid) => {
                 if (valid) {
-                  console.log('订单数据:', {
-                    product: selectedRow,
-                    ...formData
-                  })
+                  this.fullFeatureResult = \`产品: \${selectedRow.name}, 数量: \${this.formData.quantity}\`
                   this.$message.success('订单提交成功')
                   close()
                 }
@@ -843,13 +831,14 @@ export const tableWithFormQueryExample = `<template>
       :options="{
         border: true,
         stripe: true,
-        isInitRun: true,        // 初始化自动查询
-        showHeaderBar: true,    // 显示头部栏
+        isInitRun: true,
+        tabHeight: 300,
+        heightType: 'max-height',
         // 使用免费 API: https://jsonplaceholder.typicode.com/posts
         apiParams: {
           url: 'https://jsonplaceholder.typicode.com/posts',
           method: 'get',
-          model: queryForm       // 查询参数对象
+          model: {}
         },
         configTableOut: {
           total: 'total',
@@ -873,7 +862,6 @@ export const tableWithFormQueryExample = `<template>
             
             // 只添加有值的过滤参数（空字符串会导致 API 返回空结果）
             if (params.keyword && params.keyword.trim()) {
-              // JSONPlaceholder 的 title 查询需要完全匹配，这里用 q 进行全文搜索
               result.q = params.keyword.trim()
             }
             
@@ -899,44 +887,40 @@ export const tableWithFormQueryExample = `<template>
         }
       }"
     >
-      <!-- 
-        使用默认插槽在表格头部嵌入查询表单
-        es-table 的 showHeaderBar 需要设置为 true
-      -->
-      <div class="query-form-wrapper">
-        <es-form
-          ref="queryFormRef"
-          :form-item-list="formItems"
-          :model="queryForm"
-          :layout-form-props="{
-            fromLayProps: {
-              inline: true,
-              size: 'small',
-              labelWidth: '80px'
-            },
-            rowLayProps: { gutter: 15 }
-          }"
-          :configBtn="[
-            { 
-              name: '查询', 
-              type: 'primary', 
-              icon: 'el-icon-search',
-              onClick: () => handleSearch() 
-            },
-            { 
-              name: '重置', 
-              icon: 'el-icon-refresh',
-              onClick: () => handleReset() 
-            },
-            { 
-              name: '新增', 
-              type: 'success', 
-              icon: 'el-icon-plus',
-              onClick: () => handleAdd() 
-            }
-          ]"
-        />
-      </div>
+      <!-- 使用默认插槽在表格头部嵌入查询表单 -->
+      <es-form
+        ref="queryFormRef"
+        :form-item-list="formItems"
+        :model="queryForm"
+        :layout-form-props="{
+          fromLayProps: {
+            size: 'small',
+            labelWidth: '80px'
+          },
+          rowLayProps: { gutter: 15 }
+        }"
+        :configBtn="[
+          {
+            name: '查询',
+            type: 'primary',
+            icon: 'el-icon-search',
+            key: 'query',
+            triggerEvent: true
+          },
+          {
+            name: '重置',
+            icon: 'el-icon-refresh',
+            key: 'rest',
+            triggerEvent: true
+          },
+          {
+            name: '新增',
+            type: 'success',
+            icon: 'el-icon-plus',
+            onClick: () => handleAdd()
+          }
+        ]"
+      />
     </es-table>
   </div>
 </template>

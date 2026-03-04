@@ -62,7 +62,7 @@ export default {
       tableOptions: {
         isInitRun: true,  // 初始化自动请求
         border: true,
-        tabHeight: 400,   // 固定高度
+        tabHeight: 350,   // 固定高度
         heightType: 'height',
         size: 'mini',
         // 使用真实免费 API: https://dummyjson.com/users
@@ -872,8 +872,8 @@ export default {
             return (
               <div style="padding: 20px;">
                 <el-descriptions column={2} border>
-                  <el-descriptions-item label="姓名">{rowcriptions-item>
-                  <el-descriptions-item label="年龄.name}</el-des">{row.age}</el-descriptions-item>
+                  <el-descriptions-item label="姓名">{row.name}</el-descriptions-item>
+                  <el-descriptions-item label="年龄">{row.age}</el-descriptions-item>
                   <el-descriptions-item label="手机号">{row.phone}</el-descriptions-item>
                   <el-descriptions-item label="邮箱">{row.email}</el-descriptions-item>
                   <el-descriptions-item label="地址" span={2}>{row.address}</el-descriptions-item>
@@ -1538,7 +1538,7 @@ export default {
             }
             let rowspan = 0
             for (let i = rowIndex; i < data.length; i++) {
-              ifregion === row.region (data[i]. && data[i].quarter === row.quarter) {
+              if (data[i].region === row.region && data[i].quarter === row.quarter) {
                 rowspan++
               } else {
                 break
@@ -1682,7 +1682,7 @@ export default {
         border: true,
         // 关键：设置 tabHeight 为 '100%' 继承父容器高度
         tabHeight: '100%',
-        heightType: 'max-height'
+        heightType: 'height'
       }
     }
   }
