@@ -1010,15 +1010,21 @@ export default {
                 // 自定义请求成功
                 const response = res.data || res
                 
+                // 关键：尽早设置 URL，确保预览按钮能正确显示
+                const url = response?.link || response?.url || response?.data?.link || response?.data?.url
+                if (url) {
+                  // 直接设置 file.url，这样 Element UI 可以立即识别
+                  file.url = url
+                  // 使用 Vue.set 确保响应式更新
+                  self.$set(file, 'url', url)
+                }
+                
                 // 手动设置文件状态
                 file.status = 'success'
                 file.response = response
                 
-                const url = response?.link || response?.url || response?.data?.link || response?.data?.url
-                if (url) {
-                  file.url = url
-                }
-          
+                console.log('[Upload] httpRequest 设置 file.url:', url, 'file:', file.name)
+           
                 // 调用 Element UI 的 onSuccess 回调来触发成功事件
                 if (onSuccess) {
                   onSuccess(response, file)
@@ -1039,6 +1045,14 @@ export default {
             }
           }
           
+          // 预览处理函数 - 需要在 props 中设置才能显示预览按钮
+          const handlePreview = (file) => {
+            console.log('[Upload] preview事件触发, file.url:', file.url, 'file.status:', file.status)
+            if (row.on && typeof row.on.preview === 'function') {
+              row.on.preview(file)
+            }
+          }
+          
           const uploadProps = {
             action: attrs?.action || row.props?.action || '#',
             ...row.props,
@@ -1047,6 +1061,8 @@ export default {
             fileList: currentFileList,
             onSuccess: processUploadSuccess,
             onError: processUploadError,
+            // 关键：需要在 props 中设置 on-preview 才能显示预览按钮
+            onPreview: handlePreview
           }
           
           const triggerVnode = row.triggerRender
@@ -1078,12 +1094,6 @@ export default {
           const uploadListeners = {
             remove: handleRemove,
             change: handleChange,
-       
-            preview: (file) => {
-              if (row.on && row.on.preview) {
-                row.on.preview(file)
-              }
-            },
             download: (file) => {
               if (row.on && row.on.download) {
                 row.on.download(file)

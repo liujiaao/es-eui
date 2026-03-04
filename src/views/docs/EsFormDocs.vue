@@ -761,6 +761,8 @@ import {
   multiImageUploadExample
 } from './examples/esFormExamples'
 
+import { useDialog } from '@/components/es-eui'
+const dialogImageUrl = useDialog()
 export default {
   name: 'EsFormDocs',
   data() {
@@ -1449,10 +1451,16 @@ export default {
               const reader = new FileReader()
               reader.readAsDataURL(file)
               reader.onload = () => {
-                // 模拟上传成功，返回 Base64 数据
+                // 将 Base64 转换为 Blob 流链接
+                const base64Data = reader.result
+                const blob = this.dataURItoBlob(base64Data)
+                const blobUrl = URL.createObjectURL(blob)
+                
+                // 模拟上传成功，返回 Blob 流链接
                 const result = {
                   success: true,
-                  link: reader.result, // Base64 数据
+                  link: blobUrl, // Blob 流链接
+                  url: blobUrl,
                   filename: file.name
                 }
                 resolve({ data: result })
@@ -1484,8 +1492,8 @@ export default {
             success: (response, file, fileList) => {
               console.log('上传成功:', response, file, fileList)
               // 直接使用 fileList，保持 Element UI 需要的完整数据结构
-              this.uploadFormData.avatar = [...fileList]
-              this.$message.success('上传成功！')
+              // this.uploadFormData.avatar = [...fileList]
+              // this.$message.success('上传成功！')
             },
             remove: (file, fileList) => {
               this.uploadFormData.avatar = [...fileList]
@@ -1498,6 +1506,12 @@ export default {
               if (file.url) {
                 // 可以在此处实现自定义预览逻辑
                 console.log('预览文件:', file.url)
+
+                dialogImageUrl({
+                  title: '图片预览',
+                  key: 'dialogImageUrl1',
+                  render: () => <img width="100%" src={file.url} alt="" />
+                })
               }
             }
           }
@@ -1540,19 +1554,21 @@ export default {
           httpRequest: (options) => {
             return new Promise((resolve, reject) => {
               const file = options.file
-               
               const reader = new FileReader()
               reader.readAsDataURL(file)
               reader.onload = () => {
-                // 模拟上传成功，返回 Base64 数据
+                // 将 Base64 转换为 Blob 流链接
+                const base64Data = reader.result
+                const blob = this.dataURItoBlob(base64Data)
+                const blobUrl = URL.createObjectURL(blob)
+                
+                // 模拟上传成功，返回 Blob 流链接
                 const result = {
                   success: true,
-                  link: reader.result,
-                  url: reader.result,
+                  link: blobUrl,
+                  url: blobUrl,
                   filename: file.name
                 }
-                 console.log('上传完成:', result)
-          
                 resolve({ data: result })
               }
               reader.onerror = () => {
@@ -1594,7 +1610,13 @@ export default {
             // 添加预览回调，支持点击文件查看大图
             preview: (file) => {
               if (file.url) {
-                console.log('预览文件:', file.url)
+                 // console.log('预览文件:', file.url)
+
+                    dialogImageUrl({
+                  title: '图片预览',
+                  key: 'dialogImageUrl2',
+                  render: () => <img width="100%" src={file.url} alt="" />
+                })
               }
             }
           }
@@ -1606,6 +1628,7 @@ export default {
       }
     }
   },
+
   created() {
     // 动态规则配置
     this.dynamicRuleConfig = [
@@ -1732,6 +1755,7 @@ export default {
       }
     ]
   },
+
   methods: {
     // ===== 代码折叠控制 =====
     toggleCode(scene) {
@@ -1747,116 +1771,21 @@ export default {
         this.codeExpanded[key] = false
       })
     },
-    // ===== 远程加载省市区联动 =====
-    async loadCityData(provinceCode) {
-      if (!provinceCode) return
-      
-      const formRef = this.$refs.remoteRegionForm
-      if (!formRef) return
-      
-      // 动态设置城市选项的 apiParams
-      this.remoteRegionFormConfig = this.remoteRegionFormConfig.map(cityItem => {
-           
-        if(cityItem.prop === 'city') {
-            // 使用相同的API模拟城市数据加载
-        // 实际项目中这里应该是后端提供的城市接口
-        cityItem.apiParams = {
-          url: 'https://jsonplaceholder.typicode.com/posts',
-          method: 'GET',
-      
-        }
-        // 添加自定义 httpRequest
-        cityItem.httpRequest = (config) => {
-          return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest()
-            xhr.open('GET', config.url, true)
-            xhr.onload = () => {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                try {
-                  const data = JSON.parse(xhr.responseText)
-                  resolve({ data })
-                } catch (e) {
-                  resolve({ data: [] })
-                }
-              } else {
-                reject(new Error('Request failed'))
-              }
-            }
-            xhr.onerror = () => reject(new Error('Network error'))
-            xhr.send()
-          })
-        }
-        cityItem.listenToCallBack = {
-          crtn: (data) => {
-            // 将API数据转换为城市选项格式
-            console.log('城市crtn回调data///', data)
-            if (Array.isArray(data)) {
-              return data.slice(0, 8).map((item, index) => ({
-                label: item.title?.substring(0, 6) || `城市${index + 1}`,
-                value: `city_${item.id}`
-              }))
-            }
-            return []
-          }
-        }
-        // 启用城市选择
-        cityItem.attrs.disabled = false
-            }
-         return cityItem
-      })
-      // 调用 formItmeRequestInstance 手动加载城市数据
-        await formRef.formItmeRequestInstance(['city'])
 
-    /*  if (cityItem) {
-        // 使用相同的API模拟城市数据加载
-        // 实际项目中这里应该是后端提供的城市接口
-        cityItem.apiParams = {
-          url: 'https://jsonplaceholder.typicode.com/posts',
-          method: 'GET',
-          options: {
-            method: 'GET'
-          }
-        }
-        // 添加自定义 httpRequest
-        cityItem.httpRequest = (config) => {
-          return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest()
-            xhr.open('GET', config.url, true)
-            xhr.onload = () => {
-              if (xhr.status >= 200 && xhr.status < 300) {
-                try {
-                  const data = JSON.parse(xhr.responseText)
-                  resolve({ data })
-                } catch (e) {
-                  resolve({ data: [] })
-                }
-              } else {
-                reject(new Error('Request failed'))
-              }
-            }
-            xhr.onerror = () => reject(new Error('Network error'))
-            xhr.send()
-          })
-        }
-        cityItem.httpRequest = {
-          crtn: (data) => {
-            // 将API数据转换为城市选项格式
-            console.log('城市crtn回调data///', data)
-            if (Array.isArray(data)) {
-              return data.slice(0, 8).map((item, index) => ({
-                label: item.title?.substring(0, 6) || `城市${index + 1}`,
-                value: `city_${item.id}`
-              }))
-            }
-            return []
-          }
-        }
-        // 启用城市选择
-        cityItem.attrs.disabled = false
-        
-        // 调用 formItmeRequestInstance 手动加载城市数据
-        await formRef.formItmeRequestInstance(['city'])
-      } */
+    // ===== Base64转Blob工具方法 =====
+    dataURItoBlob(dataURI) {
+      const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+      const byteString = atob(dataURI.split(',')[1])
+      const arrayBuffer = new ArrayBuffer(byteString.length)
+      const uint8Array = new Uint8Array(arrayBuffer)
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i)
+      }
+      return new Blob([arrayBuffer], { type: mimeString })
+    },
+
+    createBlobUrl(blob) {
+      return URL.createObjectURL(blob)
     }
   }
 }
