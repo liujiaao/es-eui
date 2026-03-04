@@ -211,7 +211,6 @@
       </div>
 
       <h2>实战示例：表单弹窗完整流程</h2>
-      <p>参考 <code>salesPolicy/policyManage/index.vue</code> 实战用法，展示完整的表单弹窗流程：</p>
       <ul>
         <li>使用 JSX 直接渲染组件: <code>render: (h, ctx) => &lt;EsForm ... /&gt;</code></li>
         <li>通过 <code>getRefs</code> 获取表单引用进行校验</li>
