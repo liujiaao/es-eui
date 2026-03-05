@@ -30,6 +30,178 @@
       </div>
     </section>
 
+    <!-- Design Philosophy Section -->
+    <section class="section philosophy-section">
+      <h2 class="section-title">
+        <span class="title-icon"><i class="el-icon-s-opportunity" /></span>
+        设计理念
+      </h2>
+      <div class="philosophy-content">
+        <div class="philosophy-intro">
+          <p class="intro-text">
+            ES-EUI 是一款基于 <strong>Vue 2 + Element UI</strong> 的<strong>企业级中后台业务组件库</strong>，专注于解决 CRUD 场景下的开发效率问题。通过“配置化驱动”的设计理念，将繁琐的模板代码转化为简洁的 JSON 配置，让开发者从繁重的重复劳动中解放出来。
+          </p>
+        </div>
+
+        <div class="core-components">
+          <h3 class="subsection-title">
+            <i class="el-icon-s-grid" />
+            核心组件
+          </h3>
+          <div class="components-grid">
+            <div class="component-item">
+              <div class="component-icon blue"><i class="el-icon-s-data" /></div>
+              <div class="component-info">
+                <strong>EsTable</strong> - 增强型表格组件，支持配置化列定义、自动数据请求、分页管理、跨分页选择缓存
+              </div>
+            </div>
+            <div class="component-item">
+              <div class="component-icon purple"><i class="el-icon-s-order" /></div>
+              <div class="component-info">
+                <strong>EsForm</strong> - 增强型表单组件，支持配置化字段定义、动态选项、联动逻辑、表单折叠
+              </div>
+            </div>
+            <div class="component-item">
+              <div class="component-icon green"><i class="el-icon-s-claim" /></div>
+              <div class="component-info">
+                <strong>EsDialog</strong> - 增强型弹窗组件，支持函数式调用、拖拽、全屏、嵌套管理
+              </div>
+            </div>
+            <div class="component-item">
+              <div class="component-icon orange"><i class="el-icon-magic-stick" /></div>
+              <div class="component-info">
+                <strong>useDialog</strong> - 弹窗管理 Hook，命令式创建弹窗，无需手动维护状态
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-section">
+          <h3 class="subsection-title">
+            <i class="el-icon-question" />
+            为什么要封装 ES-EUI
+          </h3>
+          <div class="highlight-box danger">
+            <p><strong>最根本的原因：交付团队拥有大量存量的 Vue 2 老旧项目。</strong></p>
+            <p>这是 ES-EUI 诞生的核心驱动力。在我们交付团队的日常工作中，存在大量的存量 Vue 2 项目，这些项目经过多年迭代，代码已经非常庞大且难以维护。每当有新需求来临时，开发者需要在这些“老旧”的代码库中艰难地添加新功能。</p>
+          </div>
+          <div class="reason-list">
+            <div class="reason-item">
+              <div class="reason-icon"><i class="el-icon-s-platform" /></div>
+              <div class="reason-content">
+                <h4>基础UI库 vs 业务组件库</h4>
+                <p>Element UI 是基础UI库，提供最原子的表单控件、表格、弹窗等。但仅靠砖块无法直接建成一栋楼。ES-EUI 站在 Element UI 的肩膀上，进一步解决“怎么高效组织”的问题。</p>
+              </div>
+            </div>
+            <div class="reason-item">
+              <div class="reason-icon"><i class="el-icon-s-check" /></div>
+              <div class="reason-content">
+                <h4>统一规范</h4>
+                <p>团队内部存在大量的"重复造轮子"现象。张三喜欢用 slot，李四喜欢用 render 函数，没有统一规范导致代码可读性差、维护成本高。ES-EUI 统一这种混乱局面。</p>
+              </div>
+            </div>
+            <div class="reason-item">
+              <div class="reason-icon"><i class="el-icon-document" /></div>
+              <div class="reason-content">
+                <h4>配置化而非可视化拖拽</h4>
+                <p>我们追求的是"声明式配置"的简洁与高效。一行 JSON 配置，胜过一百行模板代码——这才是 ES-EUI 的核心理念。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="goals-section">
+          <h3 class="subsection-title">
+            <i class="el-icon-s-flag" />
+            四个核心目标
+          </h3>
+          <div class="goals-grid">
+            <div class="goal-card">
+              <div class="goal-num">01</div>
+              <h4>让 CRUD 页面开发像写配置一样简单</h4>
+              <p>开发者不再需要为每一个列表页、每一个表单编写大量的模板代码，只要掌握了 ES-EUI 的配置规范，一个复杂的 CRUD 页面可以在几分钟内完成。</p>
+            </div>
+            <div class="goal-card">
+              <div class="goal-num">02</div>
+              <h4>让业务联动逻辑开箱即用</h4>
+              <p>搜索表单触发表格刷新、分页参数自动携带、选择状态跨页保留——这些在传统方案中需要几十行代码才能实现的交互，在 ES-EUI 中只需要配置一个属性。</p>
+            </div>
+            <div class="goal-card">
+              <div class="goal-num">03</div>
+              <h4>让团队代码风格高度统一</h4>
+              <p>当所有页面都使用 ES-EUI 的配置规范来开发时，代码结构自然就统一了。无论是张三写的用户管理页还是李四写的订单管理页，都遵循着相同的配置范式。</p>
+            </div>
+            <div class="goal-card">
+              <div class="goal-num">04</div>
+              <h4>让技术沉淀可持续复用</h4>
+              <p>ES-EUI 不仅仅是一个组件库，更是一个可复用的"中后台开发方法论"。当团队积累了一套成熟的配置规范后，可以在不同的项目间复用。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="principles-section">
+          <h3 class="subsection-title">
+            <i class="el-icon-collection-tag" />
+            封装原则：务实而不炫技
+          </h3>
+          <div class="principles-list">
+            <div class="principle-item">
+              <div class="principle-icon"><i class="el-icon-s-promotion" /></div>
+              <div class="principle-content">
+                <h4>站在巨人肩膀上</h4>
+                <p>ES-EUI 完全基于 Element UI 开发，不重新发明任何 UI 样式或交互模式。开发者学会 Element UI = 学会 ES-EUI 的一半。</p>
+              </div>
+            </div>
+            <div class="principle-item">
+              <div class="principle-icon"><i class="el-icon-set-up" /></div>
+              <div class="principle-content">
+                <h4>配置优先，插槽保底</h4>
+                <p>优先通过配置解决问题，当配置无法满足时才提供插槽或 render 函数。</p>
+              </div>
+            </div>
+            <div class="principle-item">
+              <div class="principle-icon"><i class="el-icon-refresh" /></div>
+              <div class="principle-content">
+                <h4>复杂留给自己，简单留给用户</h4>
+                <p>数据请求、字段映射、状态管理这些"脆活累活"全部在组件内部消化，对外只暴露简洁的配置接口。</p>
+              </div>
+            </div>
+            <div class="principle-item">
+              <div class="principle-icon"><i class="el-icon-magic-stick" /></div>
+              <div class="principle-content">
+                <h4>保持轻量，不做全家桶</h4>
+                <p>ES-EUI 只专注于"表格、表单、弹窗"三个核心场景，不追求大而全，而是追求小而精。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="solution-section">
+          <h3 class="subsection-title">
+            <i class="el-icon-s-cooperation" />
+            ES-EUI 的解决对策
+          </h3>
+          <div class="highlight-box info">
+            <p>ES-EUI 的核心解决思路可以概括为三个关键词：<strong>配置化、联动化、抽象化</strong>。</p>
+          </div>
+          <div class="solution-content">
+            <div class="solution-item">
+              <h4><span class="solution-tag">配置化</span></h4>
+              <p>把原本需要写在模板里的声明式代码，转化为 JSON 格式的配置对象。表格有多少列、表单有多少个字段，全部通过配置项来声明；弹窗的标题、宽度、是否可拖拽，通过 <code>useDialog</code> 的参数对象来一次性搞定。</p>
+            </div>
+            <div class="solution-item">
+              <h4><span class="solution-tag">联动化</span></h4>
+              <p>ES-EUI 内部已经封装好了中后台系统中最常见的那些交互场景，开发者不再需要手动编写 watch、emit 和回调。搜索表单的查询按钮会自动触发表格的数据刷新，重置按钮会自动清空表单并刷新表格，分页切换时会自动带上当前的搜索条件。</p>
+            </div>
+            <div class="solution-item">
+              <h4><span class="solution-tag">抽象化</span></h4>
+              <p>ES-EUI 对底层能力的统一封装。数据请求是每个页面都要做的事情，ES-EUI 提供了一个统一的 <code>httpRequest</code> 配置项，开发者只需要配置接口地址和请求参数，组件会自动处理请求、响应、加载状态、错误处理全流程；接口返回的字段名各不一致，ES-EUI 就提供了 <code>configTableOut</code> 字段映射配置。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Features Section -->
     <section class="section">
       <h2 class="section-title">
@@ -235,8 +407,8 @@ export default {
       ],
       versions: [
         {
-          version: 'v1.0.0',
-          date: '2024-01',
+          version: 'v1.0.2',
+          date: '2026-03',
           content: '初始版本，包含 EsTable、EsForm、useDialog 核心组件，提供完整的配置化开发能力'
         }
       ]
@@ -370,6 +542,303 @@ $gradient-pink: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 // Section Common Styles
 .section {
   margin-bottom: 60px;
+}
+
+// Philosophy Section Styles
+.philosophy-section {
+  .philosophy-content {
+    .philosophy-intro {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e7ed 100%);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+      border-left: 4px solid #409eff;
+
+      .intro-text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: $text-secondary;
+        margin: 0;
+
+        strong {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .subsection-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 24px;
+    color: $text-primary;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $border-color;
+
+    i {
+      color: $primary-color;
+      font-size: 22px;
+    }
+  }
+
+  .core-components {
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+
+      .component-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+
+        .component-icon {
+          flex-shrink: 0;
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 20px;
+
+          &.blue { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+          &.purple { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+          &.green { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+          &.orange { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        }
+
+        .component-info {
+          font-size: 14px;
+          line-height: 1.7;
+          color: $text-secondary;
+
+          strong {
+            color: $text-primary;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  .why-section {
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid $border-color;
+
+      &.danger {
+        border-left: 4px solid #f56c6c;
+        background: linear-gradient(to right, #fef0f0, #fff);
+      }
+
+      &.info {
+        border-left: 4px solid #409eff;
+        background: linear-gradient(to right, #ecf5ff, #fff);
+      }
+
+      p {
+        margin: 0 0 12px;
+        line-height: 1.7;
+        color: $text-secondary;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        strong {
+          color: $text-primary;
+        }
+      }
+    }
+
+    .reason-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .reason-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+
+        .reason-icon {
+          flex-shrink: 0;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 18px;
+        }
+
+        .reason-content {
+          h4 {
+            margin: 0 0 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: $text-primary;
+          }
+
+          p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.7;
+            color: $text-secondary;
+          }
+        }
+      }
+    }
+  }
+
+  .goals-section {
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .goal-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        border: 1px solid $border-color;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+
+        .goal-num {
+          font-size: 32px;
+          font-weight: 700;
+          color: $primary-color;
+          opacity: 0.3;
+          margin-bottom: 12px;
+        }
+
+        h4 {
+          margin: 0 0 12px;
+          font-size: 16px;
+          font-weight: 600;
+          color: $text-primary;
+        }
+
+        p {
+          margin: 0;
+          font-size: 14px;
+          line-height: 1.7;
+          color: $text-secondary;
+        }
+      }
+    }
+  }
+
+  .principles-section {
+    .principles-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .principle-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+
+        .principle-icon {
+          flex-shrink: 0;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 18px;
+        }
+
+        .principle-content {
+          h4 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: $text-primary;
+          }
+
+          p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.7;
+            color: $text-secondary;
+          }
+        }
+      }
+    }
+  }
+
+  .solution-section {
+    .solution-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .solution-item {
+        padding: 20px 24px;
+        background: white;
+        border-radius: 12px;
+        border: 1px solid $border-color;
+
+        h4 {
+          margin: 0 0 12px;
+
+          .solution-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+          }
+        }
+
+        p {
+          margin: 0;
+          font-size: 14px;
+          line-height: 1.8;
+          color: $text-secondary;
+
+          code {
+            background: #f5f7fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #e83e8c;
+          }
+        }
+      }
+    }
+  }
 }
 
 .section-title {
@@ -759,6 +1228,20 @@ $gradient-pink: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
 
   .features-grid {
     grid-template-columns: 1fr;
+  }
+
+  .philosophy-section {
+    .components-grid,
+    .goals-grid,
+    .principles-list {
+      grid-template-columns: 1fr;
+    }
+
+    .reason-item,
+    .principle-item {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
   }
 
   .component-card .comp-features {

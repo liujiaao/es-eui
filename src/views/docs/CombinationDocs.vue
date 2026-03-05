@@ -31,7 +31,7 @@
             ref="queryForm"
             :form-item-list="queryFormItems"
             :model="queryFormData"
-            :layout-form-props="{ fromLayProps: { inline: true, size: 'mini' }, rowLayProps: { gutter: 10 } }"
+            :layout-form-props="{ fromLayProps: {size: 'mini' }, rowLayProps: { gutter: 10 } }"
             :configBtn="[{ name: '查询', type: 'primary', onClick: ( model, refs) => handleSearch(refs, model) }, { name: '重置', onClick: (model, refs) => handleReset(refs, model) }]"
           />
           <!-- <div class="query-actions">
@@ -560,7 +560,8 @@
 
 <script>
 import Vue from 'vue'
-import { useDialog } from '@/components/es-eui'
+// import { useDialog } from '@/components/es-eui'
+import {useDialog} from 'es-eui'
 import {
   tableFormQueryExample,
   formWithTableExample,
