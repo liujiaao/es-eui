@@ -45,6 +45,11 @@ const routes = [
         path: 'i18n',
         name: 'GuideI18n',
         component: () => import('../views/guide/i18n.vue')
+      },
+      {
+        path: 'developer-guide',
+        name: 'DeveloperGuide',
+        component: () => import('../views/docs/EsEuiDeveloperGuide.vue')
       }
     ]
   },

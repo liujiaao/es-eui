@@ -13,6 +13,7 @@
         <div class="nav-title">进阶</div>
         <router-link to="/guide/theme" class="nav-item">自定义主题</router-link>
         <router-link to="/guide/i18n" class="nav-item">国际化</router-link>
+        <router-link to="/guide/developer-guide" class="nav-item">开发者完全指南</router-link>
       </div>
     </aside>
 
