@@ -976,7 +976,8 @@ export default {
         <p>这是企业开发中最常用的组合模式：表格展示数据 + 表单搜索过滤 + 弹窗编辑新增。</p>
         <div class="code-block">
           <div class="code-header"><span class="code-lang">完整 CRUD 示例</span></div>
-          <pre v-pre><code>export default {
+          <pre v-pre><code>
+  export default {
   methods: {
     // 打开新增/编辑弹窗
     openFormDialog(row = null) {
@@ -1143,7 +1144,9 @@ $bg-light: #f7fafc;
     border-radius: 50px; font-size: 14px; margin-bottom: 20px;
   }
   .hero-title { font-size: 38px; font-weight: 700; margin: 0 0 16px; }
-  .hero-desc { max-width: 600px; margin: 0 auto; font-size: 16px; opacity: 0.85; }
+  .hero-desc { max-width: 600px; color: #fff; margin: 0 auto; font-size: 16px; opacity: 0.85;  p {
+      color: #fff;
+  }}
 }
 
 // Section

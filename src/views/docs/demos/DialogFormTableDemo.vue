@@ -164,7 +164,7 @@ export default {
           {
             name: '关闭',
             key: 'close',
-            onClick: ({ close }) => close()
+            onClick: (vm, { close }) => close()
           }
         ]
       })

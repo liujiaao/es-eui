@@ -239,52 +239,12 @@ export default {
           {
             name: '关闭',
             key: 'close',
-            onClick: ({ close }) => close()
+            onClick: (vm, { close }) => close()
           }
         ]
       })
     },
     handleEdit(row) {
-      createDialog({
-        title: '编辑商品',
-        width: '600px',
-        render: (h) => {
-          return h('div', { style: { padding: '20px' } }, [
-            h(EsForm, {
-              props: {
-                formItemList: this.editFormConfig,
-                model: this.editForm,
-                layoutFormProps: {
-                  fromLayProps: {
-                    labelWidth: '100px',
-                    size: 'small'
-                  }
-                }
-              }
-            })
-          ])
-        },
-        configBtn: [
-          {
-            name: '取消',
-            key: 'cancel',
-            onClick: ({ close }) => close()
-          },
-          {
-            name: '保存',
-            type: 'primary',
-            key: 'save',
-            onClick: ({ close }) => {
-              const index = this.mainTableData.findIndex(item => item.id === row.id)
-              if (index > -1) {
-                this.mainTableData[index] = { ...this.mainTableData[index], ...this.editForm }
-                this.$message.success('保存成功')
-                close()
-              }
-            }
-          }
-        ]
-      })
       this.editForm = { ...row }
       this.editFormConfig = [
         {
@@ -331,6 +291,46 @@ export default {
           ]
         }
       ]
+      createDialog({
+        title: '编辑商品',
+        width: '600px',
+        render: (h) => {
+          return h('div', { style: { padding: '20px' } }, [
+            h(EsForm, {
+              props: {
+                formItemList: this.editFormConfig,
+                model: this.editForm,
+                layoutFormProps: {
+                  fromLayProps: {
+                    labelWidth: '100px',
+                    size: 'small'
+                  }
+                }
+              }
+            })
+          ])
+        },
+        configBtn: [
+          {
+            name: '取消',
+            key: 'cancel',
+            onClick: (vm, { close }) => close()
+          },
+          {
+            name: '保存',
+            type: 'primary',
+            key: 'save',
+            onClick: (vm, { close }) => {
+              const index = this.mainTableData.findIndex(item => item.id === row.id)
+              if (index > -1) {
+                this.mainTableData[index] = { ...this.mainTableData[index], ...this.editForm }
+                this.$message.success('保存成功')
+                close()
+              }
+            }
+          }
+        ]
+      })
     },
     handleDelete(row) {
       this.$confirm('确定要删除该商品吗？', '提示', {

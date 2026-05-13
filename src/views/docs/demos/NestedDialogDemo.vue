@@ -112,13 +112,13 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (vm, { close }) => close()
           },
           {
             name: '保存',
             type: 'primary',
             key: 'save',
-            onClick: ({ close }) => {
+            onClick: (vm, { close }) => {
               this.$message.success('保存成功')
               close()
             }
@@ -150,13 +150,13 @@ export default {
           {
             name: '取消',
             key: 'cancel',
-            onClick: ({ close }) => close()
+            onClick: (vm, { close }) => close()
           },
           {
             name: '添加',
             type: 'primary',
             key: 'add',
-            onClick: ({ close }) => {
+            onClick: (vm, { close }) => {
               if (!this.memberForm.name || !this.memberForm.role || !this.memberForm.email) {
                 this.$message.warning('请填写完整信息')
                 return
