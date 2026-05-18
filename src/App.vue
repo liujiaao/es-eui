@@ -21,8 +21,29 @@
       </div>
     </header>
 
+    <!-- Vue3 升级引导横幅 -->
+    <div class="upgrade-banner" v-show="!bannerClosed">
+      <div class="banner-inner">
+        <span class="banner-tag">NEW</span>
+        <span class="banner-text">
+          ES-Plus 已发布 — 基于 <strong>Vue 3</strong> + <strong>Element Plus</strong> 的全新版本，配置化体验再升级
+        </span>
+        <a
+          href="https://liujiaao.github.io/es-plus/"
+          target="_blank"
+          rel="noopener"
+          class="banner-link"
+        >
+          查看 ES-Plus 文档 <i class="el-icon-top-right"></i>
+        </a>
+        <button class="banner-close" @click="bannerClosed = true" aria-label="关闭">
+          <i class="el-icon-close"></i>
+        </button>
+      </div>
+    </div>
+
     <!-- 主体内容 -->
-    <div class="main">
+    <div class="main" :class="{ 'banner-visible': !bannerClosed }">
       <router-view />
     </div>
 
@@ -38,6 +59,11 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      bannerClosed: false
+    }
+  },
   computed: {
     isHome() {
       return this.$route.path === '/'
@@ -160,6 +186,108 @@ body {
 .main {
   padding-top: 60px;
   min-height: calc(100vh - 60px);
+  transition: padding-top 0.3s;
+
+  &.banner-visible {
+    padding-top: 92px;
+  }
+}
+
+/* Vue3 升级引导横幅 */
+.upgrade-banner {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: linear-gradient(90deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1200px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.banner-tag {
+  display: inline-block;
+  padding: 1px 8px;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  line-height: 18px;
+  flex-shrink: 0;
+}
+
+.banner-text {
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 32px;
+  white-space: nowrap;
+
+  strong {
+    color: #60a5fa;
+    font-weight: 600;
+  }
+}
+
+.banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 14px;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.25s;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.9;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.4);
+  }
+
+  i {
+    font-size: 12px;
+  }
+}
+
+.banner-close {
+  position: absolute;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+  padding: 0;
+
+  &:hover {
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* 页脚 */
@@ -198,7 +326,7 @@ body {
   border-right: 1px solid #e6e6e6;
   background: #fff;
   position: fixed;
-  top: 60px;
+  top: 92px;
   bottom: 0;
   overflow-y: auto;
 
@@ -1026,6 +1154,36 @@ $bg-light: #f7fafc;
 
 // Responsive
 @media (max-width: 768px) {
+  .upgrade-banner {
+    height: auto;
+    padding: 6px 0;
+  }
+
+  .banner-inner {
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .banner-text {
+    font-size: 12px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .banner-close {
+    position: static;
+  }
+
+  .main.banner-visible {
+    padding-top: 80px;
+  }
+
+  .side-nav {
+    top: 80px !important;
+  }
+
   .modern-hero {
     padding: 40px 20px;
 
