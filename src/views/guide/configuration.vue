@@ -6,7 +6,9 @@
         <i class="el-icon-s-tools" />
         <span>全局配置</span>
       </div>
-      <h1 class="hero-title">配置指南</h1>
+      <h1 class="hero-title">
+        配置指南
+      </h1>
       <p class="hero-desc">
         通过全局配置，你可以自定义 ES-EUI 组件的行为，
         包括数据请求、分页布局、字段映射等，让组件更好地适配你的项目。
@@ -19,21 +21,32 @@
         <div class="section-icon blue">
           <i class="el-icon-s-data" />
         </div>
-        <h2 class="section-title">EsTable 配置</h2>
+        <h2 class="section-title">
+          EsTable 配置
+        </h2>
       </div>
-      <p class="section-desc">EsTable 支持以下全局配置项：</p>
+      <p class="section-desc">
+        EsTable 支持以下全局配置项：
+      </p>
 
       <!-- $httpRequest -->
       <div class="config-item">
         <div class="config-header">
-          <h3 class="config-name">$httpRequest</h3>
+          <h3 class="config-name">
+            $httpRequest
+          </h3>
           <span class="config-badge required">必填</span>
         </div>
-        <p class="config-desc">配置表格数据请求方法，EsTable 会自动调用此方法获取数据。</p>
+        <p class="config-desc">
+          配置表格数据请求方法，EsTable 会自动调用此方法获取数据。
+        </p>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('tableHttp')">
+            <button
+              class="copy-btn"
+              @click="copyCode('tableHttp')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -59,14 +72,21 @@
       <!-- paginationLayout -->
       <div class="config-item">
         <div class="config-header">
-          <h3 class="config-name">paginationLayout</h3>
+          <h3 class="config-name">
+            paginationLayout
+          </h3>
           <span class="config-badge optional">可选</span>
         </div>
-        <p class="config-desc">配置分页组件的显示方式和页码选项。</p>
+        <p class="config-desc">
+          配置分页组件的显示方式和页码选项。
+        </p>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('pagination')">
+            <button
+              class="copy-btn"
+              @click="copyCode('pagination')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -127,14 +147,21 @@
       <!-- configQueryfieldOutput -->
       <div class="config-item">
         <div class="config-header">
-          <h3 class="config-name">configQueryfieldOutput</h3>
+          <h3 class="config-name">
+            configQueryfieldOutput
+          </h3>
           <span class="config-badge optional">可选</span>
         </div>
-        <p class="config-desc">配置响应数据字段映射，用于适配不同后端接口的数据结构。</p>
+        <p class="config-desc">
+          配置响应数据字段映射，用于适配不同后端接口的数据结构。
+        </p>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('fieldOutput')">
+            <button
+              class="copy-btn"
+              @click="copyCode('fieldOutput')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -163,21 +190,32 @@
         <div class="section-icon purple">
           <i class="el-icon-s-order" />
         </div>
-        <h2 class="section-title">EsForm 配置</h2>
+        <h2 class="section-title">
+          EsForm 配置
+        </h2>
       </div>
-      <p class="section-desc">EsForm 支持以下全局配置项：</p>
+      <p class="section-desc">
+        EsForm 支持以下全局配置项：
+      </p>
 
       <!-- $httpRequest -->
       <div class="config-item">
         <div class="config-header">
-          <h3 class="config-name">$httpRequest</h3>
+          <h3 class="config-name">
+            $httpRequest
+          </h3>
           <span class="config-badge required">必填</span>
         </div>
-        <p class="config-desc">配置表单数据请求方法，用于表单内 Select 等组件的数据源请求。</p>
+        <p class="config-desc">
+          配置表单数据请求方法，用于表单内 Select 等组件的数据源请求。
+        </p>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('formHttp')">
+            <button
+              class="copy-btn"
+              @click="copyCode('formHttp')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -201,14 +239,21 @@
       <!-- fieldFieldOutput -->
       <div class="config-item">
         <div class="config-header">
-          <h3 class="config-name">fieldFieldOutput</h3>
+          <h3 class="config-name">
+            fieldFieldOutput
+          </h3>
           <span class="config-badge optional">可选</span>
         </div>
-        <p class="config-desc">配置表单关联数据的响应字段映射。</p>
+        <p class="config-desc">
+          配置表单关联数据的响应字段映射。
+        </p>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('formFieldOutput')">
+            <button
+              class="copy-btn"
+              @click="copyCode('formFieldOutput')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -237,14 +282,21 @@
         <div class="section-icon green">
           <i class="el-icon-document-checked" />
         </div>
-        <h2 class="section-title">完整配置示例</h2>
+        <h2 class="section-title">
+          完整配置示例
+        </h2>
       </div>
-      <p class="section-desc">以下是一个完整的配置示例，包含了所有常用的配置项：</p>
+      <p class="section-desc">
+        以下是一个完整的配置示例，包含了所有常用的配置项：
+      </p>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('fullConfig')">
+          <button
+            class="copy-btn"
+            @click="copyCode('fullConfig')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -323,7 +375,9 @@ Vue.use(esEui, {
         <div class="section-icon orange">
           <i class="el-icon-s-unfold" />
         </div>
-        <h2 class="section-title">配置项汇总</h2>
+        <h2 class="section-title">
+          配置项汇总
+        </h2>
       </div>
 
       <div class="config-table-wrapper">
@@ -372,12 +426,19 @@ Vue.use(esEui, {
         <div class="section-icon green">
           <i class="el-icon-right" />
         </div>
-        <h2 class="section-title">下一步</h2>
+        <h2 class="section-title">
+          下一步
+        </h2>
       </div>
-      <p class="section-desc">配置完成后，你可以开始学习和使用各个组件：</p>
+      <p class="section-desc">
+        配置完成后，你可以开始学习和使用各个组件：
+      </p>
 
       <div class="next-links">
-        <router-link to="/component/estable" class="next-card">
+        <router-link
+          to="/component/estable"
+          class="next-card"
+        >
           <div class="next-icon blue">
             <i class="el-icon-s-data" />
           </div>
@@ -388,7 +449,10 @@ Vue.use(esEui, {
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/component/esform" class="next-card">
+        <router-link
+          to="/component/esform"
+          class="next-card"
+        >
           <div class="next-icon purple">
             <i class="el-icon-s-order" />
           </div>
@@ -399,7 +463,10 @@ Vue.use(esEui, {
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/component/esdialog" class="next-card">
+        <router-link
+          to="/component/esdialog"
+          class="next-card"
+        >
           <div class="next-icon orange">
             <i class="el-icon-s-claim" />
           </div>

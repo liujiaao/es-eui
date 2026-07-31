@@ -16,8 +16,17 @@ module.exports = defineConfig({
             noParse: /Sortable\.js$/
         },
         resolve: {
+            // monorepo 场景下 @es-plus/vue2 通过 npm workspaces 软链到 packages/vue2/，
+            // 而 packages/vue2/node_modules 内还装了一份用于本地构建的 vue（devDep）。
+            // 关闭 symlinks 让 webpack 把符号链接当成普通路径，并把 vue / element-ui
+            // 显式 pin 到 es-eui/node_modules，避免 setup() 与 inject() 跑在两个 Vue 实例上
+            // 引发 "inject() can only be used inside setup()" 的伪警告。
+            symlinks: false,
             alias: {
-                '@': path.resolve(__dirname, 'src')
+                '@': path.resolve(__dirname, 'src'),
+                vue$: path.resolve(__dirname, 'node_modules/vue'),
+                'element-ui$': path.resolve(__dirname, 'node_modules/element-ui'),
+                '@vue/composition-api': path.resolve(__dirname, 'node_modules/@vue/composition-api')
             }
         }
     },

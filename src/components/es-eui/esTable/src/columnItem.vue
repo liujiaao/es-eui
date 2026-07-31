@@ -1,6 +1,8 @@
 <template>
-
-<el-table-column v-if="cols.groups && Array.isArray(cols.groups)"  v-bind="columnbindAttr(cols)">
+  <el-table-column
+    v-if="cols.groups && Array.isArray(cols.groups)"
+    v-bind="columnbindAttr(cols)"
+  >
     <column-item
       v-for="(item, index) in cols.groups"
       :key="item.prop || item.key || index"
@@ -8,7 +10,7 @@
     >
       <template
         v-if="item.scopedSlots && item.scopedSlots.customRender"
-        v-slot:[item.scopedSlots.customRender]="{scope}"
+        #[item.scopedSlots.customRender]="{scope}"
       >
         <slot
           v-bind="{...item, columnIndex: index, row: scope.row, column: scope.column}"
@@ -19,13 +21,13 @@
     </column-item>
   </el-table-column>
   <el-table-column  
-  v-else-if="cols.render && typeof cols.render === 'function'"
+    v-else-if="cols.render && typeof cols.render === 'function'"
     v-bind="columnbindAttr(cols)"
-    >
-    <template slot-scope="scope">
+  >
+    <template #default="scope">
       <RenderDom
         :row="scope.row"
-        :columnIndex="cols.columnIndex"
+        :column-index="cols.columnIndex"
         :index="scope.$index"
         :render="cols.render"
       />
@@ -36,7 +38,7 @@
     v-else-if="cols.scopedSlots && cols.scopedSlots.customRender"
     v-bind="columnbindAttr(cols)"
   >
-    <template slot-scope="scope">
+    <template #default="scope">
       <slot
         v-bind="{...cols, row: scope.row, column: scope.column}"
         :scope="scope"
@@ -48,8 +50,7 @@
   <el-table-column
     v-else
     v-bind="columnbindAttr(cols)"
-   > 
-   
+  >
   </el-table-column>
 
   <!-- <el-table-column

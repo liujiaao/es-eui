@@ -6,7 +6,9 @@
         <i class="el-icon-s-management" />
         <span>开发手册</span>
       </div>
-      <h1 class="hero-title">ES-EUI 开发者完全指南</h1>
+      <h1 class="hero-title">
+        ES-EUI 开发者完全指南
+      </h1>
       <p class="hero-desc">
         深度剖析配置化组件库架构，掌握"配置即开发"核心理念，从原理到实战，一本手册覆盖全部用法。
       </p>
@@ -15,8 +17,12 @@
     <!-- ==================== 第一篇：架构剖析 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon blue"><i class="el-icon-s-marketing" /></div>
-        <h2 class="section-title">第一篇：架构剖析</h2>
+        <div class="section-icon blue">
+          <i class="el-icon-s-marketing" />
+        </div>
+        <h2 class="section-title">
+          第一篇：架构剖析
+        </h2>
       </div>
 
       <!-- 1.1 整体架构 -->
@@ -25,7 +31,9 @@
         <p>ES-EUI 采用三层架构设计，从顶层的<strong>配置描述层</strong>到底层的 <strong>Element UI 渲染层</strong>，中间通过<strong>渲染引擎</strong>自动完成配置到 UI 的转换。</p>
         <div class="arch-diagram">
           <div class="arch-layer config-layer">
-            <div class="layer-label">配置描述层 (Configuration)</div>
+            <div class="layer-label">
+              配置描述层 (Configuration)
+            </div>
             <div class="layer-items">
               <span class="layer-item">formItemList[]</span>
               <span class="layer-item">columns[]</span>
@@ -34,9 +42,13 @@
               <span class="layer-item">apiParams{}</span>
             </div>
           </div>
-          <div class="arch-arrow">&#8595; Plugin Method Injection + Map Dispatch</div>
+          <div class="arch-arrow">
+            &#8595; Plugin Method Injection + Map Dispatch
+          </div>
           <div class="arch-layer engine-layer">
-            <div class="layer-label">渲染引擎层 (Rendering Engine)</div>
+            <div class="layer-label">
+              渲染引擎层 (Rendering Engine)
+            </div>
             <div class="layer-items">
               <span class="layer-item">formInputComponents()</span>
               <span class="layer-item">columnItem.vue</span>
@@ -45,9 +57,13 @@
               <span class="layer-item">httpRquestInstace()</span>
             </div>
           </div>
-          <div class="arch-arrow">&#8595; JSX Render Functions</div>
+          <div class="arch-arrow">
+            &#8595; JSX Render Functions
+          </div>
           <div class="arch-layer ui-layer">
-            <div class="layer-label">Element UI 渲染层 (UI Components)</div>
+            <div class="layer-label">
+              Element UI 渲染层 (UI Components)
+            </div>
             <div class="layer-items">
               <span class="layer-item">el-input</span>
               <span class="layer-item">el-table</span>
@@ -58,7 +74,9 @@
           </div>
         </div>
         <div class="tip-card tip-card--info">
-          <div class="tip-icon"><i class="el-icon-info-filled" /></div>
+          <div class="tip-icon">
+            <i class="el-icon-info-filled" />
+          </div>
           <div class="tip-content">
             <strong>核心理念</strong>
             <span>开发者在<strong>配置描述层</strong>用 JSON 声明"我需要什么"，渲染引擎自动完成"如何渲染"。一行 JSON 配置，胜过一百行模板代码。</span>
@@ -72,15 +90,25 @@
         <p>EsForm 和 EsTable 通过 Vue Plugin 系统实现全局配置的依赖注入。注册时配置的方法会被合并到组件实例的方法中。</p>
         <div class="arch-diagram small">
           <div class="arch-layer config-layer">
-            <div class="layer-label">Vue.use(esEui, globalConfig)</div>
+            <div class="layer-label">
+              Vue.use(esEui, globalConfig)
+            </div>
           </div>
-          <div class="arch-arrow">&#8595; importFnComponents() 遍历组件列表</div>
-          <div class="arch-layer engine-layer">
-            <div class="layer-label">检测 el.isPlugin === true</div>
+          <div class="arch-arrow">
+            &#8595; importFnComponents() 遍历组件列表
           </div>
-          <div class="arch-arrow">&#8595; Vue.use(el.Plugin, options[el.name])</div>
           <div class="arch-layer engine-layer">
-            <div class="layer-label">Plugin.install(app, options)</div>
+            <div class="layer-label">
+              检测 el.isPlugin === true
+            </div>
+          </div>
+          <div class="arch-arrow">
+            &#8595; Vue.use(el.Plugin, options[el.name])
+          </div>
+          <div class="arch-layer engine-layer">
+            <div class="layer-label">
+              Plugin.install(app, options)
+            </div>
             <div class="layer-detail">
               1. app.provide('$tableInstance', options.methods)
               2. app.component(name, { ...Component, methods: { ...Component.methods, ...options.methods } })
@@ -88,7 +116,9 @@
           </div>
         </div>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">源码: esTable/index.js</span></div>
+          <div class="code-header">
+            <span class="code-lang">源码: esTable/index.js</span>
+          </div>
           <pre v-pre><code>EsTable.isPlugin = true
 EsTable.Plugin = {
   install(app, options) {
@@ -109,7 +139,9 @@ EsTable.Plugin = {
         <h3>1.3 EsForm 渲染引擎：Map 调度模式</h3>
         <p>EsForm 的核心渲染方法 <code>formInputComponents(item)</code> 使用 <code>Map&lt;formtype, renderFactory&gt;</code> 结构，根据配置中的 <code>formtype</code> 字符串分派到对应的 JSX 渲染工厂函数。</p>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">源码: esForm.vue formInputComponents()</span></div>
+          <div class="code-header">
+            <span class="code-lang">源码: esForm.vue formInputComponents()</span>
+          </div>
           <pre v-pre><code>const formPutList = new Map([
   ['Input',       (h, model, row) => h('el-input', { ... })],
   ['Select',      (h, model, row) => h('el-select', { ... }, [optionVNodes])],
@@ -136,10 +168,20 @@ if (formPutList.get(capitalize(item.formtype))) {
         <h3>1.4 数据请求生命周期</h3>
         <p>EsTable 的自动数据请求遵循严格的管道处理流程：</p>
         <div class="pipe-diagram">
-          <div class="pipe-step" v-for="(step, i) in pipeSteps" :key="i">
-            <div class="pipe-num">{{ i + 1 }}</div>
-            <div class="pipe-name">{{ step.name }}</div>
-            <div class="pipe-desc">{{ step.desc }}</div>
+          <div
+            v-for="(step, i) in pipeSteps"
+            :key="i"
+            class="pipe-step"
+          >
+            <div class="pipe-num">
+              {{ i + 1 }}
+            </div>
+            <div class="pipe-name">
+              {{ step.name }}
+            </div>
+            <div class="pipe-desc">
+              {{ step.desc }}
+            </div>
           </div>
         </div>
       </div>
@@ -148,15 +190,23 @@ if (formPutList.get(capitalize(item.formtype))) {
     <!-- ==================== 第二篇：快速上手 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon green"><i class="el-icon-time" /></div>
-        <h2 class="section-title">第二篇：5 分钟快速上手</h2>
+        <div class="section-icon green">
+          <i class="el-icon-time" />
+        </div>
+        <h2 class="section-title">
+          第二篇：5 分钟快速上手
+        </h2>
       </div>
-      <p class="section-desc">从零搭建一个带查询功能的员工管理 CRUD 页面。</p>
+      <p class="section-desc">
+        从零搭建一个带查询功能的员工管理 CRUD 页面。
+      </p>
 
       <div class="content-card">
         <h3>Step 1：全局注册</h3>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">main.js</span></div>
+          <div class="code-header">
+            <span class="code-lang">main.js</span>
+          </div>
           <pre v-pre><code>import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -190,7 +240,9 @@ Vue.use(esEui, {
       <div class="content-card">
         <h3>Step 2：编写页面</h3>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">EmployeeList.vue</span></div>
+          <div class="code-header">
+            <span class="code-lang">EmployeeList.vue</span>
+          </div>
           <pre v-pre><code>&lt;template&gt;
   &lt;div class="page"&gt;
     &lt;!-- 查询表单 --&gt;
@@ -258,8 +310,14 @@ export default {
       <div class="content-card">
         <h3>关键机制说明</h3>
         <div class="info-grid">
-          <div class="info-item" v-for="(item, i) in keyMechanisms" :key="i">
-            <div class="info-item-icon">{{ i + 1 }}</div>
+          <div
+            v-for="(item, i) in keyMechanisms"
+            :key="i"
+            class="info-item"
+          >
+            <div class="info-item-icon">
+              {{ i + 1 }}
+            </div>
             <div>
               <strong>{{ item.title }}</strong>
               <p>{{ item.desc }}</p>
@@ -272,8 +330,12 @@ export default {
     <!-- ==================== 第三篇：EsForm 完全配置手册 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon purple"><i class="el-icon-s-order" /></div>
-        <h2 class="section-title">第三篇：EsForm 完全配置手册</h2>
+        <div class="section-icon purple">
+          <i class="el-icon-s-order" />
+        </div>
+        <h2 class="section-title">
+          第三篇：EsForm 完全配置手册
+        </h2>
       </div>
 
       <!-- 3.0 Props 速查 -->
@@ -284,13 +346,19 @@ export default {
             <thead><tr><th>Prop</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
             <tbody>
               <tr><td><code>formItemList</code></td><td>Array</td><td>[]</td><td>表单字段配置数组，每个元素描述一个表单控件</td></tr>
-              <tr><td><code>model</code></td><td>Object</td><td>{}</td><td>表单数据模型（响应式绑定）</td></tr>
-              <tr><td><code>formModel</code></td><td>Object</td><td>null</td><td>外部传入的替代数据模型，优先级高于 <code>model</code></td></tr>
+              <tr><td><code>model</code></td><td>Object</td><td>{}</td><td>表单数据模型（响应式绑定，支持 template / v-model / JSX 字面量三种写法）</td></tr>
               <tr><td><code>layoutFormProps</code></td><td>Object</td><td>{}</td><td>表单布局配置对象</td></tr>
               <tr><td><code>configBtn</code></td><td>Array</td><td>[]</td><td>表单底部/行内按钮配置</td></tr>
               <tr><td><code>renderBtn</code></td><td>Function | Boolean</td><td>false</td><td>自定义按钮区域渲染函数</td></tr>
               <tr><td><code>btnColSpanRow</code></td><td>Boolean</td><td>true</td><td>true=按钮独占一行(left/right布局)，false=按钮接在最后一个字段后</td></tr>
-              <tr><td colspan="4" class="inherit-note"><em>继承全部 Element UI <code>el-form</code> Props（rules, inline, label-width, size 等）</em></td></tr>
+              <tr>
+                <td
+                  colspan="4"
+                  class="inherit-note"
+                >
+                  <em>继承全部 Element UI <code>el-form</code> Props（rules, inline, label-width, size 等）</em>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -303,7 +371,17 @@ export default {
 
         <div class="api-table-wrap">
           <table class="api-table">
-            <thead><tr><th style="width:15%">属性</th><th style="width:12%">类型</th><th style="width:10%">必填</th><th>说明</th></tr></thead>
+            <thead>
+              <tr>
+                <th style="width:15%">
+                  属性
+                </th><th style="width:12%">
+                  类型
+                </th><th style="width:10%">
+                  必填
+                </th><th>说明</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
                 <td><code>prop</code></td>
@@ -417,7 +495,10 @@ export default {
       </div>
 
       <!-- 3.2 formtype 类型对照表 -->
-      <div class="content-card" id="formtype-table">
+      <div
+        id="formtype-table"
+        class="content-card"
+      >
         <h3>3.2 formtype 内置控件类型对照表</h3>
         <div class="api-table-wrap">
           <table class="api-table">
@@ -447,15 +528,18 @@ export default {
             <thead><tr><th>属性</th><th>类型</th><th>说明</th></tr></thead>
             <tbody>
               <tr><td><code>rowLayProps</code></td><td>Object</td><td><code>el-row</code> 的配置：<code>{ gutter: 10, type: 'flex', justify: 'start' }</code></td></tr>
-              <tr><td><code>fromLayProps</code></td><td>Object</td><td>表单层级配置：
-                <ul style="margin:4px 0 0 16px">
-                  <li><code>labelWidth</code> — 统一标签宽度，默认 'auto'</li>
-                  <li><code>size</code> — 统一尺寸，默认 'mini'</li>
-                  <li><code>minfoldRows</code> — 超过此行数自动折叠。如设为 2，则第 3 行开始折叠</li>
-                  <li><code>isBtnHiden</code> — 隐藏表单按钮区（适用于弹窗内表单）</li>
-                  <li><code>btnColSpan</code> — 按钮区占用的列数</li>
-                </ul>
-              </td></tr>
+              <tr>
+                <td><code>fromLayProps</code></td><td>Object</td><td>
+                  表单层级配置：
+                  <ul style="margin:4px 0 0 16px">
+                    <li><code>labelWidth</code> — 统一标签宽度，默认 'auto'</li>
+                    <li><code>size</code> — 统一尺寸，默认 'mini'</li>
+                    <li><code>minfoldRows</code> — 超过此行数自动折叠。如设为 2，则第 3 行开始折叠</li>
+                    <li><code>isBtnHiden</code> — 隐藏表单按钮区（适用于弹窗内表单）</li>
+                    <li><code>btnColSpan</code> — 按钮区占用的列数</li>
+                  </ul>
+                </td>
+              </tr>
               <tr><td><code>setOptions</code></td><td>Boolean</td><td>在表格内嵌表单时，是否将表单查询条件作为表格请求参数（默认 true）</td></tr>
             </tbody>
           </table>
@@ -491,7 +575,9 @@ export default {
 
         <h4>远程数据源 (apiParams)</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">配置示例：Select 远程搜索</span></div>
+          <div class="code-header">
+            <span class="code-lang">配置示例：Select 远程搜索</span>
+          </div>
           <pre v-pre><code>{
   prop: 'cityId', label: '城市', span: 8, formtype: 'Select',
   attrs: { placeholder: '请选择城市', filterable: true, remote: true },
@@ -510,7 +596,9 @@ export default {
         <h4>级联刷新 (formItemRequestInstance)</h4>
         <p>当省份 Select 值改变后，需要联动刷新城市 Select 的选项：</p>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">配置示例：省市区三级联动</span></div>
+          <div class="code-header">
+            <span class="code-lang">配置示例：省市区三级联动</span>
+          </div>
           <pre v-pre><code>// 省份字段
 {
   prop: 'province', label: '省份', span: 8, formtype: 'Select',
@@ -537,7 +625,9 @@ export default {
 
         <h4>动态显示/隐藏字段</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">配置示例：条件字段</span></div>
+          <div class="code-header">
+            <span class="code-lang">配置示例：条件字段</span>
+          </div>
           <pre v-pre><code>{
   prop: 'rejectReason', label: '驳回原因', span: 12, formtype: 'Input',
   attrs: { type: 'textarea', rows: 3 },
@@ -548,7 +638,9 @@ export default {
 
         <h4>自定义 Render 渲染</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">配置示例：自定义复杂控件</span></div>
+          <div class="code-header">
+            <span class="code-lang">配置示例：自定义复杂控件</span>
+          </div>
           <pre v-pre><code>{
   prop: 'tags', label: '标签', span: 12,
   render: (h, model, row) => {
@@ -572,8 +664,12 @@ export default {
     <!-- ==================== 第四篇：EsTable 完全配置手册 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon blue"><i class="el-icon-s-data" /></div>
-        <h2 class="section-title">第四篇：EsTable 完全配置手册</h2>
+        <div class="section-icon blue">
+          <i class="el-icon-s-data" />
+        </div>
+        <h2 class="section-title">
+          第四篇：EsTable 完全配置手册
+        </h2>
       </div>
 
       <!-- 4.0 Props -->
@@ -590,7 +686,14 @@ export default {
               <tr><td><code>configBtn</code></td><td>Array</td><td>[]</td><td>表格顶部的操作按钮（复用 EsForm 的 configBtn 结构）</td></tr>
               <tr><td><code>showHeaderBar</code></td><td>Boolean</td><td>true</td><td>是否显示表格顶部插槽区域</td></tr>
               <tr><td><code>headBarClass</code></td><td>String | Object</td><td>''</td><td>表格顶部区域的样式类</td></tr>
-              <tr><td colspan="4" class="inherit-note"><em>继承全部 Element UI <code>el-table</code> Props（data, border, stripe, size, row-key, tree-props, lazy, span-method 等）</em></td></tr>
+              <tr>
+                <td
+                  colspan="4"
+                  class="inherit-note"
+                >
+                  <em>继承全部 Element UI <code>el-table</code> Props（data, border, stripe, size, row-key, tree-props, lazy, span-method 等）</em>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -624,9 +727,23 @@ export default {
 
         <div class="api-table-wrap">
           <table class="api-table">
-            <thead><tr><th style="width:18%">属性</th><th style="width:12%">类型</th><th style="width:12%">默认值</th><th>说明</th></tr></thead>
+            <thead>
+              <tr>
+                <th style="width:18%">
+                  属性
+                </th><th style="width:12%">
+                  类型
+                </th><th style="width:12%">
+                  默认值
+                </th><th>说明</th>
+              </tr>
+            </thead>
             <tbody>
-              <tr class="api-section"><td colspan="4"><strong>基础设置</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>基础设置</strong>
+                </td>
+              </tr>
               <tr><td><code>border</code></td><td>Boolean</td><td>false</td><td>是否显示边框</td></tr>
               <tr><td><code>size</code></td><td>String</td><td>'small'</td><td>表格尺寸：mini / small / medium</td></tr>
               <tr><td><code>loading</code></td><td>Boolean</td><td>false</td><td>表格加载动画</td></tr>
@@ -634,32 +751,60 @@ export default {
               <tr><td><code>highlightCurrentRow</code></td><td>Boolean</td><td>true</td><td>高亮当前行</td></tr>
               <tr><td><code>rowKey</code></td><td>String</td><td>—</td><td>行唯一键值（多选缓存和树形结构必备）</td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>多选相关</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>多选相关</strong>
+                </td>
+              </tr>
               <tr><td><code>multiSelect</code></td><td>Boolean</td><td>false</td><td>启用多选功能（会自动添加 selection 列）</td></tr>
               <tr><td><code>cachePageSelection</code></td><td>Boolean</td><td>true</td><td>跨页保持选择状态（需设置 <code>rowKey</code>）</td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>展开行</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>展开行</strong>
+                </td>
+              </tr>
               <tr><td><code>expand</code></td><td>Boolean</td><td>false</td><td>启用展开行功能</td></tr>
               <tr><td><code>expandRowKeys</code></td><td>Array</td><td>[]</td><td>默认展开的行 key 列表</td></tr>
               <tr><td><code>expandRender</code></td><td>Function</td><td>—</td><td>展开行内容渲染：<code>(h, { row, index, column }) => VNode</code></td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>树形数据</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>树形数据</strong>
+                </td>
+              </tr>
               <tr><td><code>treeProps</code></td><td>Object</td><td>—</td><td>树形配置：<code>{ children: 'children', hasChildren: 'hasChildren' }</code></td></tr>
               <tr><td><code>lazy</code></td><td>Boolean</td><td>false</td><td>懒加载子节点</td></tr>
               <tr><td><code>lazyLoad</code></td><td>Function</td><td>—</td><td>懒加载回调：<code>(row, treeNode, resolve) => void</code></td></tr>
               <tr><td><code>defaultExpandAll</code></td><td>Boolean</td><td>false</td><td>默认展开全部节点</td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>合并单元格</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>合并单元格</strong>
+                </td>
+              </tr>
               <tr><td><code>spanMethod</code></td><td>Function</td><td>—</td><td>合并行/列：<code>({ row, column, rowIndex, columnIndex }) => { rowspan, colspan }</code></td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>序号列</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>序号列</strong>
+                </td>
+              </tr>
               <tr><td><code>snIndex</code></td><td>Boolean</td><td>false</td><td>显示序号列（会自动计算跨页序号）</td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>尺寸与布局</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>尺寸与布局</strong>
+                </td>
+              </tr>
               <tr><td><code>tabHeight</code></td><td>Number | String</td><td>—</td><td>表格高度（px 数值 或 <code>'100%'</code> 继承父容器）</td></tr>
               <tr><td><code>heightType</code></td><td>String</td><td>'auto'</td><td>高度模式：<code>auto</code> / <code>height</code> / <code>max-height</code></td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>自动数据请求</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>自动数据请求</strong>
+                </td>
+              </tr>
               <tr><td><code>isInitRun</code></td><td>Boolean</td><td>false</td><td>组件挂载时是否自动发起首次数据请求</td></tr>
               <tr><td><code>apiParams</code></td><td>Object</td><td>—</td><td>数据请求配置：<code>{ url, method, model, headers, options }</code></td></tr>
               <tr><td><code>actionUrl</code></td><td>String</td><td>—</td><td>数据请求 URL（旧版 API，推荐使用 apiParams.url）</td></tr>
@@ -668,7 +813,11 @@ export default {
               <tr><td><code>listenToCallBack</code></td><td>Object</td><td>—</td><td>请求生命周期：<code>{ brcb(params), qrcb(response) }</code></td></tr>
               <tr><td><code>entryQuery</code></td><td>Object</td><td>{}</td><td>附加查询参数（合并到每次请求）</td></tr>
 
-              <tr class="api-section"><td colspan="4"><strong>按钮与文本</strong></td></tr>
+              <tr class="api-section">
+                <td colspan="4">
+                  <strong>按钮与文本</strong>
+                </td>
+              </tr>
               <tr><td><code>configBtn</code></td><td>Array</td><td>—</td><td>表格顶部的操作按钮数组</td></tr>
               <tr><td><code>leftText</code></td><td>String</td><td>—</td><td>按钮栏左侧显示的文本（如"已选 3 条"）</td></tr>
             </tbody>
@@ -681,7 +830,9 @@ export default {
         <h3>4.3 自动数据请求机制详解</h3>
         <p>EsTable 的核心价值之一是<strong>声明式数据获取</strong>：只需配置 <code>apiParams</code> 和 <code>isInitRun: true</code>，组件会自动完成数据请求、分页处理、表单联动等全部逻辑。</p>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">完整自动请求配置示例</span></div>
+          <div class="code-header">
+            <span class="code-lang">完整自动请求配置示例</span>
+          </div>
           <pre v-pre><code>tableOpts: {
   isInitRun: true,
   apiParams: {
@@ -741,7 +892,9 @@ export default {
 
         <h4>多级表头</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">多级表头配置</span></div>
+          <div class="code-header">
+            <span class="code-lang">多级表头配置</span>
+          </div>
           <pre v-pre><code>columns: [
   { key: 'id', label: 'ID', width: 80 },
   {
@@ -764,7 +917,9 @@ export default {
 
         <h4>自定义列渲染（render 函数）</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">render 函数示例</span></div>
+          <div class="code-header">
+            <span class="code-lang">render 函数示例</span>
+          </div>
           <pre v-pre><code>columns: [
   {
     key: 'status', label: '状态',
@@ -786,7 +941,9 @@ export default {
 
         <h4>跨页多选记忆</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">跨页选择配置</span></div>
+          <div class="code-header">
+            <span class="code-lang">跨页选择配置</span>
+          </div>
           <pre v-pre><code>tableOpts: {
   multiSelect: true,
   cachePageSelection: true,
@@ -796,7 +953,9 @@ export default {
 
         <h4>树形表格 + 懒加载</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">树形表格配置</span></div>
+          <div class="code-header">
+            <span class="code-lang">树形表格配置</span>
+          </div>
           <pre v-pre><code>tableOpts: {
   treeProps: { children: 'children', hasChildren: 'hasChildren' },
   lazy: true,
@@ -811,7 +970,9 @@ export default {
 
         <h4>合并单元格</h4>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">合并单元格配置</span></div>
+          <div class="code-header">
+            <span class="code-lang">合并单元格配置</span>
+          </div>
           <pre v-pre><code>tableOpts: {
   spanMethod: ({ row, column, rowIndex, columnIndex }) => {
     // 第一列：按部门合并（每 3 行合并为一个单元格）
@@ -828,15 +989,21 @@ export default {
     <!-- ==================== 第五篇：useDialog 完全配置手册 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon orange"><i class="el-icon-s-claim" /></div>
-        <h2 class="section-title">第五篇：useDialog 完全配置手册</h2>
+        <div class="section-icon orange">
+          <i class="el-icon-s-claim" />
+        </div>
+        <h2 class="section-title">
+          第五篇：useDialog 完全配置手册
+        </h2>
       </div>
 
       <div class="content-card">
         <h3>5.1 useDialog 使用模式</h3>
         <p><code>useDialog</code> 是一个<strong>工厂函数</strong>，调用后返回一个 <code>createDialog</code> 函数。每次调用 <code>createDialog(options)</code> 会在页面上动态创建一个 EsDialog 实例。</p>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">基本用法</span></div>
+          <div class="code-header">
+            <span class="code-lang">基本用法</span>
+          </div>
           <pre v-pre><code>import { useDialog } from 'es-eui'
 
 export default {
@@ -873,7 +1040,17 @@ export default {
         <h3>5.2 完整配置参数</h3>
         <div class="api-table-wrap">
           <table class="api-table">
-            <thead><tr><th style="width:18%">参数</th><th style="width:12%">类型</th><th style="width:12%">默认值</th><th>说明</th></tr></thead>
+            <thead>
+              <tr>
+                <th style="width:18%">
+                  参数
+                </th><th style="width:12%">
+                  类型
+                </th><th style="width:12%">
+                  默认值
+                </th><th>说明</th>
+              </tr>
+            </thead>
             <tbody>
               <tr><td><code>key</code></td><td>String</td><td>'__default__'</td><td>弹窗唯一标识。同一 key 的弹窗只会创建一次（第二次调用返回已缓存的实例，可用于防止重复弹窗或恢复已关闭弹窗）</td></tr>
               <tr><td><code>title</code></td><td>String</td><td>''</td><td>弹窗标题</td></tr>
@@ -935,15 +1112,21 @@ export default {
     <!-- ==================== 第六篇：组件联动模式 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon green"><i class="el-icon-connection" /></div>
-        <h2 class="section-title">第六篇：组件联动模式</h2>
+        <div class="section-icon green">
+          <i class="el-icon-connection" />
+        </div>
+        <h2 class="section-title">
+          第六篇：组件联动模式
+        </h2>
       </div>
 
       <div class="content-card">
         <h3>6.1 EsForm + EsTable 查询联动</h3>
         <p>EsForm 嵌套在 EsTable 的默认插槽中时，表单的查询/重置按钮会自动触发表格的数据刷新。</p>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">查询联动模板</span></div>
+          <div class="code-header">
+            <span class="code-lang">查询联动模板</span>
+          </div>
           <pre v-pre><code>&lt;es-table
   :columns="columns"
   :options="tableOpts"
@@ -975,7 +1158,9 @@ export default {
         <h3>6.2 useDialog + EsForm + EsTable 完整 CRUD</h3>
         <p>这是企业开发中最常用的组合模式：表格展示数据 + 表单搜索过滤 + 弹窗编辑新增。</p>
         <div class="code-block">
-          <div class="code-header"><span class="code-lang">完整 CRUD 示例</span></div>
+          <div class="code-header">
+            <span class="code-lang">完整 CRUD 示例</span>
+          </div>
           <pre v-pre><code>
   export default {
   methods: {
@@ -1020,8 +1205,14 @@ export default {
       <div class="content-card">
         <h3>6.3 组件通信模式总结</h3>
         <div class="comm-diagram">
-          <div class="comm-item" v-for="(item, i) in commPatterns" :key="i">
-            <div class="comm-number">{{ i + 1 }}</div>
+          <div
+            v-for="(item, i) in commPatterns"
+            :key="i"
+            class="comm-item"
+          >
+            <div class="comm-number">
+              {{ i + 1 }}
+            </div>
             <div class="comm-body">
               <strong>{{ item.title }}</strong>
               <p>{{ item.desc }}</p>
@@ -1035,8 +1226,12 @@ export default {
     <!-- ==================== 附录 ==================== -->
     <section class="section">
       <div class="section-header">
-        <div class="section-icon blue"><i class="el-icon-collection-tag" /></div>
-        <h2 class="section-title">附录：配置项速查总表</h2>
+        <div class="section-icon blue">
+          <i class="el-icon-collection-tag" />
+        </div>
+        <h2 class="section-title">
+          附录：配置项速查总表
+        </h2>
       </div>
 
       <div class="content-card">
@@ -1058,10 +1253,20 @@ export default {
       <div class="content-card">
         <h3>B. formtype 内置控件速查</h3>
         <div class="type-grid">
-          <div class="type-card" v-for="ft in formTypes" :key="ft.name">
-            <div class="type-name">{{ ft.name }}</div>
-            <div class="type-comp">{{ ft.comp }}</div>
-            <div class="type-desc">{{ ft.desc }}</div>
+          <div
+            v-for="ft in formTypes"
+            :key="ft.name"
+            class="type-card"
+          >
+            <div class="type-name">
+              {{ ft.name }}
+            </div>
+            <div class="type-comp">
+              {{ ft.comp }}
+            </div>
+            <div class="type-desc">
+              {{ ft.desc }}
+            </div>
           </div>
         </div>
       </div>

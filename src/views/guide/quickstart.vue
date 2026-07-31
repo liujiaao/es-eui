@@ -6,7 +6,9 @@
         <i class="el-icon-time" />
         <span>5 分钟快速上手</span>
       </div>
-      <h1 class="hero-title">快速开始</h1>
+      <h1 class="hero-title">
+        快速开始
+      </h1>
       <p class="hero-desc">
         跟随本教程，你将在几分钟内完成 ES-EUI 的环境搭建，
         并运行你的第一个中后台应用页面。
@@ -19,17 +21,25 @@
         <div class="section-icon blue">
           <i class="el-icon-info-filled" />
         </div>
-        <h2 class="section-title">环境准备</h2>
+        <h2 class="section-title">
+          环境准备
+        </h2>
       </div>
-      <p class="section-desc">在开始之前，请确保你的开发环境满足以下要求：</p>
+      <p class="section-desc">
+        在开始之前，请确保你的开发环境满足以下要求：
+      </p>
       <div class="requirement-cards">
         <div class="req-card">
           <div class="req-icon vue">
             <i class="el-icon-s-flag" />
           </div>
           <div class="req-info">
-            <div class="req-name">Vue</div>
-            <div class="req-version">2.6+</div>
+            <div class="req-name">
+              Vue
+            </div>
+            <div class="req-version">
+              2.6+
+            </div>
           </div>
         </div>
         <div class="req-card">
@@ -37,8 +47,12 @@
             <i class="el-icon-s-management" />
           </div>
           <div class="req-info">
-            <div class="req-name">Element UI</div>
-            <div class="req-version">2.15+</div>
+            <div class="req-name">
+              Element UI
+            </div>
+            <div class="req-version">
+              2.15+
+            </div>
           </div>
         </div>
         <div class="req-card">
@@ -46,8 +60,12 @@
             <i class="el-icon-monitor" />
           </div>
           <div class="req-info">
-            <div class="req-name">浏览器</div>
-            <div class="req-version">现代浏览器</div>
+            <div class="req-name">
+              浏览器
+            </div>
+            <div class="req-version">
+              现代浏览器
+            </div>
           </div>
         </div>
       </div>
@@ -56,16 +74,25 @@
     <!-- Step 1: Install -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">01</div>
+        <div class="step-number">
+          01
+        </div>
         <div class="step-info">
-          <h2 class="section-title">安装依赖</h2>
-          <p class="section-desc">在项目根目录执行以下命令安装 ES-EUI 及其依赖</p>
+          <h2 class="section-title">
+            安装依赖
+          </h2>
+          <p class="section-desc">
+            在项目根目录执行以下命令安装 ES-EUI 及其依赖
+          </p>
         </div>
       </div>
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">bash</span>
-          <button class="copy-btn" @click="copyCode('install')">
+          <button
+            class="copy-btn"
+            @click="copyCode('install')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -77,10 +104,16 @@
     <!-- Step 2: Configure -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">02</div>
+        <div class="step-number">
+          02
+        </div>
         <div class="step-info">
-          <h2 class="section-title">引入并配置</h2>
-          <p class="section-desc">在项目的入口文件 main.js 中引入并注册 ES-EUI</p>
+          <h2 class="section-title">
+            引入并配置
+          </h2>
+          <p class="section-desc">
+            在项目的入口文件 main.js 中引入并注册 ES-EUI
+          </p>
         </div>
       </div>
       
@@ -102,10 +135,16 @@
           </div>
         </div>
         
-        <div class="code-block" v-show="activeTab === 'full'">
+        <div
+          v-show="activeTab === 'full'"
+          class="code-block"
+        >
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('fullConfig')">
+            <button
+              class="copy-btn"
+              @click="copyCode('fullConfig')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -185,10 +224,16 @@ new Vue({
 }).$mount('#app')</code></pre>
         </div>
 
-        <div class="code-block" v-show="activeTab === 'minimal'">
+        <div
+          v-show="activeTab === 'minimal'"
+          class="code-block"
+        >
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('minimalConfig')">
+            <button
+              class="copy-btn"
+              @click="copyCode('minimalConfig')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -245,10 +290,16 @@ new Vue({ render: h => h(App) }).$mount('#app')</code></pre>
     <!-- Step 3: Create Page -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">03</div>
+        <div class="step-number">
+          03
+        </div>
         <div class="step-info">
-          <h2 class="section-title">创建第一个页面</h2>
-          <p class="section-desc">创建一个简单的用户列表页面，展示表格和表单的基础用法</p>
+          <h2 class="section-title">
+            创建第一个页面
+          </h2>
+          <p class="section-desc">
+            创建一个简单的用户列表页面，展示表格和表单的基础用法
+          </p>
         </div>
       </div>
 
@@ -260,13 +311,20 @@ new Vue({ render: h => h(App) }).$mount('#app')</code></pre>
           </div>
           <div class="preview-body">
             <div class="mock-form">
-              <div class="mock-input">用户名</div>
-              <div class="mock-select">状态 ▼</div>
-              <div class="mock-btn primary">查询</div>
-              <div class="mock-btn">重置</div>
+              <div class="mock-input">
+                用户名
+              </div>
+              <div class="mock-select">
+                状态 ▼
+              </div>
+              <div class="mock-btn primary">
+                查询
+              </div>
+              <div class="mock-btn">
+                重置
+              </div>
             </div>
             <div class="mock-table">
-
               <div class="mock-row">
                 <span>1</span>
                 <span>张三</span>
@@ -288,7 +346,10 @@ new Vue({ render: h => h(App) }).$mount('#app')</code></pre>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">vue</span>
-            <button class="copy-btn" @click="copyCode('pageExample')">
+            <button
+              class="copy-btn"
+              @click="copyCode('pageExample')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -403,7 +464,9 @@ export default {
         <div class="section-icon purple">
           <i class="el-icon-s-opportunity" />
         </div>
-        <h2 class="section-title">核心概念</h2>
+        <h2 class="section-title">
+          核心概念
+        </h2>
       </div>
 
       <div class="concepts-grid">
@@ -411,8 +474,12 @@ export default {
           <div class="concept-icon blue">
             <i class="el-icon-s-order" />
           </div>
-          <h3 class="concept-title">配置化表单</h3>
-          <p class="concept-desc">通过 form-item-list 配置生成表单，支持 20+ 种控件类型</p>
+          <h3 class="concept-title">
+            配置化表单
+          </h3>
+          <p class="concept-desc">
+            通过 form-item-list 配置生成表单，支持 20+ 种控件类型
+          </p>
           <ul class="concept-list">
             <li><code>prop</code> - 表单字段名</li>
             <li><code>formtype</code> - 控件类型</li>
@@ -425,8 +492,12 @@ export default {
           <div class="concept-icon green">
             <i class="el-icon-s-data" />
           </div>
-          <h3 class="concept-title">配置化表格</h3>
-          <p class="concept-desc">通过 columns 配置生成表格列，支持自定义渲染</p>
+          <h3 class="concept-title">
+            配置化表格
+          </h3>
+          <p class="concept-desc">
+            通过 columns 配置生成表格列，支持自定义渲染
+          </p>
           <ul class="concept-list">
             <li><code>key</code> - 数据字段名</li>
             <li><code>label</code> - 列标题</li>
@@ -439,8 +510,12 @@ export default {
           <div class="concept-icon orange">
             <i class="el-icon-link" />
           </div>
-          <h3 class="concept-title">自动数据请求</h3>
-          <p class="concept-desc">配置 apiParams 即可实现自动请求和分页处理</p>
+          <h3 class="concept-title">
+            自动数据请求
+          </h3>
+          <p class="concept-desc">
+            配置 apiParams 即可实现自动请求和分页处理
+          </p>
           <ul class="concept-list">
             <li>初始化自动请求</li>
             <li>表单参数自动传递</li>
@@ -453,8 +528,12 @@ export default {
           <div class="concept-icon pink">
             <i class="el-icon-refresh" />
           </div>
-          <h3 class="concept-title">表单表格联动</h3>
-          <p class="concept-desc">内置联动机制，查询、重置一键完成</p>
+          <h3 class="concept-title">
+            表单表格联动
+          </h3>
+          <p class="concept-desc">
+            内置联动机制，查询、重置一键完成
+          </p>
           <ul class="concept-list">
             <li>triggerEvent 触发查询</li>
             <li>查询参数自动同步</li>
@@ -471,14 +550,21 @@ export default {
         <div class="section-icon green">
           <i class="el-icon-s-claim" />
         </div>
-        <h2 class="section-title">使用 useDialog 打开弹窗</h2>
+        <h2 class="section-title">
+          使用 useDialog 打开弹窗
+        </h2>
       </div>
-      <p class="section-desc">ES-EUI 提供了函数式弹窗 useDialog，可以在方法中直接调用</p>
+      <p class="section-desc">
+        ES-EUI 提供了函数式弹窗 useDialog，可以在方法中直接调用
+      </p>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('useDialog')">
+          <button
+            class="copy-btn"
+            @click="copyCode('useDialog')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -533,12 +619,19 @@ export default {
         <div class="section-icon orange">
           <i class="el-icon-right" />
         </div>
-        <h2 class="section-title">下一步</h2>
+        <h2 class="section-title">
+          下一步
+        </h2>
       </div>
-      <p class="section-desc">你已经掌握了 ES-EUI 的基础用法！接下来可以深入学习：</p>
+      <p class="section-desc">
+        你已经掌握了 ES-EUI 的基础用法！接下来可以深入学习：
+      </p>
 
       <div class="next-links">
-        <router-link to="/component/estable" class="next-card">
+        <router-link
+          to="/component/estable"
+          class="next-card"
+        >
           <div class="next-icon blue">
             <i class="el-icon-s-data" />
           </div>
@@ -549,7 +642,10 @@ export default {
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/component/esform" class="next-card">
+        <router-link
+          to="/component/esform"
+          class="next-card"
+        >
           <div class="next-icon purple">
             <i class="el-icon-s-order" />
           </div>
@@ -560,7 +656,10 @@ export default {
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/component/esdialog" class="next-card">
+        <router-link
+          to="/component/esdialog"
+          class="next-card"
+        >
           <div class="next-icon green">
             <i class="el-icon-s-claim" />
           </div>
@@ -571,7 +670,10 @@ export default {
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/guide/configuration" class="next-card">
+        <router-link
+          to="/guide/configuration"
+          class="next-card"
+        >
           <div class="next-icon orange">
             <i class="el-icon-s-tools" />
           </div>
@@ -590,7 +692,11 @@ export default {
         <i class="el-icon-question" />
         <h3>遇到问题？</h3>
         <p>如果在使用过程中遇到问题，可以参考 GitHub 仓库中的示例代码或提交 Issue</p>
-        <a href="https://github.com/liujiaao/es-eui" target="_blank" class="cta-link">
+        <a
+          href="https://github.com/liujiaao/es-eui"
+          target="_blank"
+          class="cta-link"
+        >
           <i class="el-icon-link" />
           访问 GitHub 仓库
         </a>

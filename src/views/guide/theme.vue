@@ -6,7 +6,9 @@
         <i class="el-icon-s-open" />
         <span>自定义主题</span>
       </div>
-      <h1 class="hero-title">主题定制</h1>
+      <h1 class="hero-title">
+        主题定制
+      </h1>
       <p class="hero-desc">
         ES-EUI 基于 Element UI 的样式系统，支持通过 SCSS 变量、CSS 变量和主题配置对象
         多种方式自定义主题，轻松打造符合品牌风格的中后台应用。
@@ -19,33 +21,49 @@
         <div class="section-icon blue">
           <i class="el-icon-magic-stick" />
         </div>
-        <h2 class="section-title">主题定制方式</h2>
+        <h2 class="section-title">
+          主题定制方式
+        </h2>
       </div>
-      <p class="section-desc">ES-EUI 提供三种主题定制方式，你可以根据项目需求选择合适的方式：</p>
+      <p class="section-desc">
+        ES-EUI 提供三种主题定制方式，你可以根据项目需求选择合适的方式：
+      </p>
 
       <div class="method-cards">
         <div class="method-card">
           <div class="method-icon scss">
             <i class="el-icon-edit-outline" />
           </div>
-          <h3 class="method-title">SCSS 变量</h3>
-          <p class="method-desc">通过修改 SCSS 变量完全定制主题，适合需要深度定制的项目</p>
+          <h3 class="method-title">
+            SCSS 变量
+          </h3>
+          <p class="method-desc">
+            通过修改 SCSS 变量完全定制主题，适合需要深度定制的项目
+          </p>
           <span class="method-tag">推荐</span>
         </div>
         <div class="method-card">
           <div class="method-icon css">
             <i class="el-icon-collection" />
           </div>
-          <h3 class="method-title">CSS 变量</h3>
-          <p class="method-desc">使用 CSS 自定义属性动态切换主题，适合需要运行时切换的场景</p>
+          <h3 class="method-title">
+            CSS 变量
+          </h3>
+          <p class="method-desc">
+            使用 CSS 自定义属性动态切换主题，适合需要运行时切换的场景
+          </p>
           <span class="method-tag">动态</span>
         </div>
         <div class="method-card">
           <div class="method-icon config">
             <i class="el-icon-set-up" />
           </div>
-          <h3 class="method-title">配置对象</h3>
-          <p class="method-desc">通过 JS 配置对象快速覆盖主题色，适合简单主题调整</p>
+          <h3 class="method-title">
+            配置对象
+          </h3>
+          <p class="method-desc">
+            通过 JS 配置对象快速覆盖主题色，适合简单主题调整
+          </p>
           <span class="method-tag">简单</span>
         </div>
       </div>
@@ -54,10 +72,16 @@
     <!-- SCSS Variable Method -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">01</div>
+        <div class="step-number">
+          01
+        </div>
         <div class="step-info">
-          <h2 class="section-title">SCSS 变量定制</h2>
-          <p class="section-desc">通过修改 Element UI 的 SCSS 变量来定制主题</p>
+          <h2 class="section-title">
+            SCSS 变量定制
+          </h2>
+          <p class="section-desc">
+            通过修改 Element UI 的 SCSS 变量来定制主题
+          </p>
         </div>
       </div>
 
@@ -68,7 +92,10 @@
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">scss</span>
-              <button class="copy-btn" @click="copyCode('scssTheme')">
+              <button
+                class="copy-btn"
+                @click="copyCode('scssTheme')"
+              >
                 <i class="el-icon-document-copy" />
                 复制
               </button>
@@ -107,7 +134,10 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">javascript</span>
-              <button class="copy-btn" @click="copyCode('mainImport')">
+              <button
+                class="copy-btn"
+                @click="copyCode('mainImport')"
+              >
                 <i class="el-icon-document-copy" />
                 复制
               </button>
@@ -139,17 +169,26 @@ Vue.use(esEui)</code></pre>
     <!-- CSS Variable Method -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">02</div>
+        <div class="step-number">
+          02
+        </div>
         <div class="step-info">
-          <h2 class="section-title">CSS 变量定制</h2>
-          <p class="section-desc">使用 CSS 自定义属性（CSS Variables）实现动态主题切换</p>
+          <h2 class="section-title">
+            CSS 变量定制
+          </h2>
+          <p class="section-desc">
+            使用 CSS 自定义属性（CSS Variables）实现动态主题切换
+          </p>
         </div>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">css</span>
-          <button class="copy-btn" @click="copyCode('cssVar')">
+          <button
+            class="copy-btn"
+            @click="copyCode('cssVar')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -181,7 +220,10 @@ Vue.use(esEui)</code></pre>
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('switchTheme')">
+          <button
+            class="copy-btn"
+            @click="copyCode('switchTheme')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -203,17 +245,26 @@ export function initTheme() {
     <!-- Config Object Method -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">03</div>
+        <div class="step-number">
+          03
+        </div>
         <div class="step-info">
-          <h2 class="section-title">配置对象定制</h2>
-          <p class="section-desc">通过 ES-EUI 的全局配置对象快速覆盖组件样式</p>
+          <h2 class="section-title">
+            配置对象定制
+          </h2>
+          <p class="section-desc">
+            通过 ES-EUI 的全局配置对象快速覆盖组件样式
+          </p>
         </div>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('configTheme')">
+          <button
+            class="copy-btn"
+            @click="copyCode('configTheme')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -257,7 +308,9 @@ Vue.use(esEui, {
         <div class="section-icon purple">
           <i class="el-icon-collection-tag" />
         </div>
-        <h2 class="section-title">常用主题变量</h2>
+        <h2 class="section-title">
+          常用主题变量
+        </h2>
       </div>
 
       <div class="param-table-wrapper">
@@ -341,14 +394,21 @@ Vue.use(esEui, {
         <div class="section-icon green">
           <i class="el-icon-view" />
         </div>
-        <h2 class="section-title">主题切换示例</h2>
+        <h2 class="section-title">
+          主题切换示例
+        </h2>
       </div>
-      <p class="section-desc">以下是一个简单的主题切换组件示例：</p>
+      <p class="section-desc">
+        以下是一个简单的主题切换组件示例：
+      </p>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">vue</span>
-          <button class="copy-btn" @click="copyCode('themeComponent')">
+          <button
+            class="copy-btn"
+            @click="copyCode('themeComponent')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>

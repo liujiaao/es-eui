@@ -1,5 +1,8 @@
 <template>
-  <div v-if="leftText || btnLeft.length || btnRight.length" class="flex-float btns">
+  <div
+    v-if="leftText || btnLeft.length || btnRight.length"
+    class="flex-float btns"
+  >
     <div style="color: rgb(125, 125, 125); font-size: 14px;">
       {{ leftText }}
     </div>
@@ -26,13 +29,14 @@
               @click="() => {
                 item.click && item.click(formInstance, $parent)
               }"
-            >{{ item.name }}</el-button>
+            >
+              {{ item.name }}
+            </el-button>
           </div>
         </template>
       </div>
 
       <div class="btn-right">
-
         <template v-for="(item, index) in btnRight">
           <div
             v-if="!item.isHide"
@@ -54,14 +58,13 @@
               @click="() => {
                 item.click && item.click(formInstance, $parent)
               }"
-            >{{ item.name }}</el-button>
+            >
+              {{ item.name }}
+            </el-button>
           </div>
         </template>
-
       </div>
-
     </div>
-
   </div>
 </template>
 <script>

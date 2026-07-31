@@ -6,7 +6,9 @@
         <i class="el-icon-download" />
         <span>npm install</span>
       </div>
-      <h1 class="hero-title">安装</h1>
+      <h1 class="hero-title">
+        安装
+      </h1>
       <p class="hero-desc">
         ES-EUI 提供了多种安装方式，你可以根据项目需求选择完整引入或按需引入，
         灵活适配不同规模的应用场景。
@@ -16,10 +18,16 @@
     <!-- Step 1: NPM Install -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">01</div>
+        <div class="step-number">
+          01
+        </div>
         <div class="step-info">
-          <h2 class="section-title">NPM 安装</h2>
-          <p class="section-desc">推荐使用 npm 的方式安装，它能更好地和 webpack 打包工具配合使用</p>
+          <h2 class="section-title">
+            NPM 安装
+          </h2>
+          <p class="section-desc">
+            推荐使用 npm 的方式安装，它能更好地和 webpack 打包工具配合使用
+          </p>
         </div>
       </div>
 
@@ -27,7 +35,10 @@
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">npm</span>
-            <button class="copy-btn" @click="copyCode('npm')">
+            <button
+              class="copy-btn"
+              @click="copyCode('npm')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -38,7 +49,10 @@
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">yarn</span>
-            <button class="copy-btn" @click="copyCode('yarn')">
+            <button
+              class="copy-btn"
+              @click="copyCode('yarn')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -51,17 +65,26 @@
     <!-- Step 2: Import ES-EUI -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">02</div>
+        <div class="step-number">
+          02
+        </div>
         <div class="step-info">
-          <h2 class="section-title">引入 ES-EUI</h2>
-          <p class="section-desc">在 main.js 中写入以下内容，完成组件注册和全局配置</p>
+          <h2 class="section-title">
+            引入 ES-EUI
+          </h2>
+          <p class="section-desc">
+            在 main.js 中写入以下内容，完成组件注册和全局配置
+          </p>
         </div>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('mainjs')">
+          <button
+            class="copy-btn"
+            @click="copyCode('mainjs')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -207,10 +230,16 @@ new Vue({
     <!-- Step 3: On-demand Import -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">03</div>
+        <div class="step-number">
+          03
+        </div>
         <div class="step-info">
-          <h2 class="section-title">按需引入（推荐）</h2>
-          <p class="section-desc">借助 babel-plugin-component，我们可以只引入需要的组件，以达到减小项目体积的目的</p>
+          <h2 class="section-title">
+            按需引入（推荐）
+          </h2>
+          <p class="section-desc">
+            借助 babel-plugin-component，我们可以只引入需要的组件，以达到减小项目体积的目的
+          </p>
         </div>
       </div>
 
@@ -221,7 +250,10 @@ new Vue({
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">bash</span>
-          <button class="copy-btn" @click="copyCode('babelPlugin')">
+          <button
+            class="copy-btn"
+            @click="copyCode('babelPlugin')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -236,7 +268,10 @@ new Vue({
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">json</span>
-          <button class="copy-btn" @click="copyCode('babelrc')">
+          <button
+            class="copy-btn"
+            @click="copyCode('babelrc')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -258,17 +293,26 @@ new Vue({
     <!-- Step 4: Full Import Example -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">04</div>
+        <div class="step-number">
+          04
+        </div>
         <div class="step-info">
-          <h2 class="section-title">完整引入示例</h2>
-          <p class="section-desc">以下是在页面中按需引入组件的示例代码</p>
+          <h2 class="section-title">
+            完整引入示例
+          </h2>
+          <p class="section-desc">
+            以下是在页面中按需引入组件的示例代码
+          </p>
         </div>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('importExample')">
+          <button
+            class="copy-btn"
+            @click="copyCode('importExample')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -298,12 +342,19 @@ Vue.prototype.$useDialog = useDialog</code></pre>
         <div class="section-icon green">
           <i class="el-icon-right" />
         </div>
-        <h2 class="section-title">下一步</h2>
+        <h2 class="section-title">
+          下一步
+        </h2>
       </div>
-      <p class="section-desc">安装完成后，你可以开始探索 ES-EUI 的强大功能：</p>
+      <p class="section-desc">
+        安装完成后，你可以开始探索 ES-EUI 的强大功能：
+      </p>
 
       <div class="next-links">
-        <router-link to="/guide/quickstart" class="next-card">
+        <router-link
+          to="/guide/quickstart"
+          class="next-card"
+        >
           <div class="next-icon blue">
             <i class="el-icon-time" />
           </div>
@@ -314,7 +365,10 @@ Vue.prototype.$useDialog = useDialog</code></pre>
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/component/estable" class="next-card">
+        <router-link
+          to="/component/estable"
+          class="next-card"
+        >
           <div class="next-icon purple">
             <i class="el-icon-s-data" />
           </div>
@@ -325,7 +379,10 @@ Vue.prototype.$useDialog = useDialog</code></pre>
           <i class="el-icon-arrow-right" />
         </router-link>
 
-        <router-link to="/component/esform" class="next-card">
+        <router-link
+          to="/component/esform"
+          class="next-card"
+        >
           <div class="next-icon orange">
             <i class="el-icon-s-order" />
           </div>

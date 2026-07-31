@@ -31,7 +31,7 @@
         <es-table
           :data-source="basicData"
           :columns="basicColumns"
-          :options="{ border: true }"
+          :options="borderOptions"
         />
       </div>
       <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene1 }">
@@ -66,7 +66,8 @@
       </div>
       <div class="demo-block__body">
         <es-table
-          :data-source.sync="autoData"
+           @row-click="(row) => console.log(row)"
+          :data-source="autoData"
           :columns="autoColumns"
           :pagination="autoPagination"
           :options="autoOptions"
@@ -87,7 +88,7 @@
     <div class="tips-box tips-box--success">
       <h4>💡 最佳实践</h4>
       <ul>
-        <li>使用 <code>.sync</code> 修饰符保持数据双向同步</li>
+        <li>表格内部自管 <code>tableData</code>，外部仅需单向 <code>:data-source</code> 传入即可（Vue 2.7+ 也可用 <code>.sync</code> 双向）</li>
         <li>通过 <code>configTableOut</code> 映射后端返回字段，无需修改接口</li>
         <li><code>brcb</code> 回调可在请求前格式化参数</li>
         <li><code>qrcb</code> 回调可处理响应数据</li>
@@ -108,7 +109,7 @@
           此示例使用自定义 httpRequest 拦截请求，添加统一的请求头处理
         </p>
         <es-table
-          :data-source.sync="customHttpData"
+          :data-source="customHttpData"
           :columns="customHttpColumns"
           :pagination="customHttpPagination"
           :options="customHttpOptions"
@@ -147,7 +148,7 @@
         <es-table
           :data-source="renderData"
           :columns="renderColumns"
-          :options="{ border: true }"
+          :options="borderOptions"
         />
       </div>
       <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene4 }">
@@ -183,7 +184,7 @@
       </div>
       <div class="demo-block__body">
         <es-table
-          :data-source.sync="linkageData"
+          :data-source="linkageData"
           :columns="linkageColumns"
           :pagination="linkagePagination"
           :options="linkageOptions"
@@ -230,7 +231,7 @@
         </div>
         <es-table
           ref="multiSelectTable"
-          :data-source.sync="multiSelectData"
+          :data-source="multiSelectData"
           :columns="multiSelectColumns"
           :pagination="multiSelectPagination"
           :options="multiSelectOptions"
@@ -273,7 +274,7 @@
           ref="actionTable"
           :data-source="actionData"
           :columns="actionColumns"
-          :options="{ border: true }"
+          :options="borderOptions"
         />
       </div>
       <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.scene6 }">
@@ -300,7 +301,7 @@
         <es-table
           :data-source="groupColumnData"
           :columns="groupColumnColumns"
-          :options="{ border: true }"
+          :options="borderOptions"
         />
       </div>
       <div class="demo-block__code" :class="{ 'is-collapsed': !codeExpanded.sceneGroupColumn }">
@@ -598,7 +599,7 @@
       </div>
       <div class="demo-block__body">
         <es-table
-          :data-source.sync="policyData"
+          :data-source="policyData"
           :columns="policyColumns"
           :pagination="policyPagination"
           :options="policyOptions"
@@ -647,7 +648,7 @@
       <tbody>
         <tr>
           <td>dataSource</td>
-          <td>表格数据源，推荐配合 .sync 使用</td>
+          <td>表格数据源（接口请求场景下表格内部自管 tableData，外部仅需单向传入即可）</td>
           <td>Array</td>
           <td>[]</td>
         </tr>
@@ -918,6 +919,8 @@ export default {
   name: 'EsTableDocs',
   data() {
     return {
+      // 共用的静态 options（避免模板中内联对象每次渲染创建新引用导致循环更新）
+      borderOptions: Object.freeze({ border: true }),
       // 基础示例数据
       basicData: [
         { id: 1, name: '张三', age: 25, email: 'zhangsan@example.com' },
@@ -953,6 +956,7 @@ export default {
         border: true,
         tabHeight: 350,
         heightType: 'height',
+    
         // 使用真实免费 API: https://dummyjson.com/users
         apiParams: {
           url: 'https://dummyjson.com/users',
@@ -976,9 +980,9 @@ export default {
               skip: (pageIndex - 1) * pageSize
             }
           },
-          qrcb: (res) => {
-            console.log('DummyJSON API 查询结果:', res)
-          }
+          // qrcb: (res) => {
+          //   console.log('DummyJSON API 查询结果:', res)
+          // }
         }
       },
 

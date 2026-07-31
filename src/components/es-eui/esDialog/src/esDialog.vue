@@ -1,9 +1,9 @@
 <template>
   <el-dialog
-    ref="dialog"
     :id="id"
+    ref="dialog"
+    v-model:visible="show"
     v-draggable
-    :visible.sync="show"
     :title="title"
     :width="style.width"
     :fullscreen="fullscreen"
@@ -91,8 +91,19 @@
             </el-button>
           </template>
           <template v-else-if="showDefaultButtons">
-            <el-button size="mini" @click="handleClose">取消</el-button>
-            <el-button size="mini" type="primary" @click="confirm">确定</el-button>
+            <el-button
+              size="mini"
+              @click="handleClose"
+            >
+              取消
+            </el-button>
+            <el-button
+              size="mini"
+              type="primary"
+              @click="confirm"
+            >
+              确定
+            </el-button>
           </template>
         </slot>
       </div>

@@ -8,9 +8,12 @@
       <el-row
         v-bind="rowLayout"
       >
-      
         <template v-for="(item, index) in formItemRowsList">
-          <el-col v-show="!item.isfold" :key="item.prop" :span="item.span">
+          <el-col
+            v-show="!item.isfold"
+            :key="item.prop"
+            :span="item.span"
+          >
             <el-form-item
               :label="item.label"
               v-bind="item.formItemOptions || {}"
@@ -23,7 +26,6 @@
                   :index="index"
                   :model="model"
                 />
-              
               </template>
               <template v-else>
                 <RenderDom
@@ -33,21 +35,26 @@
                   :model="model"
                 />
               </template>
-
             </el-form-item>
           </el-col>
         </template>
         <template v-if="!isBtnHiden">
           <template v-if="isRenderBtn">
             <RenderBtn
-              :row="{isfold, folded, getBtnColSpan, getRowColsAlgorithm, changefolded, refsForm: this.formInstance}"
+              :row="{isfold, folded, getBtnColSpan, getRowColsAlgorithm, changefolded, refsForm: formInstance}"
               :form-model="model"
               :form-item-list="formItem"
               :render="renderBtn"
             />
           </template>
-          <el-col v-else :span="btnColSpanRow ? 24 :getBtnColSpan">
-            <div v-if="btnColSpanRow && configBtn.length" class="buttonOperate leftRightBtn">
+          <el-col
+            v-else
+            :span="btnColSpanRow ? 24 :getBtnColSpan"
+          >
+            <div
+              v-if="btnColSpanRow && configBtn.length"
+              class="buttonOperate leftRightBtn"
+            >
               <div class="btn-left">
                 <el-form-item label-width="0px">
                   <el-button
@@ -58,7 +65,9 @@
                     @click="() =>{
                       clickBtn(it)
                     }"
-                  >{{ it.name }}</el-button>
+                  >
+                    {{ it.name }}
+                  </el-button>
                 </el-form-item>
               </div>
               <div class="btn-right">
@@ -73,7 +82,9 @@
                     @click="() => {
                       clickBtn(it)
                     }"
-                  >{{ it.name }}</el-button>
+                  >
+                    {{ it.name }}
+                  </el-button>
                   <el-button
                     v-if="isfold"
                     type="text"
@@ -92,7 +103,10 @@
               :label-width="fromProps.labelBtnWidth ? fromProps.labelBtnWidth : fromProps.labelWidth"
               :class="{formItemCols: (getBtnColSpan === 24)}"
             >
-              <div class="buttonOperate" :style="{ 'text-align': getBtnColSpan === 24 ? 'right' : 'left' }">
+              <div
+                class="buttonOperate"
+                :style="{ 'text-align': getBtnColSpan === 24 ? 'right' : 'left' }"
+              >
                 <template v-if="configBtn.length">
                   <el-button
                     v-for="(it,inx) in configBtn"
@@ -100,7 +114,9 @@
                     v-bind="it"
                     :disabled="typeof it.disabled === 'function' ? (it.disabled() || false) : it.disabled || false"
                     @click="() => it.onClick ? it.onClick($refs[refs], model) : it.click($refs[refs], model)"
-                  >{{ it.name }}</el-button>
+                  >
+                    {{ it.name }}
+                  </el-button>
                 </template>
                 <el-button
                   v-if="isfold"

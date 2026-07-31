@@ -1,15 +1,19 @@
 import Vue from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import http from '@/utils/server/request.js'
 import 'element-ui/lib/theme-chalk/index.css'
-import esEui from './components/es-eui'
-// import esEui from 'es-eui'
-// import 'es-eui/dist/es-eui.css'
 Vue.use(ElementUI, { size: 'mini' })
-Vue.use(esEui, {
+// es-eui 使用 Vue 2.6.x，原生不支持 Composition API —— 需要手动注册 polyfill。
+// @es-plus/vue2 1.1.0+ 的 install() 内置了 alreadyInstalled 检测，不会重复注册。
+// Vue.use(VueCompositionAPI)
+import EsPlus from '@es-plus/vue2'
+import '@es-plus/vue2/dist/style.css'
+
+Vue.use(EsPlus, {
     EsTable: {
         methods: {
             $httpRequest({ url, headers, formParams, ...options }) {

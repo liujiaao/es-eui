@@ -6,7 +6,9 @@
         <i class="el-icon-download" />
         <span>轻松集成</span>
       </div>
-      <h1 class="hero-title">安装指南</h1>
+      <h1 class="hero-title">
+        安装指南
+      </h1>
       <p class="hero-desc">
         本节将介绍如何在项目中安装和配置 ES-EUI 组件库，
         只需几步即可开始使用。
@@ -19,17 +21,25 @@
         <div class="section-icon blue">
           <i class="el-icon-info-filled" />
         </div>
-        <h2 class="section-title">环境要求</h2>
+        <h2 class="section-title">
+          环境要求
+        </h2>
       </div>
-      <p class="section-desc">在开始安装之前，请确保你的开发环境满足以下要求：</p>
+      <p class="section-desc">
+        在开始安装之前，请确保你的开发环境满足以下要求：
+      </p>
       <div class="requirement-cards">
         <div class="req-card">
           <div class="req-icon vue">
             <i class="el-icon-s-flag" />
           </div>
           <div class="req-info">
-            <div class="req-name">Vue</div>
-            <div class="req-version">2.6+</div>
+            <div class="req-name">
+              Vue
+            </div>
+            <div class="req-version">
+              2.6+
+            </div>
           </div>
         </div>
         <div class="req-card">
@@ -37,8 +47,12 @@
             <i class="el-icon-s-management" />
           </div>
           <div class="req-info">
-            <div class="req-name">Element UI</div>
-            <div class="req-version">2.15+</div>
+            <div class="req-name">
+              Element UI
+            </div>
+            <div class="req-version">
+              2.15+
+            </div>
           </div>
         </div>
         <div class="req-card">
@@ -46,8 +60,12 @@
             <i class="el-icon-monitor" />
           </div>
           <div class="req-info">
-            <div class="req-name">浏览器</div>
-            <div class="req-version">现代浏览器</div>
+            <div class="req-name">
+              浏览器
+            </div>
+            <div class="req-version">
+              现代浏览器
+            </div>
           </div>
         </div>
       </div>
@@ -56,27 +74,41 @@
     <!-- Step 1: npm Install -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">01</div>
+        <div class="step-number">
+          01
+        </div>
         <div class="step-info">
-          <h2 class="section-title">npm 安装</h2>
-          <p class="section-desc">在项目根目录执行以下命令安装 ES-EUI</p>
+          <h2 class="section-title">
+            npm 安装
+          </h2>
+          <p class="section-desc">
+            在项目根目录执行以下命令安装 ES-EUI
+          </p>
         </div>
       </div>
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">bash</span>
-          <button class="copy-btn" @click="copyCode('npm')">
+          <button
+            class="copy-btn"
+            @click="copyCode('npm')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
         </div>
         <pre v-pre><code>npm install es-eui --save</code></pre>
       </div>
-      <p class="section-desc">或者使用 yarn：</p>
+      <p class="section-desc">
+        或者使用 yarn：
+      </p>
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">bash</span>
-          <button class="copy-btn" @click="copyCode('yarn')">
+          <button
+            class="copy-btn"
+            @click="copyCode('yarn')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -88,16 +120,25 @@
     <!-- Step 2: Full Import -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">02</div>
+        <div class="step-number">
+          02
+        </div>
         <div class="step-info">
-          <h2 class="section-title">完整引入</h2>
-          <p class="section-desc">在 main.js 中写入以下内容，引入并注册组件库</p>
+          <h2 class="section-title">
+            完整引入
+          </h2>
+          <p class="section-desc">
+            在 main.js 中写入以下内容，引入并注册组件库
+          </p>
         </div>
       </div>
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('fullImport')">
+          <button
+            class="copy-btn"
+            @click="copyCode('fullImport')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -148,10 +189,16 @@ new Vue({
     <!-- Step 3: On-demand Import -->
     <section class="section">
       <div class="step-header">
-        <div class="step-number">03</div>
+        <div class="step-number">
+          03
+        </div>
         <div class="step-info">
-          <h2 class="section-title">按需引入（推荐）</h2>
-          <p class="section-desc">借助 babel-plugin-component，只引入需要的组件以减小打包体积</p>
+          <h2 class="section-title">
+            按需引入（推荐）
+          </h2>
+          <p class="section-desc">
+            借助 babel-plugin-component，只引入需要的组件以减小打包体积
+          </p>
         </div>
       </div>
 
@@ -164,7 +211,10 @@ new Vue({
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">bash</span>
-              <button class="copy-btn" @click="copyCode('plugin')">
+              <button
+                class="copy-btn"
+                @click="copyCode('plugin')"
+              >
                 <i class="el-icon-document-copy" />
                 复制
               </button>
@@ -181,7 +231,10 @@ new Vue({
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">json</span>
-              <button class="copy-btn" @click="copyCode('babelrc')">
+              <button
+                class="copy-btn"
+                @click="copyCode('babelrc')"
+              >
                 <i class="el-icon-document-copy" />
                 复制
               </button>
@@ -208,7 +261,10 @@ new Vue({
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">javascript</span>
-              <button class="copy-btn" @click="copyCode('ondemand')">
+              <button
+                class="copy-btn"
+                @click="copyCode('ondemand')"
+              >
                 <i class="el-icon-document-copy" />
                 复制
               </button>
@@ -230,7 +286,9 @@ Vue.prototype.$useDialog = useDialog</code></pre>
         <div class="section-icon green">
           <i class="el-icon-s-claim" />
         </div>
-        <h2 class="section-title">使用提示</h2>
+        <h2 class="section-title">
+          使用提示
+        </h2>
       </div>
       
       <div class="tips-grid">
@@ -282,7 +340,10 @@ Vue.prototype.$useDialog = useDialog</code></pre>
         <i class="el-icon-right" />
         <h3>准备开始</h3>
         <p>安装完成后，跟随快速上手指南，创建你的第一个页面</p>
-        <router-link to="/guide/quickstart" class="cta-link">
+        <router-link
+          to="/guide/quickstart"
+          class="cta-link"
+        >
           <span>快速上手</span>
           <i class="el-icon-arrow-right" />
         </router-link>

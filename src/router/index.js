@@ -97,6 +97,13 @@ const routes = [
     path: '/theme',
     name: 'Theme',
     component: () => import('../views/theme/index.vue')
+  },
+
+  // 测试页：Composition API + @es-plus/vue2 兼容性验证（Vue 2.6）
+  {
+    path: '/test/recharge-record',
+    name: 'RechargeRecord',
+    component: () => import('../views/test/RechargeRecord.vue')
   }
 ]
 

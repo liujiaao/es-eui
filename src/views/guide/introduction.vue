@@ -16,16 +16,28 @@
       </p>
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-num">5+</div>
-          <div class="stat-label">核心组件</div>
+          <div class="stat-num">
+            5+
+          </div>
+          <div class="stat-label">
+            核心组件
+          </div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">20+</div>
-          <div class="stat-label">控件类型</div>
+          <div class="stat-num">
+            20+
+          </div>
+          <div class="stat-label">
+            控件类型
+          </div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">0</div>
-          <div class="stat-label">依赖负担</div>
+          <div class="stat-num">
+            0
+          </div>
+          <div class="stat-label">
+            依赖负担
+          </div>
         </div>
       </div>
     </section>
@@ -50,25 +62,33 @@
           </h3>
           <div class="components-grid">
             <div class="component-item">
-              <div class="component-icon blue"><i class="el-icon-s-data" /></div>
+              <div class="component-icon blue">
+                <i class="el-icon-s-data" />
+              </div>
               <div class="component-info">
                 <strong>EsTable</strong> - 增强型表格组件，支持配置化列定义、自动数据请求、分页管理、跨分页选择缓存
               </div>
             </div>
             <div class="component-item">
-              <div class="component-icon purple"><i class="el-icon-s-order" /></div>
+              <div class="component-icon purple">
+                <i class="el-icon-s-order" />
+              </div>
               <div class="component-info">
                 <strong>EsForm</strong> - 增强型表单组件，支持配置化字段定义、动态选项、联动逻辑、表单折叠
               </div>
             </div>
             <div class="component-item">
-              <div class="component-icon green"><i class="el-icon-s-claim" /></div>
+              <div class="component-icon green">
+                <i class="el-icon-s-claim" />
+              </div>
               <div class="component-info">
                 <strong>EsDialog</strong> - 增强型弹窗组件，支持函数式调用、拖拽、全屏、嵌套管理
               </div>
             </div>
             <div class="component-item">
-              <div class="component-icon orange"><i class="el-icon-magic-stick" /></div>
+              <div class="component-icon orange">
+                <i class="el-icon-magic-stick" />
+              </div>
               <div class="component-info">
                 <strong>useDialog</strong> - 弹窗管理 Hook，命令式创建弹窗，无需手动维护状态
               </div>
@@ -87,21 +107,27 @@
           </div>
           <div class="reason-list">
             <div class="reason-item">
-              <div class="reason-icon"><i class="el-icon-s-platform" /></div>
+              <div class="reason-icon">
+                <i class="el-icon-s-platform" />
+              </div>
               <div class="reason-content">
                 <h4>基础UI库 vs 业务组件库</h4>
                 <p>Element UI 是基础UI库，提供最原子的表单控件、表格、弹窗等。但仅靠砖块无法直接建成一栋楼。ES-EUI 站在 Element UI 的肩膀上，进一步解决“怎么高效组织”的问题。</p>
               </div>
             </div>
             <div class="reason-item">
-              <div class="reason-icon"><i class="el-icon-s-check" /></div>
+              <div class="reason-icon">
+                <i class="el-icon-s-check" />
+              </div>
               <div class="reason-content">
                 <h4>统一规范</h4>
                 <p>团队内部存在大量的"重复造轮子"现象。张三喜欢用 slot，李四喜欢用 render 函数，没有统一规范导致代码可读性差、维护成本高。ES-EUI 统一这种混乱局面。</p>
               </div>
             </div>
             <div class="reason-item">
-              <div class="reason-icon"><i class="el-icon-document" /></div>
+              <div class="reason-icon">
+                <i class="el-icon-document" />
+              </div>
               <div class="reason-content">
                 <h4>配置化而非可视化拖拽</h4>
                 <p>我们追求的是"声明式配置"的简洁与高效。一行 JSON 配置，胜过一百行模板代码——这才是 ES-EUI 的核心理念。</p>
@@ -117,22 +143,30 @@
           </h3>
           <div class="goals-grid">
             <div class="goal-card">
-              <div class="goal-num">01</div>
+              <div class="goal-num">
+                01
+              </div>
               <h4>让 CRUD 页面开发像写配置一样简单</h4>
               <p>开发者不再需要为每一个列表页、每一个表单编写大量的模板代码，只要掌握了 ES-EUI 的配置规范，一个复杂的 CRUD 页面可以在几分钟内完成。</p>
             </div>
             <div class="goal-card">
-              <div class="goal-num">02</div>
+              <div class="goal-num">
+                02
+              </div>
               <h4>让业务联动逻辑开箱即用</h4>
               <p>搜索表单触发表格刷新、分页参数自动携带、选择状态跨页保留——这些在传统方案中需要几十行代码才能实现的交互，在 ES-EUI 中只需要配置一个属性。</p>
             </div>
             <div class="goal-card">
-              <div class="goal-num">03</div>
+              <div class="goal-num">
+                03
+              </div>
               <h4>让团队代码风格高度统一</h4>
               <p>当所有页面都使用 ES-EUI 的配置规范来开发时，代码结构自然就统一了。无论是张三写的用户管理页还是李四写的订单管理页，都遵循着相同的配置范式。</p>
             </div>
             <div class="goal-card">
-              <div class="goal-num">04</div>
+              <div class="goal-num">
+                04
+              </div>
               <h4>让技术沉淀可持续复用</h4>
               <p>ES-EUI 不仅仅是一个组件库，更是一个可复用的"中后台开发方法论"。当团队积累了一套成熟的配置规范后，可以在不同的项目间复用。</p>
             </div>
@@ -146,28 +180,36 @@
           </h3>
           <div class="principles-list">
             <div class="principle-item">
-              <div class="principle-icon"><i class="el-icon-s-promotion" /></div>
+              <div class="principle-icon">
+                <i class="el-icon-s-promotion" />
+              </div>
               <div class="principle-content">
                 <h4>站在巨人肩膀上</h4>
                 <p>ES-EUI 完全基于 Element UI 开发，不重新发明任何 UI 样式或交互模式。开发者学会 Element UI = 学会 ES-EUI 的一半。</p>
               </div>
             </div>
             <div class="principle-item">
-              <div class="principle-icon"><i class="el-icon-set-up" /></div>
+              <div class="principle-icon">
+                <i class="el-icon-set-up" />
+              </div>
               <div class="principle-content">
                 <h4>配置优先，插槽保底</h4>
                 <p>优先通过配置解决问题，当配置无法满足时才提供插槽或 render 函数。</p>
               </div>
             </div>
             <div class="principle-item">
-              <div class="principle-icon"><i class="el-icon-refresh" /></div>
+              <div class="principle-icon">
+                <i class="el-icon-refresh" />
+              </div>
               <div class="principle-content">
                 <h4>复杂留给自己，简单留给用户</h4>
                 <p>数据请求、字段映射、状态管理这些"脆活累活"全部在组件内部消化，对外只暴露简洁的配置接口。</p>
               </div>
             </div>
             <div class="principle-item">
-              <div class="principle-icon"><i class="el-icon-magic-stick" /></div>
+              <div class="principle-icon">
+                <i class="el-icon-magic-stick" />
+              </div>
               <div class="principle-content">
                 <h4>保持轻量，不做全家桶</h4>
                 <p>ES-EUI 只专注于"表格、表单、弹窗"三个核心场景，不追求大而全，而是追求小而精。</p>
@@ -209,12 +251,23 @@
         核心特性
       </h2>
       <div class="features-grid">
-        <div class="feature-card" v-for="(feature, index) in features" :key="index">
-          <div class="feature-icon" :class="feature.color">
+        <div
+          v-for="(feature, index) in features"
+          :key="index"
+          class="feature-card"
+        >
+          <div
+            class="feature-icon"
+            :class="feature.color"
+          >
             <i :class="feature.icon" />
           </div>
-          <h3 class="feature-title">{{ feature.title }}</h3>
-          <p class="feature-desc">{{ feature.desc }}</p>
+          <h3 class="feature-title">
+            {{ feature.title }}
+          </h3>
+          <p class="feature-desc">
+            {{ feature.desc }}
+          </p>
         </div>
       </div>
     </section>
@@ -226,19 +279,35 @@
         组件概览
       </h2>
       <div class="components-list">
-        <div class="component-card" v-for="(comp, index) in components" :key="index">
+        <div
+          v-for="(comp, index) in components"
+          :key="index"
+          class="component-card"
+        >
           <div class="comp-header">
-            <div class="comp-icon" :class="comp.color">
+            <div
+              class="comp-icon"
+              :class="comp.color"
+            >
               <i :class="comp.icon" />
             </div>
             <div class="comp-info">
-              <h3 class="comp-name">{{ comp.name }}</h3>
-              <p class="comp-tag">{{ comp.tag }}</p>
+              <h3 class="comp-name">
+                {{ comp.name }}
+              </h3>
+              <p class="comp-tag">
+                {{ comp.tag }}
+              </p>
             </div>
           </div>
-          <p class="comp-desc">{{ comp.desc }}</p>
+          <p class="comp-desc">
+            {{ comp.desc }}
+          </p>
           <ul class="comp-features">
-            <li v-for="(item, i) in comp.features" :key="i">
+            <li
+              v-for="(item, i) in comp.features"
+              :key="i"
+            >
               <i class="el-icon-check" />
               {{ item }}
             </li>
@@ -259,8 +328,12 @@
             <i class="el-icon-s-flag" />
           </div>
           <div class="compat-info">
-            <div class="compat-name">Vue</div>
-            <div class="compat-version">2.6+</div>
+            <div class="compat-name">
+              Vue
+            </div>
+            <div class="compat-version">
+              2.6+
+            </div>
           </div>
         </div>
         <div class="compat-item">
@@ -268,8 +341,12 @@
             <i class="el-icon-s-management" />
           </div>
           <div class="compat-info">
-            <div class="compat-name">Element UI</div>
-            <div class="compat-version">2.15+</div>
+            <div class="compat-name">
+              Element UI
+            </div>
+            <div class="compat-version">
+              2.15+
+            </div>
           </div>
         </div>
         <div class="compat-item">
@@ -277,8 +354,12 @@
             <i class="el-icon-monitor" />
           </div>
           <div class="compat-info">
-            <div class="compat-name">浏览器</div>
-            <div class="compat-version">现代浏览器</div>
+            <div class="compat-name">
+              浏览器
+            </div>
+            <div class="compat-version">
+              现代浏览器
+            </div>
           </div>
         </div>
       </div>
@@ -291,14 +372,20 @@
         版本记录
       </h2>
       <div class="version-timeline">
-        <div class="timeline-item" v-for="(ver, index) in versions" :key="index">
+        <div
+          v-for="(ver, index) in versions"
+          :key="index"
+          class="timeline-item"
+        >
           <div class="timeline-dot" />
           <div class="timeline-content">
             <div class="version-header">
               <span class="version-tag">{{ ver.version }}</span>
               <span class="version-date">{{ ver.date }}</span>
             </div>
-            <p class="version-desc">{{ ver.content }}</p>
+            <p class="version-desc">
+              {{ ver.content }}
+            </p>
           </div>
         </div>
       </div>
@@ -309,7 +396,10 @@
       <div class="cta-content">
         <h2>开始使用 ES-EUI</h2>
         <p>只需几分钟即可集成到您的项目中</p>
-        <router-link to="/guide/quickstart" class="cta-btn">
+        <router-link
+          to="/guide/quickstart"
+          class="cta-btn"
+        >
           <i class="el-icon-right" />
           快速上手
         </router-link>

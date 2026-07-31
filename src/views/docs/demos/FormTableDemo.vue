@@ -28,8 +28,19 @@
         </el-tag>
       </template>
       <template #action="{ scope }">
-        <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+        <el-button
+          size="mini"
+          @click="handleEdit(scope.row)"
+        >
+          编辑
+        </el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.row)"
+        >
+          删除
+        </el-button>
       </template>
     </es-table>
   </div>

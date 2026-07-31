@@ -17,7 +17,6 @@
           v-if="defaultSlots"
           class="headerBar"
         >
-
           <slot />
         </div>
       </div>
@@ -68,7 +67,7 @@
             width="60"
             align="center"
           >
-            <template v-slot="scope">
+            <template #default="scope">
               <!-- 支持 render 函数方式：expandRender -->
               <RenderDom
                 v-if="attrs.expandRender && typeof attrs.expandRender === 'function'"
@@ -111,12 +110,12 @@
         >
           <el-pagination
 
+            v-model:page-size="onpagination.pageSize"
+            v-model:current-page="onpagination.current"
             :background="onpagination.background"
             :small="onpagination.isSmall"
             :total="onpagination.total"
-            :page-size.sync="onpagination.pageSize"
             :page-sizes="onpagination.pageSizes"
-            :current-page.sync="onpagination.current"
             :layout="layout"
             style="padding: 0; margin: 10px 0; text-align: center"
             @size-change="handleSizeChange"
@@ -125,7 +124,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -180,7 +178,7 @@ export default {
       type: [String, Object],
       default: ''
     },
-    // eslint-disable-next-line vue/require-prop-types
+     
     showHeaderBar: {
       type: Boolean,
       default: function() {

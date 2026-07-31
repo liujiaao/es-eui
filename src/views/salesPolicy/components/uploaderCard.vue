@@ -1,6 +1,9 @@
 <template>
   <div class="uploader-card-container">
-     <div v-if="showFileList && internalFileList.length > 0" class="file-list">
+    <div
+      v-if="showFileList && internalFileList.length > 0"
+      class="file-list"
+    >
       <div 
         v-for="(file, index) in internalFileList" 
         :key="file.uid || index"
@@ -15,17 +18,20 @@
         <div class="file-actions">
           <i 
             class="el-icon-zoom-in"
-            @click="handlePreview(file)"
             title="查看"
+            @click="handlePreview(file)"
           ></i>
-           <i 
-            class="el-icon-delete"
+          <i 
             v-if="!disabled"
-            @click="handleRemove(file, internalFileList)"
+            class="el-icon-delete"
             title="删除"
+            @click="handleRemove(file, internalFileList)"
           ></i>
         </div>
-        <div class="file-status" v-show="file.status === 'uploading'">
+        <div
+          v-show="file.status === 'uploading'"
+          class="file-status"
+        >
           <el-progress 
             type="circle" 
             :percentage="file.percentage || 0" 
@@ -34,42 +40,53 @@
         </div>
       </div>
     </div>
-          <!-- :before-upload="beforeUpload" -->
+    <!-- :before-upload="beforeUpload" -->
     <el-upload
       v-else
       :action="action"
       :file-list="internalFileList"
-      @success="handleSuccess"
-      @error="handleError"
-      @progress="handleProgress"
-      @change="handleChange"
-      @exceed="handleExceed"
-      @remove="handleRemove"
-      @preview="handlePreview"
       :accept="accept"
       :multiple="multiple"
       :limit="limit"
       :disabled="disabled || loading"
+      @success="handleSuccess"
       :headers="headers"
+      @error="handleError"
       :data="data"
+      @progress="handleProgress"
       :show-file-list="false"
+      @change="handleChange"
       list-type="picture-card"
+      @exceed="handleExceed"
       :style="uploadCardStyle"
+      @remove="handleRemove"
       class="uploader-card"
+      @preview="handlePreview"
       :http-request="httpRequest ? customUploadHandler : undefined"
     >
-      <div v-if="loading" class="upload-loading">
+      <div
+        v-if="loading"
+        class="upload-loading"
+      >
         <i class="el-icon-loading"></i>
         <span class="upload-progress">{{ Math.round(uploadProgress) }}%</span>
       </div>
       
-      <div v-else-if="showUploadBtn" class="upload-trigger">
+      <div
+        v-else-if="showUploadBtn"
+        class="upload-trigger"
+      >
         <i class="el-icon-plus"></i>
         <span class="upload-text">{{ uploadText }}</span>
       </div>
     </el-upload>
-    <div v-if="showTips" class="upload-tips">
-      <p class="tips-text">{{ tipsText }}</p>
+    <div
+      v-if="showTips"
+      class="upload-tips"
+    >
+      <p class="tips-text">
+        {{ tipsText }}
+      </p>
     </div>
     
     <!-- 图片预览对话框 -->
@@ -105,7 +122,6 @@
       :preview-src-list="previewList.length ? previewList : []"
       :z-index="999999999"
     /> -->
-    
   </div>
 </template>
 

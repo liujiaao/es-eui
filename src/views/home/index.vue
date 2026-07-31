@@ -8,7 +8,11 @@
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
         <div class="particles">
-          <span v-for="i in 20" :key="i" class="particle"></span>
+          <span
+            v-for="i in 20"
+            :key="i"
+            class="particle"
+          ></span>
         </div>
       </div>
       
@@ -39,26 +43,41 @@
           <!-- 统计信息 -->
           <div class="hero-stats">
             <div class="stat-item">
-              <span class="stat-number" data-count="5">0</span>+
+              <span
+                class="stat-number"
+                data-count="5"
+              >0</span>+
               <span class="stat-label">核心组件</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number" data-count="20">0</span>+
+              <span
+                class="stat-number"
+                data-count="20"
+              >0</span>+
               <span class="stat-label">控件类型</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number" data-count="80">0</span>%
+              <span
+                class="stat-number"
+                data-count="80"
+              >0</span>%
               <span class="stat-label">效率提升</span>
             </div>
           </div>
           
           <!-- 操作按钮 -->
           <div class="hero-actions">
-            <router-link to="/guide" class="btn btn-primary">
+            <router-link
+              to="/guide"
+              class="btn btn-primary"
+            >
               <span>开始使用</span>
               <i class="el-icon-right"></i>
             </router-link>
-            <router-link to="/component/installation" class="btn btn-default">
+            <router-link
+              to="/component/installation"
+              class="btn btn-default"
+            >
               <span>查看组件</span>
               <i class="el-icon-arrow-right"></i>
             </router-link>
@@ -80,13 +99,26 @@
       <div class="container">
         <div class="section-header">
           <span class="section-badge">核心特性</span>
-          <h2 class="section-title">为什么选择 ES-EUI</h2>
-          <p class="section-desc">精心设计的组件，让中后台开发更简单高效</p>
+          <h2 class="section-title">
+            为什么选择 ES-EUI
+          </h2>
+          <p class="section-desc">
+            精心设计的组件，让中后台开发更简单高效
+          </p>
         </div>
         
         <div class="feature-list">
-          <div class="feature-item" v-for="(feature, index) in features" :key="index" :class="{ 'fade-in': true }" :style="{ animationDelay: index * 0.1 + 's' }">
-            <div class="feature-icon" :class="feature.color">
+          <div
+            v-for="(feature, index) in features"
+            :key="index"
+            class="feature-item"
+            :class="{ 'fade-in': true }"
+            :style="{ animationDelay: index * 0.1 + 's' }"
+          >
+            <div
+              class="feature-icon"
+              :class="feature.color"
+            >
               <i :class="feature.icon"></i>
             </div>
             <div class="feature-content">
@@ -104,8 +136,12 @@
       <div class="container">
         <div class="section-header">
           <!-- <span class="section-badge">为什么选择 ES-EUI</span> -->
-          <h2 class="section-title">告别重复劳动，专注业务创新</h2>
-          <p class="section-desc">深度理解中后台开发痛点，用配置化思维重新定义开发效率</p>
+          <h2 class="section-title">
+            告别重复劳动，专注业务创新
+          </h2>
+          <p class="section-desc">
+            深度理解中后台开发痛点，用配置化思维重新定义开发效率
+          </p>
         </div>
 
         <!-- 痛点 vs 解决方案对比 -->
@@ -116,7 +152,11 @@
               <i class="el-icon-warning-outline"></i>
               传统开发痛点
             </h3>
-            <div class="pain-card" v-for="(pain, index) in painPoints" :key="index">
+            <div
+              v-for="(pain, index) in painPoints"
+              :key="index"
+              class="pain-card"
+            >
               <div class="pain-icon">
                 <i :class="pain.icon"></i>
               </div>
@@ -141,7 +181,11 @@
               <i class="el-icon-success"></i>
               ES-EUI 方案
             </h3>
-            <div class="solution-card" v-for="(sol, index) in solutions" :key="index">
+            <div
+              v-for="(sol, index) in solutions"
+              :key="index"
+              class="solution-card"
+            >
               <div class="solution-icon">
                 <i :class="sol.icon"></i>
               </div>
@@ -325,10 +369,20 @@ export default {
 
         <!-- 核心优势总结 -->
         <div class="advantage-summary">
-          <div class="advantage-item" v-for="(adv, index) in advantages" :key="index">
-            <div class="advantage-number">{{ adv.number }}</div>
-            <div class="advantage-label">{{ adv.label }}</div>
-            <div class="advantage-desc">{{ adv.desc }}</div>
+          <div
+            v-for="(adv, index) in advantages"
+            :key="index"
+            class="advantage-item"
+          >
+            <div class="advantage-number">
+              {{ adv.number }}
+            </div>
+            <div class="advantage-label">
+              {{ adv.label }}
+            </div>
+            <div class="advantage-desc">
+              {{ adv.desc }}
+            </div>
           </div>
         </div>
       </div>
@@ -339,27 +393,48 @@ export default {
       <div class="container">
         <div class="section-header light">
           <span class="section-badge">三步上手</span>
-          <h2 class="section-title">快速开始</h2>
-          <p class="section-desc">简单三步，即可在项目中使用 ES-EUI</p>
+          <h2 class="section-title">
+            快速开始
+          </h2>
+          <p class="section-desc">
+            简单三步，即可在项目中使用 ES-EUI
+          </p>
         </div>
         
         <div class="install-steps">
-          <div class="step" v-for="(step, index) in steps" :key="index" :class="{ 'active': activeStep >= index }" @click="setActiveStep(index)">
-            <div class="step-number">{{ index + 1 }}</div>
+          <div
+            v-for="(step, index) in steps"
+            :key="index"
+            class="step"
+            :class="{ 'active': activeStep >= index }"
+            @click="setActiveStep(index)"
+          >
+            <div class="step-number">
+              {{ index + 1 }}
+            </div>
             <div class="step-content">
               <h4>{{ step.title }}</h4>
               <transition name="slide">
-                <div v-show="activeStep === index" class="step-detail">
+                <div
+                  v-show="activeStep === index"
+                  class="step-detail"
+                >
                   <pre><code>{{ step.code }}</code></pre>
                 </div>
               </transition>
             </div>
-            <div class="step-line" v-if="index < steps.length - 1"></div>
+            <div
+              v-if="index < steps.length - 1"
+              class="step-line"
+            ></div>
           </div>
         </div>
         
         <div class="quick-actions">
-          <router-link to="/guide/quickstart" class="btn btn-primary btn-lg">
+          <router-link
+            to="/guide/quickstart"
+            class="btn btn-primary btn-lg"
+          >
             查看详细文档
             <i class="el-icon-arrow-right"></i>
           </router-link>
@@ -374,11 +449,18 @@ export default {
           <h2>准备好开始了吗？</h2>
           <p>加入使用 ES-EUI 的开发者行列，让中后台开发更高效</p>
           <div class="cta-actions">
-            <router-link to="/guide" class="btn btn-primary btn-lg">
+            <router-link
+              to="/guide"
+              class="btn btn-primary btn-lg"
+            >
               <i class="el-icon-rocket"></i>
               立即开始
             </router-link>
-            <a href="https://github.com/liujiaao/es-eui" target="_blank" class="btn btn-outline btn-lg">
+            <a
+              href="https://github.com/liujiaao/es-eui"
+              target="_blank"
+              class="btn btn-outline btn-lg"
+            >
               <i class="el-icon-link"></i>
               GitHub
             </a>

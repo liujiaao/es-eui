@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-button type="primary" @click="openMainDialog">打开主弹窗</el-button>
+    <el-button
+      type="primary"
+      @click="openMainDialog"
+    >
+      打开主弹窗
+    </el-button>
   </div>
 </template>
 
@@ -74,6 +79,48 @@ export default {
         }
       ]
     }
+  },
+  created() {
+    this.memberForm = {
+      name: '',
+      role: '',
+      email: ''
+    }
+    this.memberFormConfig = [
+      {
+        prop: 'name',
+        label: '姓名',
+        span: 24,
+        formtype: 'Input',
+        attrs: {
+          placeholder: '请输入姓名'
+        }
+      },
+      {
+        prop: 'role',
+        label: '角色',
+        span: 24,
+        formtype: 'Select',
+        attrs: {
+          placeholder: '请选择角色'
+        },
+        dataOptions: [
+          { label: '开发', value: '开发' },
+          { label: '测试', value: '测试' },
+          { label: '设计', value: '设计' },
+          { label: '产品', value: '产品' }
+        ]
+      },
+      {
+        prop: 'email',
+        label: '邮箱',
+        span: 24,
+        formtype: 'Input',
+        attrs: {
+          placeholder: '请输入邮箱'
+        }
+      }
+    ]
   },
   methods: {
     openMainDialog() {
@@ -180,48 +227,6 @@ export default {
         this.$message.success('移除成功')
       }
     }
-  },
-  created() {
-    this.memberForm = {
-      name: '',
-      role: '',
-      email: ''
-    }
-    this.memberFormConfig = [
-      {
-        prop: 'name',
-        label: '姓名',
-        span: 24,
-        formtype: 'Input',
-        attrs: {
-          placeholder: '请输入姓名'
-        }
-      },
-      {
-        prop: 'role',
-        label: '角色',
-        span: 24,
-        formtype: 'Select',
-        attrs: {
-          placeholder: '请选择角色'
-        },
-        dataOptions: [
-          { label: '开发', value: '开发' },
-          { label: '测试', value: '测试' },
-          { label: '设计', value: '设计' },
-          { label: '产品', value: '产品' }
-        ]
-      },
-      {
-        prop: 'email',
-        label: '邮箱',
-        span: 24,
-        formtype: 'Input',
-        attrs: {
-          placeholder: '请输入邮箱'
-        }
-      }
-    ]
   }
 }
 </script>

@@ -6,7 +6,9 @@
         <i class="el-icon-s-flag" />
         <span>国际化</span>
       </div>
-      <h1 class="hero-title">多语言支持</h1>
+      <h1 class="hero-title">
+        多语言支持
+      </h1>
       <p class="hero-desc">
         ES-EUI 提供完整的国际化解决方案，支持多语言切换、自定义语言包和动态语言加载。
         让你的中后台应用轻松适配全球化需求。
@@ -19,7 +21,9 @@
         <div class="section-icon blue">
           <i class="el-icon-collection" />
         </div>
-        <h2 class="section-title">国际化特性</h2>
+        <h2 class="section-title">
+          国际化特性
+        </h2>
       </div>
 
       <div class="feature-grid">
@@ -60,19 +64,26 @@
         <div class="section-icon purple">
           <i class="el-icon-time" />
         </div>
-        <h2 class="section-title">快速开始</h2>
+        <h2 class="section-title">
+          快速开始
+        </h2>
       </div>
 
       <div class="step-list">
         <div class="step-item">
-          <div class="step-marker">1</div>
+          <div class="step-marker">
+            1
+          </div>
           <div class="step-content">
             <h4>安装 vue-i18n</h4>
             <p>ES-EUI 使用 vue-i18n 作为国际化基础库，请先安装：</p>
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">bash</span>
-                <button class="copy-btn" @click="copyCode('install')">
+                <button
+                  class="copy-btn"
+                  @click="copyCode('install')"
+                >
                   <i class="el-icon-document-copy" />
                   复制
                 </button>
@@ -83,14 +94,19 @@
         </div>
 
         <div class="step-item">
-          <div class="step-marker">2</div>
+          <div class="step-marker">
+            2
+          </div>
           <div class="step-content">
             <h4>配置国际化</h4>
             <p>在项目中创建 i18n 配置文件：</p>
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">javascript</span>
-                <button class="copy-btn" @click="copyCode('i18nConfig')">
+                <button
+                  class="copy-btn"
+                  @click="copyCode('i18nConfig')"
+                >
                   <i class="el-icon-document-copy" />
                   复制
                 </button>
@@ -147,13 +163,18 @@ export default i18n</code></pre>
         </div>
 
         <div class="step-item">
-          <div class="step-marker">3</div>
+          <div class="step-marker">
+            3
+          </div>
           <div class="step-content">
             <h4>在 main.js 中引入</h4>
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">javascript</span>
-                <button class="copy-btn" @click="copyCode('mainImport')">
+                <button
+                  class="copy-btn"
+                  @click="copyCode('mainImport')"
+                >
                   <i class="el-icon-document-copy" />
                   复制
                 </button>
@@ -183,7 +204,9 @@ new Vue({
         <div class="section-icon green">
           <i class="el-icon-switch" />
         </div>
-        <h2 class="section-title">语言切换</h2>
+        <h2 class="section-title">
+          语言切换
+        </h2>
       </div>
 
       <div class="switch-demo">
@@ -208,15 +231,22 @@ new Vue({
             </button>
           </div>
           <div class="preview-content">
-            <p class="preview-text">{{ previewText }}</p>
-            <p class="preview-label">当前语言: {{ currentLang }}</p>
+            <p class="preview-text">
+              {{ previewText }}
+            </p>
+            <p class="preview-label">
+              当前语言: {{ currentLang }}
+            </p>
           </div>
         </div>
 
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">vue</span>
-            <button class="copy-btn" @click="copyCode('switchComponent')">
+            <button
+              class="copy-btn"
+              @click="copyCode('switchComponent')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>
@@ -266,13 +296,18 @@ export default {
         <div class="section-icon orange">
           <i class="el-icon-document-add" />
         </div>
-        <h2 class="section-title">自定义语言包</h2>
+        <h2 class="section-title">
+          自定义语言包
+        </h2>
       </div>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('customLocale')">
+          <button
+            class="copy-btn"
+            @click="copyCode('customLocale')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -335,14 +370,21 @@ const messages = {
         <div class="section-icon blue">
           <i class="el-icon-download" />
         </div>
-        <h2 class="section-title">异步加载语言包</h2>
+        <h2 class="section-title">
+          异步加载语言包
+        </h2>
       </div>
-      <p class="section-desc">对于大型应用，建议按需异步加载语言包以减少首屏加载时间：</p>
+      <p class="section-desc">
+        对于大型应用，建议按需异步加载语言包以减少首屏加载时间：
+      </p>
 
       <div class="code-block">
         <div class="code-header">
           <span class="code-lang">javascript</span>
-          <button class="copy-btn" @click="copyCode('asyncLoad')">
+          <button
+            class="copy-btn"
+            @click="copyCode('asyncLoad')"
+          >
             <i class="el-icon-document-copy" />
             复制
           </button>
@@ -393,7 +435,9 @@ export default i18n</code></pre>
         <div class="section-icon purple">
           <i class="el-icon-s-grid" />
         </div>
-        <h2 class="section-title">在组件中使用</h2>
+        <h2 class="section-title">
+          在组件中使用
+        </h2>
       </div>
 
       <div class="usage-tabs">
@@ -422,11 +466,17 @@ export default i18n</code></pre>
         </div>
 
         <div class="tab-content">
-          <div v-show="activeTab === 'template'" class="tab-pane">
+          <div
+            v-show="activeTab === 'template'"
+            class="tab-pane"
+          >
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">vue</span>
-                <button class="copy-btn" @click="copyCode('usageTemplate')">
+                <button
+                  class="copy-btn"
+                  @click="copyCode('usageTemplate')"
+                >
                   <i class="el-icon-document-copy" />
                   复制
                 </button>
@@ -448,11 +498,17 @@ export default i18n</code></pre>
             </div>
           </div>
 
-          <div v-show="activeTab === 'script'" class="tab-pane">
+          <div
+            v-show="activeTab === 'script'"
+            class="tab-pane"
+          >
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">javascript</span>
-                <button class="copy-btn" @click="copyCode('usageScript')">
+                <button
+                  class="copy-btn"
+                  @click="copyCode('usageScript')"
+                >
                   <i class="el-icon-document-copy" />
                   复制
                 </button>
@@ -485,11 +541,17 @@ export default i18n</code></pre>
             </div>
           </div>
 
-          <div v-show="activeTab === 'jsx'" class="tab-pane">
+          <div
+            v-show="activeTab === 'jsx'"
+            class="tab-pane"
+          >
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">jsx</span>
-                <button class="copy-btn" @click="copyCode('usageJsx')">
+                <button
+                  class="copy-btn"
+                  @click="copyCode('usageJsx')"
+                >
                   <i class="el-icon-document-copy" />
                   复制
                 </button>
@@ -525,7 +587,9 @@ export default {
         <div class="section-icon blue">
           <i class="el-icon-document" />
         </div>
-        <h2 class="section-title">API 参考</h2>
+        <h2 class="section-title">
+          API 参考
+        </h2>
       </div>
 
       <div class="api-section">
@@ -575,7 +639,10 @@ export default {
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
-            <button class="copy-btn" @click="copyCode('localeStructure')">
+            <button
+              class="copy-btn"
+              @click="copyCode('localeStructure')"
+            >
               <i class="el-icon-document-copy" />
               复制
             </button>

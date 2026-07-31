@@ -1,5 +1,8 @@
 <template>
-  <div id="app" :class="{ 'is-component': isComponent }">
+  <div
+    id="app"
+    :class="{ 'is-component': isComponent }"
+  >
     <!-- 顶部导航栏 -->
     <header class="header">
       <div class="container">
@@ -10,11 +13,35 @@
           </router-link>
         </h1>
         <nav class="nav">
-          <router-link to="/" :class="{ 'active': isHome }">首页</router-link>
-          <router-link to="/guide" :class="{ 'active': isGuide }">开发指南</router-link>
-          <router-link to="/component/installation" :class="{ 'active': isComponent }">组件</router-link>
-          <router-link to="/theme" :class="{ 'active': isTheme }">主题</router-link>
-          <a href="https://github.com" target="_blank" class="nav-link">
+          <router-link
+            to="/"
+            :class="{ 'active': isHome }"
+          >
+            首页
+          </router-link>
+          <router-link
+            to="/guide"
+            :class="{ 'active': isGuide }"
+          >
+            开发指南
+          </router-link>
+          <router-link
+            to="/component/installation"
+            :class="{ 'active': isComponent }"
+          >
+            组件
+          </router-link>
+          <router-link
+            to="/theme"
+            :class="{ 'active': isTheme }"
+          >
+            主题
+          </router-link>
+          <a
+            href="https://github.com"
+            target="_blank"
+            class="nav-link"
+          >
             <i class="el-icon-link"></i> GitHub
           </a>
         </nav>
@@ -22,7 +49,10 @@
     </header>
 
     <!-- Vue3 升级引导横幅 -->
-    <div class="upgrade-banner" v-show="!bannerClosed">
+    <div
+      v-show="!bannerClosed"
+      class="upgrade-banner"
+    >
       <div class="banner-inner">
         <span class="banner-tag">NEW</span>
         <span class="banner-text">
@@ -36,19 +66,29 @@
         >
           查看 ES-Plus 文档 <i class="el-icon-top-right"></i>
         </a>
-        <button class="banner-close" @click="bannerClosed = true" aria-label="关闭">
+        <button
+          class="banner-close"
+          aria-label="关闭"
+          @click="bannerClosed = true"
+        >
           <i class="el-icon-close"></i>
         </button>
       </div>
     </div>
 
     <!-- 主体内容 -->
-    <div class="main" :class="{ 'banner-visible': !bannerClosed }">
+    <div
+      class="main"
+      :class="{ 'banner-visible': !bannerClosed }"
+    >
       <router-view />
     </div>
 
     <!-- 页脚 -->
-    <footer class="footer" v-if="isHome">
+    <footer
+      v-if="isHome"
+      class="footer"
+    >
       <div class="container">
         <p>ES-EUI © 2024 基于 Vue 2.0 和 Element UI 的组件库</p>
       </div>

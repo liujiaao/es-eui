@@ -1152,7 +1152,7 @@ export default {
               { prop: 'status', label: '状态', span: 12, formtype: 'Select', attrs: { style: 'width: 100%'}, dataOptions: [{ label: '启用', value: '1' }, { label: '禁用', value: '0' }] },
               { prop: "remark", label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 3 } }
             ]}
-            formModel={formData}
+            model={formData}
           />
         ),
         configBtn: [
@@ -1292,7 +1292,7 @@ export default {
                   },
                   { prop: 'remark', label: '备注', span: 24, formtype: 'Input', attrs: { type: 'textarea', rows: 2 }, formItemOptions: { rules: [{ required: true, message: '请输入备注' }] } }
                 ]}
-                formModel={this.formData}
+                model={this.formData}
               />
             </div>
         ),
@@ -1487,7 +1487,7 @@ export default {
                     attrs: { placeholder: '请输入备注' }
                   }
                 ]}
-                formModel={formData}
+                model={formData}
                 layout-form-props={{
                   fromLayProps: { labelWidth: '80px', size: 'small' },
                   rowLayProps: { gutter: 15 }

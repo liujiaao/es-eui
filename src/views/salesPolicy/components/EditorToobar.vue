@@ -1,58 +1,66 @@
 <template>
-  <div> 
-
+  <div>
     <div class="flex-float-top wrap">
-      <div class="flex1 edit-box" >
-          <!-- 工具栏按钮 -->
-          <div class="source-code-bar">
-            <button type="button" @click="toggleSourceMode" class="source-btn">
-              {{ isSourceMode ? '返回编辑' : '查看源代码' }}
-            </button>
-            <button type="button" @click="togglePreviewMode" class="source-btn" style="margin-left: 8px;">
-              {{ isPreviewMode ? '关闭预览' : '手机预览' }}
-            </button>
-          </div>
-          <!-- 工具栏和编辑器 -->
-          <div :class="['editor-wrapper', { 'is-hidden': isSourceMode || isPreviewMode }]">
-            <Toolbar
-              class="toolbar-box" 
-              :editor="editor"
-              :defaultConfig="toolbarConfig"
-              mode="default"
-            />
-            <Editor
-                style="height: 400px; overflow-y: hidden;"
-                :defaultConfig="editorConfig"
-                mode="default"
-                @onCreated="onCreated"
-                @onChange="onEditorChange"
-            />
-          </div>
-          <!-- 源代码编辑区 -->
-          <textarea
-              v-show="isSourceMode"
-              ref="sourceTextarea"
-              :value="sourceHtml"
-              class="source-textarea"
-              placeholder="编辑 HTML 源代码..."
-              @input="onSourceInput"
-          />
-          <!-- 手机预览区 -->
-          <div
-              v-show="isPreviewMode"
-              class="mobile-preview-container"
+      <div class="flex1 edit-box">
+        <!-- 工具栏按钮 -->
+        <div class="source-code-bar">
+          <button
+            type="button"
+            class="source-btn"
+            @click="toggleSourceMode"
           >
-            <div class="mobile-frame">
-              <div class="mobile-screen">
-                <div class="mobile-content" v-html="html"></div>
-              </div>
+            {{ isSourceMode ? '返回编辑' : '查看源代码' }}
+          </button>
+          <button
+            type="button"
+            class="source-btn"
+            style="margin-left: 8px;"
+            @click="togglePreviewMode"
+          >
+            {{ isPreviewMode ? '关闭预览' : '手机预览' }}
+          </button>
+        </div>
+        <!-- 工具栏和编辑器 -->
+        <div :class="['editor-wrapper', { 'is-hidden': isSourceMode || isPreviewMode }]">
+          <Toolbar
+            class="toolbar-box" 
+            :editor="editor"
+            :default-config="toolbarConfig"
+            mode="default"
+          />
+          <Editor
+            style="height: 400px; overflow-y: hidden;"
+            :default-config="editorConfig"
+            mode="default"
+            @on-created="onCreated"
+            @on-change="onEditorChange"
+          />
+        </div>
+        <!-- 源代码编辑区 -->
+        <textarea
+          v-show="isSourceMode"
+          ref="sourceTextarea"
+          :value="sourceHtml"
+          class="source-textarea"
+          placeholder="编辑 HTML 源代码..."
+          @input="onSourceInput"
+        />
+        <!-- 手机预览区 -->
+        <div
+          v-show="isPreviewMode"
+          class="mobile-preview-container"
+        >
+          <div class="mobile-frame">
+            <div class="mobile-screen">
+              <div
+                class="mobile-content"
+                v-html="html"
+              ></div>
             </div>
           </div>
+        </div>
       </div>  
     </div>
-
-
-    
   </div>
 </template>
 
@@ -64,6 +72,16 @@ import api from '@/api/credits'
 export default {
   name: 'MyEditor',
   components: { Editor, Toolbar },
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
       return {
           editor: {},
@@ -181,15 +199,19 @@ export default {
           imgUrlL:[],
       }
   },
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false
+  computed:{
+    uploadUrlBase(){
+      const url = process.env.NODE_ENV === 'development' ? process.env.BASE_API : process.env.VUE_APP_URL;
+      if(url&&url.indexOf("http")===0){
+        return url.replace(/\/$/,'')
+      }else{ 
+        return url
+      }
+    }, 
+    roleId() {
+      const rId = !isNaN(parseInt(this.$store.state.userLogin.userInfo.roleId)) ? parseInt(this.$store.state.userLogin.userInfo.roleId) : 0
+      return rId
     },
-    value: {
-      type: String,
-      default: ''
-    }
   },
   watch: {
     value: {
@@ -220,19 +242,15 @@ export default {
      // immediate: true
     }
   },
-  computed:{
-    uploadUrlBase(){
-      const url = process.env.NODE_ENV === 'development' ? process.env.BASE_API : process.env.VUE_APP_URL;
-      if(url&&url.indexOf("http")===0){
-        return url.replace(/\/$/,'')
-      }else{ 
-        return url
-      }
-    }, 
-    roleId() {
-      const rId = !isNaN(parseInt(this.$store.state.userLogin.userInfo.roleId)) ? parseInt(this.$store.state.userLogin.userInfo.roleId) : 0
-      return rId
-    },
+  mounted() {
+    this.disableHandler()
+    // this.geteditGet()
+    // this.roleIdList()
+  },
+  beforeUnmount() {
+      const editor = this.editor
+      if (editor == null) return
+      editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
   },
   methods: {
     uploadRequest(files) {
@@ -528,16 +546,6 @@ export default {
 
 
  },
-  mounted() {
-    this.disableHandler()
-    // this.geteditGet()
-    // this.roleIdList()
-  },
-  beforeDestroy() {
-      const editor = this.editor
-      if (editor == null) return
-      editor.destroy() // 组件销毁时，及时销毁 editor ，重要！！！
-  },
 }
 // /integral/file/download?fileName=/202212/ba7d7253a4104681ac9032c0f29baefe.xlsx
 

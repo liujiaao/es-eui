@@ -1,7 +1,15 @@
 <template>
   <!-- <client-only> -->
-  <div v-if="isExternal" :style="styleExternalIcon" class="svg-external-icon svg-icon" />
-  <svg v-else :class="svgClass" aria-hidden="true">
+  <div
+    v-if="isExternal"
+    :style="styleExternalIcon"
+    class="svg-external-icon svg-icon"
+  />
+  <svg
+    v-else
+    :class="svgClass"
+    aria-hidden="true"
+  >
     <use :xlink:href="iconName" />
   </svg>
   <!-- </client-only> -->

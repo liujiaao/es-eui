@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-button type="primary" @click="openDialog">打开弹窗</el-button>
+    <el-button
+      type="primary"
+      @click="openDialog"
+    >
+      打开弹窗
+    </el-button>
   </div>
 </template>
 

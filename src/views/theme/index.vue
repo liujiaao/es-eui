@@ -3,19 +3,36 @@
     <!-- 左侧导航 -->
     <aside class="side-nav">
       <div class="nav-group">
-        <div class="nav-title">主题</div>
-        <router-link to="/theme" class="nav-item" exact>定制主题</router-link>
-        <router-link to="/theme/preview" class="nav-item">主题预览</router-link>
+        <div class="nav-title">
+          主题
+        </div>
+        <router-link
+          to="/theme"
+          class="nav-item"
+          exact
+        >
+          定制主题
+        </router-link>
+        <router-link
+          to="/theme/preview"
+          class="nav-item"
+        >
+          主题预览
+        </router-link>
       </div>
     </aside>
 
     <!-- 右侧内容 -->
     <div class="content">
-      <h1 class="content-title">定制主题</h1>
+      <h1 class="content-title">
+        定制主题
+      </h1>
       
       <p>ES-EUI 使用 Element UI 的样式变量系统，你可以通过修改 SCSS 变量来定制主题。</p>
 
-      <h2 class="content-subtitle">通过 SCSS 变量定制</h2>
+      <h2 class="content-subtitle">
+        通过 SCSS 变量定制
+      </h2>
       
       <p>新建一个样式文件，例如 <code>element-variables.scss</code>，写入以下内容：</p>
 
@@ -41,7 +58,9 @@ import esEui from 'es-eui'
 Vue.use(ElementUI)
 Vue.use(esEui)</code></pre>
 
-      <h2 class="content-subtitle">常用变量</h2>
+      <h2 class="content-subtitle">
+        常用变量
+      </h2>
       
       <table class="table-props">
         <thead>
@@ -100,7 +119,9 @@ Vue.use(esEui)</code></pre>
         </tbody>
       </table>
 
-      <h2 class="content-subtitle">组件特定样式</h2>
+      <h2 class="content-subtitle">
+        组件特定样式
+      </h2>
       
       <p>ES-EUI 组件也提供了一些可定制的 CSS 变量：</p>
 
@@ -115,7 +136,12 @@ Vue.use(esEui)</code></pre>
 }</code></pre>
 
       <div class="tip">
-        <p><strong>提示</strong>：更多 Element UI 的样式变量请参考 <a href="https://element.eleme.io/#/zh-CN/component/custom-theme" target="_blank">Element UI 官方文档</a>。</p>
+        <p>
+          <strong>提示</strong>：更多 Element UI 的样式变量请参考 <a
+            href="https://element.eleme.io/#/zh-CN/component/custom-theme"
+            target="_blank"
+          >Element UI 官方文档</a>。
+        </p>
       </div>
     </div>
   </div>

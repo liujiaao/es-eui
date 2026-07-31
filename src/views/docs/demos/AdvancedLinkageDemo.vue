@@ -28,9 +28,26 @@
         </el-tag>
       </template>
       <template #action="{ scope }">
-        <el-button size="mini" @click="handleViewDetail(scope.row)">详情</el-button>
-        <el-button size="mini" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-        <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+        <el-button
+          size="mini"
+          @click="handleViewDetail(scope.row)"
+        >
+          详情
+        </el-button>
+        <el-button
+          size="mini"
+          type="primary"
+          @click="handleEdit(scope.row)"
+        >
+          编辑
+        </el-button>
+        <el-button
+          size="mini"
+          type="danger"
+          @click="handleDelete(scope.row)"
+        >
+          删除
+        </el-button>
       </template>
     </es-table>
   </div>
@@ -156,6 +173,14 @@ export default {
   },
   mounted() {
     this.loadMainData()
+  },
+  created() {
+    this.editForm = {
+      name: '',
+      price: 0,
+      stock: 0,
+      status: 'pending'
+    }
   },
   methods: {
     getStatusType(status) {
@@ -377,14 +402,6 @@ export default {
         this.selectedMainRows = []
         this.$message.success('批量下架成功')
       }).catch(() => {})
-    }
-  },
-  created() {
-    this.editForm = {
-      name: '',
-      price: 0,
-      stock: 0,
-      status: 'pending'
     }
   }
 }
