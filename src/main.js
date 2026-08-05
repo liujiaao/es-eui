@@ -7,6 +7,17 @@ import ElementUI from 'element-ui'
 import http from '@/utils/server/request.js'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI, { size: 'mini' })
+// vxe-table 3.x —— es-table 的 engine:'vxe' 高性能引擎依赖此库（须先于 EsPlus 注册）
+// vxe-table 3.22.x 采用拆分架构：表格/表头/工具栏来自 vxe-table，而分页器 VxePager、
+// 编辑输入 VxeInput/VxeSelect、按钮 VxeButton、弹窗 VxeModal 等 PC 组件来自 vxe-pc-ui，
+// 由 @vxe-ui/core 的 VxeUI 注册表统一管理。必须先 Vue.use(VxeUIAll) 再 Vue.use(VxeTable)，
+// 否则 grid 内部 VxeUI.getComponent('VxePager') 取不到组件 → 分页器/编辑框/导出按钮不渲染。
+import VxeUIAll from 'vxe-pc-ui'
+import 'vxe-pc-ui/lib/style.css'
+import VxeTable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+Vue.use(VxeUIAll)
+Vue.use(VxeTable)
 // es-eui 使用 Vue 2.6.x，原生不支持 Composition API —— 需要手动注册 polyfill。
 // @es-plus/vue2 1.1.0+ 的 install() 内置了 alreadyInstalled 检测，不会重复注册。
 // Vue.use(VueCompositionAPI)
@@ -93,6 +104,15 @@ Vue.config.productionTip = false
 Vue.config.errorHandler = function (err, vm, info) {
     console.error('Vue Error:', err, info)
 }
+/*
+Vue.config.warnHandler = function (msg, vm, trace) {
+    if (msg.includes('infinite update loop')) {
+        console.error('[DEBUG-WARN] Infinite loop warning:')
+        console.error('  vm:', vm ? (vm.$options?.name || vm.constructor?.name || 'anonymous') : 'null')
+        console.error('  trace:', trace)
+    }
+    console.warn('Vue Warn:', msg)
+} */
 
 // 全局 Promise 错误处理
 window.addEventListener('unhandledrejection', event => {

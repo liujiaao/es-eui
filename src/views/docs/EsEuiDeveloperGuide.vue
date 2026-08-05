@@ -91,7 +91,7 @@
         <div class="arch-diagram small">
           <div class="arch-layer config-layer">
             <div class="layer-label">
-              Vue.use(esEui, globalConfig)
+              Vue.use(EsPlus, globalConfig)
             </div>
           </div>
           <div class="arch-arrow">
@@ -210,12 +210,12 @@ if (formPutList.get(capitalize(item.formtype))) {
           <pre v-pre><code>import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import esEui from 'es-eui'
-import 'es-eui/dist/es-eui.css'
+import EsPlus from '@es-plus/vue2'
+import '@es-plus/vue2/dist/style.css'
 import axios from 'axios'
 
 Vue.use(ElementUI, { size: 'mini' })
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, formParams, headers, ...options }) {
@@ -1004,7 +1004,7 @@ export default {
           <div class="code-header">
             <span class="code-lang">基本用法</span>
           </div>
-          <pre v-pre><code>import { useDialog } from 'es-eui'
+          <pre v-pre><code>import { useDialog } from '@es-plus/vue2'
 
 export default {
   methods: {

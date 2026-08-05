@@ -144,18 +144,16 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
             </div>
             <pre v-pre><code>import Vue from 'vue'
 import ElementUI from 'element-ui'
-import esEui from '@/components/es-eui'
+import EsPlus from '@es-plus/vue2'
 
 // 引入自定义主题（在 Element UI 和 ES-EUI 之前引入）
 import './styles/variables.scss'
 
 // 引入 ES-EUI 样式
-import '@/components/es-eui/esTable/src/esTable.scss'
-import '@/components/es-eui/esForm/src/esForm.scss'
-import '@/components/es-eui/esDialog/src/esDialog.scss'
+import '@es-plus/vue2/dist/style.css'
 
 Vue.use(ElementUI)
-Vue.use(esEui)</code></pre>
+Vue.use(EsPlus)</code></pre>
           </div>
         </div>
       </div>
@@ -270,9 +268,9 @@ export function initTheme() {
           </button>
         </div>
         <pre v-pre><code>import Vue from 'vue'
-import esEui from '@/components/es-eui'
+import EsPlus from '@es-plus/vue2'
 
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   // EsTable 主题配置
   EsTable: {
     theme: {
@@ -487,18 +485,16 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 @import "~element-ui/packages/theme-chalk/src/index";`,
         mainImport: `import Vue from 'vue'
 import ElementUI from 'element-ui'
-import esEui from '@/components/es-eui'
+import EsPlus from '@es-plus/vue2'
 
 // 引入自定义主题（在 Element UI 和 ES-EUI 之前引入）
 import './styles/variables.scss'
 
 // 引入 ES-EUI 样式
-import '@/components/es-eui/esTable/src/esTable.scss'
-import '@/components/es-eui/esForm/src/esForm.scss'
-import '@/components/es-eui/esDialog/src/esDialog.scss'
+import '@es-plus/vue2/dist/style.css'
 
 Vue.use(ElementUI)
-Vue.use(esEui)`,
+Vue.use(EsPlus)`,
         cssVar: `:root {
   --es-primary-color: #409eff;
   --es-success-color: #67c23a;
@@ -524,7 +520,7 @@ export function initTheme() {
   const savedTheme = localStorage.getItem('es-theme') || 'light'
   switchTheme(savedTheme)
 }`,
-        configTheme: `Vue.use(esEui, {
+        configTheme: `Vue.use(EsPlus, {
   EsTable: {
     theme: {
       headerBgColor: '#f5f7fa',

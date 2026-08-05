@@ -97,7 +97,7 @@
             复制
           </button>
         </div>
-        <pre v-pre><code>npm install es-eui element-ui --save</code></pre>
+        <pre v-pre><code>npm install @es-plus/vue2 element-ui --save</code></pre>
       </div>
     </section>
 
@@ -158,8 +158,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // 引入 ES-EUI
-import EsEui from 'es-eui'
-import 'es-eui/dist/es-eui.css'
+import EsPlus from '@es-plus/vue2'
+import '@es-plus/vue2/dist/style.css'
 
 // 引入你的 HTTP 请求工具（如 axios 封装）
 import http from '@/utils/request'
@@ -167,7 +167,7 @@ import http from '@/utils/request'
 Vue.use(ElementUI)
 
 // 注册 ES-EUI 并配置全局方法
-Vue.use(EsEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       // 配置表格数据请求方法（必填）
@@ -241,13 +241,13 @@ new Vue({
           <pre v-pre><code>import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import EsEui from 'es-eui'
-import 'es-eui/dist/es-eui.css'
+import EsPlus from '@es-plus/vue2'
+import '@es-plus/vue2/dist/style.css'
 import http from '@/utils/request'
 
 Vue.use(ElementUI)
 
-Vue.use(EsEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, formParams, ...options }) {
@@ -569,7 +569,7 @@ export default {
             复制
           </button>
         </div>
-        <pre v-pre><code>import { useDialog } from 'es-eui'
+        <pre v-pre><code>import { useDialog } from '@es-plus/vue2'
 
 export default {
   methods: {
@@ -716,17 +716,17 @@ export default {
   methods: {
     copyCode(type) {
       const codes = {
-        install: 'npm install es-eui element-ui --save',
+        install: 'npm install @es-plus/vue2 element-ui --save',
         fullConfig: `import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import EsEui from 'es-eui'
-import 'es-eui/dist/es-eui.css'
+import EsPlus from '@es-plus/vue2'
+import '@es-plus/vue2/dist/style.css'
 import http from '@/utils/request'
 
 Vue.use(ElementUI)
 
-Vue.use(EsEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, headers, formParams, ...options }) {
@@ -768,13 +768,13 @@ Vue.use(EsEui, {
         minimalConfig: `import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import EsEui from 'es-eui'
-import 'es-eui/dist/es-eui.css'
+import EsPlus from '@es-plus/vue2'
+import '@es-plus/vue2/dist/style.css'
 import http from '@/utils/request'
 
 Vue.use(ElementUI)
 
-Vue.use(EsEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, formParams, ...options }) {
@@ -855,7 +855,7 @@ export default {
     }
   }
 }`,
-        useDialog: `import { useDialog } from 'es-eui'
+        useDialog: `import { useDialog } from '@es-plus/vue2'
 
 export default {
   methods: {

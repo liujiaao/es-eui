@@ -559,14 +559,14 @@ export default {
       steps: [
         {
           title: '安装组件库',
-          code: 'npm install es-eui element-ui'
+          code: 'npm install @es-plus/vue2 element-ui'
         },
         {
           title: '引入并注册',
           code: `import Vue from 'vue'
- import esEui from 'es-eui'
- import 'es-eui/dist/es-eui.css'
-  Vue.use(esEui, {
+ import EsPlus from '@es-plus/vue2'
+ import '@es-plus/vue2/dist/style.css'
+  Vue.use(EsPlus, {
     EsTable: {
       methods: {
         $httpRequest({ url, formParams }) {

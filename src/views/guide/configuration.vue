@@ -51,7 +51,7 @@
               复制
             </button>
           </div>
-          <pre v-pre><code>Vue.use(esEui, {
+          <pre v-pre><code>Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, headers, formParams, ...options }) {
@@ -91,7 +91,7 @@
               复制
             </button>
           </div>
-          <pre v-pre><code>Vue.use(esEui, {
+          <pre v-pre><code>Vue.use(EsPlus, {
   EsTable: {
     methods: {
       paginationLayout: () => ({
@@ -166,7 +166,7 @@
               复制
             </button>
           </div>
-          <pre v-pre><code>Vue.use(esEui, {
+          <pre v-pre><code>Vue.use(EsPlus, {
   EsTable: {
     methods: {
       configQueryfieldOutput() {
@@ -220,7 +220,7 @@
               复制
             </button>
           </div>
-          <pre v-pre><code>Vue.use(esEui, {
+          <pre v-pre><code>Vue.use(EsPlus, {
   EsForm: {
     methods: {
       $httpRequest({ url, formParams, ...options }) {
@@ -258,7 +258,7 @@
               复制
             </button>
           </div>
-          <pre v-pre><code>Vue.use(esEui, {
+          <pre v-pre><code>Vue.use(EsPlus, {
   EsForm: {
     methods: {
       fieldFieldOutput() {
@@ -302,10 +302,10 @@
           </button>
         </div>
         <pre v-pre><code>import Vue from 'vue'
-import esEui from 'es-eui'
+import EsPlus from '@es-plus/vue2'
 import axios from 'axios'
 
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, headers, formParams, ...options }) {
@@ -487,7 +487,7 @@ export default {
   methods: {
     copyCode(type) {
       const codes = {
-        tableHttp: `Vue.use(esEui, {
+        tableHttp: `Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, headers, formParams, ...options }) {
@@ -501,7 +501,7 @@ export default {
     }
   }
 })`,
-        pagination: `Vue.use(esEui, {
+        pagination: `Vue.use(EsPlus, {
   EsTable: {
     methods: {
       paginationLayout: () => ({
@@ -513,7 +513,7 @@ export default {
     }
   }
 })`,
-        fieldOutput: `Vue.use(esEui, {
+        fieldOutput: `Vue.use(EsPlus, {
   EsTable: {
     methods: {
       configQueryfieldOutput() {
@@ -527,7 +527,7 @@ export default {
     }
   }
 })`,
-        formHttp: `Vue.use(esEui, {
+        formHttp: `Vue.use(EsPlus, {
   EsForm: {
     methods: {
       $httpRequest({ url, formParams, ...options }) {
@@ -540,7 +540,7 @@ export default {
     }
   }
 })`,
-        formFieldOutput: `Vue.use(esEui, {
+        formFieldOutput: `Vue.use(EsPlus, {
   EsForm: {
     methods: {
       fieldFieldOutput() {
@@ -555,10 +555,10 @@ export default {
   }
 })`,
         fullConfig: `import Vue from 'vue'
-import esEui from 'es-eui'
+import EsPlus from '@es-plus/vue2'
 import axios from 'axios'
 
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, headers, formParams, ...options }) {

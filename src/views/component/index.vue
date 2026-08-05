@@ -30,6 +30,12 @@
           EsTable 表格
         </router-link>
         <router-link
+          to="/component/vxetable"
+          class="nav-item"
+        >
+          高性能 vxe-table 表格
+        </router-link>
+        <router-link
           to="/component/esform"
           class="nav-item"
         >

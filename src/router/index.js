@@ -75,6 +75,11 @@ const routes = [
         component: () => import('../views/docs/EsTableDocs.vue')
       },
       {
+        path: 'vxetable',
+        name: 'VxeTableDocs',
+        component: () => import('../views/docs/VxeTableDocs.vue')
+      },
+      {
         path: 'esform',
         name: 'EsFormDocs',
         component: () => import('../views/docs/EsFormDocs.vue')

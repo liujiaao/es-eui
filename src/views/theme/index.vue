@@ -53,10 +53,10 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
       <pre><code>import Vue from 'vue'
 import ElementUI from 'element-ui'
 import './element-variables.scss'
-import esEui from 'es-eui'
+import EsPlus from '@es-plus/vue2'
 
 Vue.use(ElementUI)
-Vue.use(esEui)</code></pre>
+Vue.use(EsPlus)</code></pre>
 
       <h2 class="content-subtitle">
         常用变量

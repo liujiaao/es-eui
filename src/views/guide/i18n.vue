@@ -120,17 +120,12 @@ import ElementLocale from 'element-ui/lib/locale'
 import enElement from 'element-ui/lib/locale/lang/en'
 import zhElement from 'element-ui/lib/locale/lang/zh-CN'
 
-// 引入 ES-EUI 语言包
-import esEuiEn from '@/components/es-eui/locale/lang/en'
-import esEuiZh from '@/components/es-eui/locale/lang/zh-CN'
-
 Vue.use(VueI18n)
 
 // 合并语言包
 const messages = {
   en: {
     ...enElement,
-    ...esEuiEn,
     // 业务自定义语言包
     app: {
       title: 'ES-EUI Admin',
@@ -139,7 +134,6 @@ const messages = {
   },
   'zh-CN': {
     ...zhElement,
-    ...esEuiZh,
     // 业务自定义语言包
     app: {
       title: 'ES-EUI 管理系统',
@@ -182,9 +176,9 @@ export default i18n</code></pre>
               <pre v-pre><code>import Vue from 'vue'
 import App from './App.vue'
 import i18n from './i18n'
-import esEui from '@/components/es-eui'
+import EsPlus from '@es-plus/vue2'
 
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   i18n: (key, value) => i18n.t(key, value)
 })
 
@@ -557,7 +551,7 @@ export default i18n</code></pre>
                 </button>
               </div>
               <pre v-pre><code>// 在 useDialog 的 JSX 中使用
-import { useDialog } from '@/components/es-eui'
+import { useDialog } from '@es-plus/vue2'
 
 export default {
   methods: {
@@ -713,14 +707,12 @@ import VueI18n from 'vue-i18n'
 import ElementLocale from 'element-ui/lib/locale'
 import enElement from 'element-ui/lib/locale/lang/en'
 import zhElement from 'element-ui/lib/locale/lang/zh-CN'
-import esEuiEn from '@/components/es-eui/locale/lang/en'
-import esEuiZh from '@/components/es-eui/locale/lang/zh-CN'
 
 Vue.use(VueI18n)
 
 const messages = {
-  en: { ...enElement, ...esEuiEn },
-  'zh-CN': { ...zhElement, ...esEuiZh }
+  en: { ...enElement },
+  'zh-CN': { ...zhElement }
 }
 
 const i18n = new VueI18n({
@@ -734,9 +726,9 @@ export default i18n`,
         mainImport: `import Vue from 'vue'
 import App from './App.vue'
 import i18n from './i18n'
-import esEui from '@/components/es-eui'
+import EsPlus from '@es-plus/vue2'
 
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   i18n: (key, value) => i18n.t(key, value)
 })
 

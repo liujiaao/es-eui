@@ -58,5 +58,7 @@ module.exports = defineConfig({
                 cacheDirectory: true,
                 cacheCompression: false
             }))
+
+        // raw-loader 通过内联语法 !!raw-loader! 使用，无需额外 rule 配置
     }
 })

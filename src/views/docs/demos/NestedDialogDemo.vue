@@ -10,9 +10,7 @@
 </template>
 
 <script>
-import { useDialog } from '@/components/es-eui'
-import EsForm from '@/components/es-eui/esForm'
-import EsTable from '@/components/es-eui/esTable'
+import { useDialog, EsForm, EsTable } from '@es-plus/vue2'
 
 const createDialog = useDialog()
 

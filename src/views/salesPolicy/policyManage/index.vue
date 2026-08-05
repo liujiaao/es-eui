@@ -23,7 +23,7 @@
     </div>
 </template>
 <script >
-import { useDialog } from '@/components/es-eui'
+import { useDialog } from '@es-plus/vue2'
 import PolicyForm from '../components/policyForm.vue'
 import server from '@/assets/common/server/request'
 const addPolicyFrom = useDialog()

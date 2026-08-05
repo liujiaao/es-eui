@@ -97,7 +97,7 @@
             复制
           </button>
         </div>
-        <pre v-pre><code>npm install es-eui --save</code></pre>
+        <pre v-pre><code>npm install @es-plus/vue2 --save</code></pre>
       </div>
       <p class="section-desc">
         或者使用 yarn：
@@ -113,7 +113,7 @@
             复制
           </button>
         </div>
-        <pre v-pre><code>yarn add es-eui</code></pre>
+        <pre v-pre><code>yarn add @es-plus/vue2</code></pre>
       </div>
     </section>
 
@@ -153,13 +153,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // 引入 ES-EUI
-import esEui from 'es-eui'
+import EsPlus from '@es-plus/vue2'
 
 // 注册 Element UI
 Vue.use(ElementUI)
 
 // 注册 ES-EUI
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, formParams }) {
@@ -244,7 +244,7 @@ new Vue({
     [
       "component",
       {
-        "libraryName": "es-eui",
+        "libraryName": "@es-plus/vue2",
         "styleLibraryName": "theme-chalk"
       }
     ]
@@ -270,7 +270,7 @@ new Vue({
               </button>
             </div>
             <pre v-pre><code>import Vue from 'vue'
-import { EsTable, EsForm, useDialog } from 'es-eui'
+import { EsTable, EsForm, useDialog } from '@es-plus/vue2'
 
 Vue.component('EsTable', EsTable)
 Vue.component('EsForm', EsForm)
@@ -358,8 +358,8 @@ export default {
   methods: {
     copyCode(type) {
       const codes = {
-        npm: 'npm install es-eui --save',
-        yarn: 'yarn add es-eui',
+        npm: 'npm install @es-plus/vue2 --save',
+        yarn: 'yarn add @es-plus/vue2',
         fullImport: `import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -370,13 +370,13 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // 引入 ES-EUI
-import esEui from 'es-eui'
+import EsPlus from '@es-plus/vue2'
 
 // 注册 Element UI
 Vue.use(ElementUI)
 
 // 注册 ES-EUI
-Vue.use(esEui, {
+Vue.use(EsPlus, {
   EsTable: {
     methods: {
       $httpRequest({ url, formParams }) {
@@ -406,14 +406,14 @@ new Vue({
     [
       "component",
       {
-        "libraryName": "es-eui",
+        "libraryName": "@es-plus/vue2",
         "styleLibraryName": "theme-chalk"
       }
     ]
   ]
 }`,
         ondemand: `import Vue from 'vue'
-import { EsTable, EsForm, useDialog } from 'es-eui'
+import { EsTable, EsForm, useDialog } from '@es-plus/vue2'
 
 Vue.component('EsTable', EsTable)
 Vue.component('EsForm', EsForm)
