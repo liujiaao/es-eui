@@ -9,7 +9,7 @@
         <h1 class="logo">
           <router-link to="/">
             <span class="logo-img">ES</span>
-            <span class="logo-text">ES-EUI</span>
+            <span class="logo-text">ES-Plus</span>
           </router-link>
         </h1>
         <nav class="nav">
@@ -90,7 +90,7 @@
       class="footer"
     >
       <div class="container">
-        <p>ES-EUI © 2024 基于 Vue 2.0 和 Element UI 的组件库</p>
+        <p>ES-Plus © 2024 基于 Vue 2.0 和 Element UI 的组件库</p>
       </div>
     </footer>
   </div>

@@ -10,7 +10,7 @@
         快速开始
       </h1>
       <p class="hero-desc">
-        跟随本教程，你将在几分钟内完成 ES-EUI 的环境搭建，
+        跟随本教程，你将在几分钟内完成 ES-Plus 的环境搭建，
         并运行你的第一个中后台应用页面。
       </p>
     </section>
@@ -82,7 +82,7 @@
             安装依赖
           </h2>
           <p class="section-desc">
-            在项目根目录执行以下命令安装 ES-EUI 及其依赖
+            在项目根目录执行以下命令安装 ES-Plus 及其依赖
           </p>
         </div>
       </div>
@@ -112,7 +112,7 @@
             引入并配置
           </h2>
           <p class="section-desc">
-            在项目的入口文件 main.js 中引入并注册 ES-EUI
+            在项目的入口文件 main.js 中引入并注册 ES-Plus
           </p>
         </div>
       </div>
@@ -157,7 +157,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 引入 ES-EUI
+// 引入 ES-Plus
 import EsPlus from '@es-plus/vue2'
 import '@es-plus/vue2/dist/style.css'
 
@@ -166,7 +166,7 @@ import http from '@/utils/request'
 
 Vue.use(ElementUI)
 
-// 注册 ES-EUI 并配置全局方法
+// 注册 ES-Plus 并配置全局方法
 Vue.use(EsPlus, {
   EsTable: {
     methods: {
@@ -555,7 +555,7 @@ export default {
         </h2>
       </div>
       <p class="section-desc">
-        ES-EUI 提供了函数式弹窗 useDialog，可以在方法中直接调用
+        ES-Plus 提供了函数式弹窗 useDialog，可以在方法中直接调用
       </p>
 
       <div class="code-block">
@@ -624,7 +624,7 @@ export default {
         </h2>
       </div>
       <p class="section-desc">
-        你已经掌握了 ES-EUI 的基础用法！接下来可以深入学习：
+        你已经掌握了 ES-Plus 的基础用法！接下来可以深入学习：
       </p>
 
       <div class="next-links">

@@ -10,7 +10,7 @@
         安装指南
       </h1>
       <p class="hero-desc">
-        本节将介绍如何在项目中安装和配置 ES-EUI 组件库，
+        本节将介绍如何在项目中安装和配置 ES-Plus 组件库，
         只需几步即可开始使用。
       </p>
     </section>
@@ -82,7 +82,7 @@
             npm 安装
           </h2>
           <p class="section-desc">
-            在项目根目录执行以下命令安装 ES-EUI
+            在项目根目录执行以下命令安装 ES-Plus
           </p>
         </div>
       </div>
@@ -152,13 +152,13 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 引入 ES-EUI
+// 引入 ES-Plus
 import EsPlus from '@es-plus/vue2'
 
 // 注册 Element UI
 Vue.use(ElementUI)
 
-// 注册 ES-EUI
+// 注册 ES-Plus
 Vue.use(EsPlus, {
   EsTable: {
     methods: {
@@ -308,7 +308,7 @@ Vue.prototype.$useDialog = useDialog</code></pre>
           </div>
           <div class="tip-content">
             <strong>依赖说明</strong>
-            <span>ES-EUI 依赖 Element UI，请确保已正确安装和引入 Element UI。</span>
+            <span>ES-Plus 依赖 Element UI，请确保已正确安装和引入 Element UI。</span>
           </div>
         </div>
 
@@ -369,13 +369,13 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 引入 ES-EUI
+// 引入 ES-Plus
 import EsPlus from '@es-plus/vue2'
 
 // 注册 Element UI
 Vue.use(ElementUI)
 
-// 注册 ES-EUI
+// 注册 ES-Plus
 Vue.use(EsPlus, {
   EsTable: {
     methods: {

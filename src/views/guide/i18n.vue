@@ -10,7 +10,7 @@
         多语言支持
       </h1>
       <p class="hero-desc">
-        ES-EUI 提供完整的国际化解决方案，支持多语言切换、自定义语言包和动态语言加载。
+        ES-Plus 提供完整的国际化解决方案，支持多语言切换、自定义语言包和动态语言加载。
         让你的中后台应用轻松适配全球化需求。
       </p>
     </section>
@@ -76,7 +76,7 @@
           </div>
           <div class="step-content">
             <h4>安装 vue-i18n</h4>
-            <p>ES-EUI 使用 vue-i18n 作为国际化基础库，请先安装：</p>
+            <p>ES-Plus 使用 vue-i18n 作为国际化基础库，请先安装：</p>
             <div class="code-block">
               <div class="code-header">
                 <span class="code-lang">bash</span>
@@ -128,7 +128,7 @@ const messages = {
     ...enElement,
     // 业务自定义语言包
     app: {
-      title: 'ES-EUI Admin',
+      title: 'ES-Plus Admin',
       welcome: 'Welcome'
     }
   },
@@ -136,7 +136,7 @@ const messages = {
     ...zhElement,
     // 业务自定义语言包
     app: {
-      title: 'ES-EUI 管理系统',
+      title: 'ES-Plus 管理系统',
       welcome: '欢迎使用'
     }
   }
@@ -308,7 +308,7 @@ export default {
         </div>
         <pre v-pre><code>// src/i18n/locale/zh-CN.js
 export default {
-  // ES-EUI 组件文案覆盖
+  // ES-Plus 组件文案覆盖
   es: {
     table: {
       emptyText: '暂无数据',
@@ -328,7 +328,7 @@ export default {
   },
   // 业务文案
   app: {
-    title: 'ES-EUI 管理系统',
+    title: 'ES-Plus 管理系统',
     logout: '退出登录',
     switchLangSuccess: '语言切换成功'
   }
@@ -354,7 +354,7 @@ const messages = {
 
       <div class="tip-box info">
         <i class="el-icon-info-filled" />
-        <p><strong>提示</strong>：自定义语言包可以覆盖 ES-EUI 默认文案，也可以添加业务专属的多语言内容。</p>
+        <p><strong>提示</strong>：自定义语言包可以覆盖 ES-Plus 默认文案，也可以添加业务专属的多语言内容。</p>
       </div>
     </section>
 
@@ -629,7 +629,7 @@ export default {
       </div>
 
       <div class="api-section">
-        <h4>ES-EUI 语言包结构</h4>
+        <h4>ES-Plus 语言包结构</h4>
         <div class="code-block">
           <div class="code-header">
             <span class="code-lang">javascript</span>
@@ -764,8 +764,8 @@ export async function loadLocaleMessages(locale) {
   i18n.setLocaleMessage(locale, messages.default)
 }`,
         usageTemplate: `<!-- 模板中使用 --&gt;
-&lt;h1&gt;ES-EUI 管理系统&lt;/h1&gt;
-&lt;p&gt;欢迎使用 ES-EUI&lt;/p&gt;`,
+&lt;h1&gt;ES-Plus 管理系统&lt;/h1&gt;
+&lt;p&gt;欢迎使用 ES-Plus&lt;/p&gt;`,
         usageScript: `// 脚本中使用
 this.$message.success('提交成功')
 // 切换语言

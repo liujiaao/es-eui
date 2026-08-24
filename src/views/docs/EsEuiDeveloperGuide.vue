@@ -7,7 +7,7 @@
         <span>开发手册</span>
       </div>
       <h1 class="hero-title">
-        ES-EUI 开发者完全指南
+        ES-Plus 开发者完全指南
       </h1>
       <p class="hero-desc">
         深度剖析配置化组件库架构，掌握"配置即开发"核心理念，从原理到实战，一本手册覆盖全部用法。
@@ -28,7 +28,7 @@
       <!-- 1.1 整体架构 -->
       <div class="content-card">
         <h3>1.1 组件库分层架构</h3>
-        <p>ES-EUI 采用三层架构设计，从顶层的<strong>配置描述层</strong>到底层的 <strong>Element UI 渲染层</strong>，中间通过<strong>渲染引擎</strong>自动完成配置到 UI 的转换。</p>
+        <p>ES-Plus 采用三层架构设计，从顶层的<strong>配置描述层</strong>到底层的 <strong>Element UI 渲染层</strong>，中间通过<strong>渲染引擎</strong>自动完成配置到 UI 的转换。</p>
         <div class="arch-diagram">
           <div class="arch-layer config-layer">
             <div class="layer-label">

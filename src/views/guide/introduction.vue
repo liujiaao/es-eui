@@ -7,7 +7,7 @@
         <span>Vue 2.0 + Element UI</span>
       </div>
       <h1 class="hero-title">
-        <span class="gradient-text">ES-EUI</span>
+        <span class="gradient-text">ES-Plus</span>
         <span class="title-sub">企业级组件库</span>
       </h1>
       <p class="hero-desc">
@@ -51,7 +51,7 @@
       <div class="philosophy-content">
         <div class="philosophy-intro">
           <p class="intro-text">
-            ES-EUI 是一款基于 <strong>Vue 2 + Element UI</strong> 的<strong>企业级中后台业务组件库</strong>，专注于解决 CRUD 场景下的开发效率问题。通过“配置化驱动”的设计理念，将繁琐的模板代码转化为简洁的 JSON 配置，让开发者从繁重的重复劳动中解放出来。
+            ES-Plus 是一款基于 <strong>Vue 2 + Element UI</strong> 的<strong>企业级中后台业务组件库</strong>，专注于解决 CRUD 场景下的开发效率问题。通过“配置化驱动”的设计理念，将繁琐的模板代码转化为简洁的 JSON 配置，让开发者从繁重的重复劳动中解放出来。
           </p>
         </div>
 
@@ -99,11 +99,11 @@
         <div class="why-section">
           <h3 class="subsection-title">
             <i class="el-icon-question" />
-            为什么要封装 ES-EUI
+            为什么要封装 ES-Plus
           </h3>
           <div class="highlight-box danger">
             <p><strong>最根本的原因：交付团队拥有大量存量的 Vue 2 老旧项目。</strong></p>
-            <p>这是 ES-EUI 诞生的核心驱动力。在我们交付团队的日常工作中，存在大量的存量 Vue 2 项目，这些项目经过多年迭代，代码已经非常庞大且难以维护。每当有新需求来临时，开发者需要在这些“老旧”的代码库中艰难地添加新功能。</p>
+            <p>这是 ES-Plus 诞生的核心驱动力。在我们交付团队的日常工作中，存在大量的存量 Vue 2 项目，这些项目经过多年迭代，代码已经非常庞大且难以维护。每当有新需求来临时，开发者需要在这些“老旧”的代码库中艰难地添加新功能。</p>
           </div>
           <div class="reason-list">
             <div class="reason-item">
@@ -112,7 +112,7 @@
               </div>
               <div class="reason-content">
                 <h4>基础UI库 vs 业务组件库</h4>
-                <p>Element UI 是基础UI库，提供最原子的表单控件、表格、弹窗等。但仅靠砖块无法直接建成一栋楼。ES-EUI 站在 Element UI 的肩膀上，进一步解决“怎么高效组织”的问题。</p>
+                <p>Element UI 是基础UI库，提供最原子的表单控件、表格、弹窗等。但仅靠砖块无法直接建成一栋楼。ES-Plus 站在 Element UI 的肩膀上，进一步解决“怎么高效组织”的问题。</p>
               </div>
             </div>
             <div class="reason-item">
@@ -121,7 +121,7 @@
               </div>
               <div class="reason-content">
                 <h4>统一规范</h4>
-                <p>团队内部存在大量的"重复造轮子"现象。张三喜欢用 slot，李四喜欢用 render 函数，没有统一规范导致代码可读性差、维护成本高。ES-EUI 统一这种混乱局面。</p>
+                <p>团队内部存在大量的"重复造轮子"现象。张三喜欢用 slot，李四喜欢用 render 函数，没有统一规范导致代码可读性差、维护成本高。ES-Plus 统一这种混乱局面。</p>
               </div>
             </div>
             <div class="reason-item">
@@ -130,7 +130,7 @@
               </div>
               <div class="reason-content">
                 <h4>配置化而非可视化拖拽</h4>
-                <p>我们追求的是"声明式配置"的简洁与高效。一行 JSON 配置，胜过一百行模板代码——这才是 ES-EUI 的核心理念。</p>
+                <p>我们追求的是"声明式配置"的简洁与高效。一行 JSON 配置，胜过一百行模板代码——这才是 ES-Plus 的核心理念。</p>
               </div>
             </div>
           </div>
@@ -147,28 +147,28 @@
                 01
               </div>
               <h4>让 CRUD 页面开发像写配置一样简单</h4>
-              <p>开发者不再需要为每一个列表页、每一个表单编写大量的模板代码，只要掌握了 ES-EUI 的配置规范，一个复杂的 CRUD 页面可以在几分钟内完成。</p>
+              <p>开发者不再需要为每一个列表页、每一个表单编写大量的模板代码，只要掌握了 ES-Plus 的配置规范，一个复杂的 CRUD 页面可以在几分钟内完成。</p>
             </div>
             <div class="goal-card">
               <div class="goal-num">
                 02
               </div>
               <h4>让业务联动逻辑开箱即用</h4>
-              <p>搜索表单触发表格刷新、分页参数自动携带、选择状态跨页保留——这些在传统方案中需要几十行代码才能实现的交互，在 ES-EUI 中只需要配置一个属性。</p>
+              <p>搜索表单触发表格刷新、分页参数自动携带、选择状态跨页保留——这些在传统方案中需要几十行代码才能实现的交互，在 ES-Plus 中只需要配置一个属性。</p>
             </div>
             <div class="goal-card">
               <div class="goal-num">
                 03
               </div>
               <h4>让团队代码风格高度统一</h4>
-              <p>当所有页面都使用 ES-EUI 的配置规范来开发时，代码结构自然就统一了。无论是张三写的用户管理页还是李四写的订单管理页，都遵循着相同的配置范式。</p>
+              <p>当所有页面都使用 ES-Plus 的配置规范来开发时，代码结构自然就统一了。无论是张三写的用户管理页还是李四写的订单管理页，都遵循着相同的配置范式。</p>
             </div>
             <div class="goal-card">
               <div class="goal-num">
                 04
               </div>
               <h4>让技术沉淀可持续复用</h4>
-              <p>ES-EUI 不仅仅是一个组件库，更是一个可复用的"中后台开发方法论"。当团队积累了一套成熟的配置规范后，可以在不同的项目间复用。</p>
+              <p>ES-Plus 不仅仅是一个组件库，更是一个可复用的"中后台开发方法论"。当团队积累了一套成熟的配置规范后，可以在不同的项目间复用。</p>
             </div>
           </div>
         </div>
@@ -185,7 +185,7 @@
               </div>
               <div class="principle-content">
                 <h4>站在巨人肩膀上</h4>
-                <p>ES-EUI 完全基于 Element UI 开发，不重新发明任何 UI 样式或交互模式。开发者学会 Element UI = 学会 ES-EUI 的一半。</p>
+                <p>ES-Plus 完全基于 Element UI 开发，不重新发明任何 UI 样式或交互模式。开发者学会 Element UI = 学会 ES-Plus 的一半。</p>
               </div>
             </div>
             <div class="principle-item">
@@ -212,7 +212,7 @@
               </div>
               <div class="principle-content">
                 <h4>保持轻量，不做全家桶</h4>
-                <p>ES-EUI 只专注于"表格、表单、弹窗"三个核心场景，不追求大而全，而是追求小而精。</p>
+                <p>ES-Plus 只专注于"表格、表单、弹窗"三个核心场景，不追求大而全，而是追求小而精。</p>
               </div>
             </div>
           </div>
@@ -221,10 +221,10 @@
         <div class="solution-section">
           <h3 class="subsection-title">
             <i class="el-icon-s-cooperation" />
-            ES-EUI 的解决对策
+            ES-Plus 的解决对策
           </h3>
           <div class="highlight-box info">
-            <p>ES-EUI 的核心解决思路可以概括为三个关键词：<strong>配置化、联动化、抽象化</strong>。</p>
+            <p>ES-Plus 的核心解决思路可以概括为三个关键词：<strong>配置化、联动化、抽象化</strong>。</p>
           </div>
           <div class="solution-content">
             <div class="solution-item">
@@ -233,11 +233,11 @@
             </div>
             <div class="solution-item">
               <h4><span class="solution-tag">联动化</span></h4>
-              <p>ES-EUI 内部已经封装好了中后台系统中最常见的那些交互场景，开发者不再需要手动编写 watch、emit 和回调。搜索表单的查询按钮会自动触发表格的数据刷新，重置按钮会自动清空表单并刷新表格，分页切换时会自动带上当前的搜索条件。</p>
+              <p>ES-Plus 内部已经封装好了中后台系统中最常见的那些交互场景，开发者不再需要手动编写 watch、emit 和回调。搜索表单的查询按钮会自动触发表格的数据刷新，重置按钮会自动清空表单并刷新表格，分页切换时会自动带上当前的搜索条件。</p>
             </div>
             <div class="solution-item">
               <h4><span class="solution-tag">抽象化</span></h4>
-              <p>ES-EUI 对底层能力的统一封装。数据请求是每个页面都要做的事情，ES-EUI 提供了一个统一的 <code>httpRequest</code> 配置项，开发者只需要配置接口地址和请求参数，组件会自动处理请求、响应、加载状态、错误处理全流程；接口返回的字段名各不一致，ES-EUI 就提供了 <code>configTableOut</code> 字段映射配置。</p>
+              <p>ES-Plus 对底层能力的统一封装。数据请求是每个页面都要做的事情，ES-Plus 提供了一个统一的 <code>httpRequest</code> 配置项，开发者只需要配置接口地址和请求参数，组件会自动处理请求、响应、加载状态、错误处理全流程；接口返回的字段名各不一致，ES-Plus 就提供了 <code>configTableOut</code> 字段映射配置。</p>
             </div>
           </div>
         </div>
@@ -394,7 +394,7 @@
     <!-- Quick Start CTA -->
     <section class="cta-section">
       <div class="cta-content">
-        <h2>开始使用 ES-EUI</h2>
+        <h2>开始使用 ES-Plus</h2>
         <p>只需几分钟即可集成到您的项目中</p>
         <router-link
           to="/guide/quickstart"

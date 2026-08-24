@@ -27,7 +27,7 @@
           
           <!-- 主标题 -->
           <h1 class="hero-title">
-            <span class="gradient-text">ES-EUI</span>
+            <span class="gradient-text">ES-Plus</span>
           </h1>
           
           <!-- 副标题 -->
@@ -100,7 +100,7 @@
         <div class="section-header">
           <span class="section-badge">核心特性</span>
           <h2 class="section-title">
-            为什么选择 ES-EUI
+            为什么选择 ES-Plus
           </h2>
           <p class="section-desc">
             精心设计的组件，让中后台开发更简单高效
@@ -135,7 +135,7 @@
     <div class="pain-points-section">
       <div class="container">
         <div class="section-header">
-          <!-- <span class="section-badge">为什么选择 ES-EUI</span> -->
+          <!-- <span class="section-badge">为什么选择 ES-Plus</span> -->
           <h2 class="section-title">
             告别重复劳动，专注业务创新
           </h2>
@@ -172,14 +172,14 @@
             <div class="arrow-line">
               <i class="el-icon-right"></i>
             </div>
-            <span class="arrow-text">ES-EUI 解决</span>
+            <span class="arrow-text">ES-Plus 解决</span>
           </div>
 
           <!-- 右侧解决方案 -->
           <div class="solution-cards">
             <h3 class="subsection-title solution-title">
               <i class="el-icon-success"></i>
-              ES-EUI 方案
+              ES-Plus 方案
             </h3>
             <div
               v-for="(sol, index) in solutions"
@@ -202,7 +202,7 @@
           <h3 class="compare-title">
             <span class="compare-badge traditional">传统方式 300+ 行</span>
             <span class="vs-text">VS</span>
-            <span class="compare-badge eseui">ES-EUI 50+ 行</span>
+            <span class="compare-badge eseui">ES-Plus 50+ 行</span>
           </h3>
           <div class="code-compare-grid">
             <!-- 传统方式代码 -->
@@ -289,7 +289,7 @@ methods: {
               </div>
             </div>
 
-            <!-- ES-EUI 方式代码 -->
+            <!-- ES-Plus 方式代码 -->
             <div class="code-block-wrapper">
               <div class="code-window eseui">
                 <div class="code-header">
@@ -298,7 +298,7 @@ methods: {
                     <span class="dot yellow"></span>
                     <span class="dot green"></span>
                   </div>
-                  <span class="code-title">ES-EUI.vue（完整）</span>
+                  <span class="code-title">ES-Plus.vue（完整）</span>
                 </div>
                 <div class="code-body">
                   <pre><code class="language-vue">&lt;template&gt;
@@ -397,7 +397,7 @@ export default {
             快速开始
           </h2>
           <p class="section-desc">
-            简单三步，即可在项目中使用 ES-EUI
+            简单三步，即可在项目中使用 ES-Plus
           </p>
         </div>
         
@@ -447,7 +447,7 @@ export default {
       <div class="container">
         <div class="cta-content">
           <h2>准备好开始了吗？</h2>
-          <p>加入使用 ES-EUI 的开发者行列，让中后台开发更高效</p>
+          <p>加入使用 ES-Plus 的开发者行列，让中后台开发更高效</p>
           <div class="cta-actions">
             <router-link
               to="/guide"

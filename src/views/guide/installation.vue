@@ -10,7 +10,7 @@
         安装
       </h1>
       <p class="hero-desc">
-        ES-EUI 提供了多种安装方式，你可以根据项目需求选择完整引入或按需引入，
+        ES-Plus 提供了多种安装方式，你可以根据项目需求选择完整引入或按需引入，
         灵活适配不同规模的应用场景。
       </p>
     </section>
@@ -62,7 +62,7 @@
       </div>
     </section>
 
-    <!-- Step 2: Import ES-EUI -->
+    <!-- Step 2: Import ES-Plus -->
     <section class="section">
       <div class="step-header">
         <div class="step-number">
@@ -70,7 +70,7 @@
         </div>
         <div class="step-info">
           <h2 class="section-title">
-            引入 ES-EUI
+            引入 ES-Plus
           </h2>
           <p class="section-desc">
             在 main.js 中写入以下内容，完成组件注册和全局配置
@@ -98,13 +98,13 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 引入 ES-EUI
+// 引入 ES-Plus
 import EsPlus from '@es-plus/vue2'
 import http from '@/utils/request'
 
 Vue.use(ElementUI)
 
-// 注册 ES-EUI 并配置全局方法
+// 注册 ES-Plus 并配置全局方法
 Vue.use(EsPlus, {
   EsTable: {
     methods: {
@@ -347,7 +347,7 @@ Vue.prototype.$useDialog = useDialog</code></pre>
         </h2>
       </div>
       <p class="section-desc">
-        安装完成后，你可以开始探索 ES-EUI 的强大功能：
+        安装完成后，你可以开始探索 ES-Plus 的强大功能：
       </p>
 
       <div class="next-links">

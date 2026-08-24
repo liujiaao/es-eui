@@ -28,7 +28,7 @@
         定制主题
       </h1>
       
-      <p>ES-EUI 使用 Element UI 的样式变量系统，你可以通过修改 SCSS 变量来定制主题。</p>
+      <p>ES-Plus 使用 Element UI 的样式变量系统，你可以通过修改 SCSS 变量来定制主题。</p>
 
       <h2 class="content-subtitle">
         通过 SCSS 变量定制
@@ -123,7 +123,7 @@ Vue.use(EsPlus)</code></pre>
         组件特定样式
       </h2>
       
-      <p>ES-EUI 组件也提供了一些可定制的 CSS 变量：</p>
+      <p>ES-Plus 组件也提供了一些可定制的 CSS 变量：</p>
 
       <pre><code>/* 表格头部背景色 */
 .es-table .el-table__header th {

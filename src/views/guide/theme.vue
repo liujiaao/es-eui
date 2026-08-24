@@ -10,7 +10,7 @@
         主题定制
       </h1>
       <p class="hero-desc">
-        ES-EUI 基于 Element UI 的样式系统，支持通过 SCSS 变量、CSS 变量和主题配置对象
+        ES-Plus 基于 Element UI 的样式系统，支持通过 SCSS 变量、CSS 变量和主题配置对象
         多种方式自定义主题，轻松打造符合品牌风格的中后台应用。
       </p>
     </section>
@@ -26,7 +26,7 @@
         </h2>
       </div>
       <p class="section-desc">
-        ES-EUI 提供三种主题定制方式，你可以根据项目需求选择合适的方式：
+        ES-Plus 提供三种主题定制方式，你可以根据项目需求选择合适的方式：
       </p>
 
       <div class="method-cards">
@@ -146,10 +146,10 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 import ElementUI from 'element-ui'
 import EsPlus from '@es-plus/vue2'
 
-// 引入自定义主题（在 Element UI 和 ES-EUI 之前引入）
+// 引入自定义主题（在 Element UI 和 ES-Plus 之前引入）
 import './styles/variables.scss'
 
-// 引入 ES-EUI 样式
+// 引入 ES-Plus 样式
 import '@es-plus/vue2/dist/style.css'
 
 Vue.use(ElementUI)
@@ -251,7 +251,7 @@ export function initTheme() {
             配置对象定制
           </h2>
           <p class="section-desc">
-            通过 ES-EUI 的全局配置对象快速覆盖组件样式
+            通过 ES-Plus 的全局配置对象快速覆盖组件样式
           </p>
         </div>
       </div>
@@ -487,10 +487,10 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 import ElementUI from 'element-ui'
 import EsPlus from '@es-plus/vue2'
 
-// 引入自定义主题（在 Element UI 和 ES-EUI 之前引入）
+// 引入自定义主题（在 Element UI 和 ES-Plus 之前引入）
 import './styles/variables.scss'
 
-// 引入 ES-EUI 样式
+// 引入 ES-Plus 样式
 import '@es-plus/vue2/dist/style.css'
 
 Vue.use(ElementUI)
