@@ -56,7 +56,7 @@
       <div class="banner-inner">
         <span class="banner-tag">NEW</span>
         <span class="banner-text">
-          ES-Plus 已发布 — 基于 <strong>Vue 3</strong> + <strong>Element Plus</strong> 的全新版本，配置化体验再升级
+          本页为 ES-Plus 的 <strong>Vue 2 + Element UI</strong> 渲染器文档。完整文档（含 <strong>三端通用对比</strong> 与 <strong>AI 工具链</strong>）见主文档站
         </span>
         <a
           href="https://liujiaao.github.io/es-plus/"
