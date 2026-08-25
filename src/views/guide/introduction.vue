@@ -25,7 +25,7 @@
         </div>
         <div class="stat-item">
           <div class="stat-num">
-            20+
+            14
           </div>
           <div class="stat-label">
             控件类型
@@ -473,7 +473,7 @@ export default {
           color: 'purple',
           desc: '配置化表单生成器，通过 JSON 配置即可生成复杂的表单界面。',
           features: [
-            '支持 20+ 种控件类型',
+            '支持 14 种控件类型',
             '级联选择、树形选择、上传组件',
             '动态表单和条件渲染',
             '自动验证和错误提示',

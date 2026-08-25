@@ -540,7 +540,7 @@ export default {
         {
           icon: 'el-icon-s-order',
           title: 'EsForm 表单',
-          desc: '配置化表单生成，支持20+种控件类型，自动验证，大幅提升表单开发效率',
+          desc: '配置化表单生成，支持14种控件类型，自动验证，大幅提升表单开发效率',
           color: 'purple'
         },
         {

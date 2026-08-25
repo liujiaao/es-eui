@@ -478,7 +478,7 @@ export default {
             配置化表单
           </h3>
           <p class="concept-desc">
-            通过 form-item-list 配置生成表单，支持 20+ 种控件类型
+            通过 form-item-list 配置生成表单，支持 14 种控件类型
           </p>
           <ul class="concept-list">
             <li><code>prop</code> - 表单字段名</li>

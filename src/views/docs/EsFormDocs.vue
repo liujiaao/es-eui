@@ -8,7 +8,7 @@
       </div>
       <h1 class="hero-title">EsForm 表单组件</h1>
       <p class="hero-desc">
-        企业级表单解决方案，通过 JSON 配置即可生成复杂表单，支持 20+ 种表单控件，
+        企业级表单解决方案，通过 JSON 配置即可生成复杂表单，支持 14 种表单控件，
         让表单开发从小时级降至分钟级
       </p>
     </section>
