@@ -32,12 +32,12 @@
           
           <!-- 副标题 -->
           <p class="hero-desc">
-            <span class="typing-text">基于 Vue 2.0 和 Element UI 的企业级组件库</span>
+            <span class="typing-text">中后台 CRUD 的配置层 · Vue 2 + Element UI</span>
           </p>
-          
+
           <!-- 描述 -->
           <p class="hero-subdesc">
-            提供高效、灵活、易用的表单、表格、弹窗等组件，助力中后台系统快速开发
+            一份 JSON 配置，Vue 2 / Vue 3 / Ant Design Vue 三端通用，AI 生成即编译
           </p>
           
           <!-- 统计信息 -->

@@ -8,11 +8,11 @@
       </div>
       <h1 class="hero-title">
         <span class="gradient-text">ES-Plus</span>
-        <span class="title-sub">企业级组件库</span>
+        <span class="title-sub">中后台 CRUD 的配置层</span>
       </h1>
       <p class="hero-desc">
-        一套基于 Vue 2.0 和 Element UI 的企业级组件库，帮助开发者快速构建中后台管理系统。
-        提供丰富的表单、表格、弹窗等常用组件，以及组件之间的联动解决方案。
+        一套基于 Vue 2.0 和 Element UI 的中后台 CRUD 配置层，帮助开发者快速构建中后台管理系统。
+        一份 JSON 配置，Vue 2 / Vue 3 / Ant Design Vue 三端通用，AI 生成即编译。
       </p>
       <div class="hero-stats">
         <div class="stat-item">
