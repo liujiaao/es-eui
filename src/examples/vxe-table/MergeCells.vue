@@ -35,14 +35,17 @@
  *
  * 关键点（Vue2）：
  *   1. 三级表头用列 groups 嵌套表达；vxeConfig.mergeHeaderItems / mergeFooterItems 做静态合并。
- *   2. spanMethod({ rowIndex, columnIndex }) 从闭包 tableData.value 读数据做行合并
- *      （vxe 的 spanMethod 回调不传 data）；MERGE_ALWAYS 恒合并，MERGE_FULL 仅「全部合并」时合并。
+ *   2. spanMethod({ rowIndex, column }) 从闭包 tableData.value 读数据按 column.field 做行合并
+ *      （vxe 回调不传 data；多级表头下 columnIndex 是组内相对索引，故用 field 而非索引）；
+ *      MERGE_ALWAYS 恒合并，MERGE_FULL 仅「全部合并」时合并。
  *   3. enableMerge / dept 变化时重建 tableData（新数组引用）触发 vxe-grid 重新执行 spanMethod。
  *   4. tableOptions 用 computed + _merge 注入 reactive 依赖，使合并模式切换时生成新配置对象。
- *   5. 打印用原生 grid.print()（patchHtmlRowSpans 为 vue3 专有，vue2 不可用，
- *      故打印以 thead 每页重复表头为主，tbody 合并以屏幕呈现为准）。
+ *   5. 打印：getPrintHtml 生成基础 HTML → patchHtmlRowSpans（@es-plus/core，纯 DOM 函数，
+ *      vue2/vue3 通用）按 computeSpan 修正 tbody rowspan/colspan → grid.print({ html })；
+ *      vxe 原生 print 不执行 spanMethod，故必须走 patch 才能与屏幕合并一致，thead 每页重复表头。
  */
 import { defineComponent, ref, reactive, watch, computed } from '@vue/composition-api'
+import { patchHtmlRowSpans } from '@es-plus/core'
 
 const PRINT_STYLE = `
   @page { margin: 1.5cm; size: A4 landscape; }
@@ -186,16 +189,17 @@ export default defineComponent({
       return { rowspan: count, colspan: 1 }
     }
 
-    const computeSpan = (data, rowIndex, colIndex, enableMerge) => {
+    const computeSpan = (data, rowIndex, field, enableMerge) => {
       if (!enableMerge) return { rowspan: 1, colspan: 1 }
-      const field = leafFields[colIndex]
       if (MERGE_ALWAYS.includes(field)) return mergeRows(data, rowIndex, field)
       if (enableMerge === true && MERGE_FULL.includes(field)) return mergeRows(data, rowIndex, field)
       return { rowspan: 1, colspan: 1 }
     }
 
     // vxe 的 spanMethod 回调不传 data，从闭包取 tableData.value
-    const spanMethod = ({ rowIndex, columnIndex }) => computeSpan(tableData.value, rowIndex, columnIndex, queryForm.enableMerge)
+    // 注意：多级表头下 columnIndex 是「组内相对索引」（每组从 0 重新计数），不能按叶子列全局顺序索引；
+    // 直接用 column.field 最稳妥。
+    const spanMethod = ({ rowIndex, column }) => computeSpan(tableData.value, rowIndex, column.field, queryForm.enableMerge)
 
     // ─── 编辑完成后重算派生字段 ─────────────────────────────────
     const handleEditClosed = ({ row }) => {
@@ -252,12 +256,21 @@ export default defineComponent({
     }))
 
     // ─── 打印（原生 grid.print，thead 每页重复表头）─────────────
+    // vxe print 不执行 spanMethod（与之互斥），用 patchHtmlRowSpans 修正 tbody rowspan/colspan。
+    // getPrintHtml 保留完整三级 <thead>，PRINT_STYLE 的 thead{display:table-header-group} 实现每页重复表头。
+    // ci 是 tbody <td> 的 DOM 顺序 = 叶子列全局顺序，用 leafFields[ci] 取 field（勿用组内相对 columnIndex）。
+    const doPrint = async (data, opts) => {
+      const grid = getGrid()
+      if (!grid) return
+      const em = queryForm.enableMerge
+      const { html } = await grid.getPrintHtml({ ...opts, data })
+      grid.print({ ...opts, html: patchHtmlRowSpans(html, (ri, ci) => computeSpan(data, ri, leafFields[ci], em)) })
+    }
     const handlePrintAll = () => {
-      getGrid()?.print?.({ sheetName: '员工KPI绩效考核表（全部）', style: PRINT_STYLE, data: tableData.value })
+      doPrint(tableData.value, { sheetName: '员工KPI绩效考核表（全部）', style: PRINT_STYLE })
     }
     const handlePrintDept = (dept) => {
-      const deptData = tableData.value.filter(r => r.dept === dept)
-      getGrid()?.print?.({ sheetName: `${dept} KPI绩效报表`, style: PRINT_STYLE, data: deptData })
+      doPrint(tableData.value.filter(r => r.dept === dept), { sheetName: `${dept} KPI绩效报表`, style: PRINT_STYLE })
     }
 
     return { tableRef, queryForm, formItems, columns, tableOptions, tableData, handlePrintAll, handlePrintDept }

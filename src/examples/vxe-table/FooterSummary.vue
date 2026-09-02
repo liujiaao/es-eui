@@ -17,7 +17,7 @@
       :columns="columns"
       :options="tableOptions"
       :data-source="tableData"
-      :pagination="pageSeed"
+      :pagination.sync="pageSeed"
     />
   </div>
 </template>
@@ -54,8 +54,8 @@ export default defineComponent({
     const totalSalary = computed(() => tableData.value.reduce((s, r) => s + r.salary, 0))
     const avgSalary = computed(() => Math.round(totalSalary.value / (tableData.value.length || 1)))
 
-    // 仅用于播种初始 pageSize（无需 total / 无需事件）；分页交互由组件内部处理
-    const pageSeed = { pageSize: 5 }
+    // 客户端分页种子：pageSize=5，current 用 .sync 双向绑定，便于新增后跳到末页
+    const pageSeed = ref({ pageSize: 5, current: 1 })
 
     const columns = [
       { prop: 'name', label: '姓名', minWidth: 120 },
@@ -85,7 +85,7 @@ export default defineComponent({
     }))
 
     const addRandomRow = () => {
-      // 仅需更新数据源，total / 分页由组件内部随长度自动同步
+      // 更新数据源：total / 分页由组件内部随长度自动同步
       tableData.value = [
         ...tableData.value,
         {
@@ -96,6 +96,10 @@ export default defineComponent({
           bonus: 500 + Math.floor(Math.random() * 5000)
         }
       ]
+      // 分页会把新增行放到末页 —— 主动跳到末页，让新增行立即可见
+      // （否则停留在第 1 页只见到固定的 pageSize 行，看似"没有反应"，实则表尾合计已随全量数据更新）
+      const lastPage = Math.ceil(tableData.value.length / pageSeed.value.pageSize)
+      pageSeed.value = { ...pageSeed.value, current: lastPage }
     }
 
     return { columns, tableOptions, tableData, pageSeed, totalSalary, avgSalary, addRandomRow }
