@@ -97,11 +97,32 @@ const routes = [
     ]
   },
   
+  // 30 秒上手（L1 聚合页）
+  {
+    path: '/quickstart',
+    name: 'QuickStart',
+    component: () => import('../views/quickstart.vue')
+  },
+
+  // 核心案例（L1-L5 梯度）
+  {
+    path: '/cases',
+    name: 'Cases',
+    component: () => import('../views/cases.vue')
+  },
+
   // 主题
   {
     path: '/theme',
     name: 'Theme',
     component: () => import('../views/theme/index.vue')
+  },
+
+  // AI 工具链（跨渲染器：MCP/CLI 能生成 vue2/vue3/antdv 三种 target）
+  {
+    path: '/ai-tools',
+    name: 'AiTools',
+    component: () => import('../views/ai-tools.vue')
   },
 
   // 测试页：Composition API + @es-plus/vue2 兼容性验证（Vue 2.6）

@@ -146,7 +146,7 @@
           </tr>
           <tr>
             <td>type</td>
-            <td>selection 复选框列 / snIndex 序号列 / index 索引列 / expand 展开行</td>
+            <td>selection 复选框列 / index 序号列 / expand 展开行</td>
             <td>String</td>
           </tr>
         </tbody>

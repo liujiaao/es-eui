@@ -283,7 +283,7 @@ export const combinationExamples = [
 
 export const vxeTableExamples = [
   { key: 'BasicSwitch', title: '引擎切换', description: '一行配置在 el-table（默认）与 vxe-table（高性能）之间切换，列配置/数据/联动完全兼容。' },
-  { key: 'SelectionIndex', title: '多选与序号列', description: 'type:"selection" 复选框列 + type:"snIndex" 序号列；getSelectionRows / clearSelection 获取/清空选中。' },
+  { key: 'SelectionIndex', title: '多选与序号列', description: 'type:"selection" 复选框列 + type:"index" 序号列；getSelectionRows / clearSelection 获取/清空选中。' },
   { key: 'ExpandRow', title: '展开行', description: 'type:"expand" 展开行，通过 render 自定义展开内容，支持 el-descriptions 详情卡。' },
   { key: 'SortFormatter', title: '排序与格式化', description: 'sortable 列排序 + formatter 函数格式化 + vxeColumn.formatter 原生格式化，三种写法对比。' },
   { key: 'CustomRender', title: '自定义 render 渲染', description: 'render(h, { value, row, index }) 与 el-table 相同 API，vxe 引擎桥接透传，无缝兼容。' },

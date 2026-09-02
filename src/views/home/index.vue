@@ -94,6 +94,66 @@
       </div>
     </div>
 
+    <!-- 三个可验证承诺（文案单一真源 docs/brand/slogan.json） -->
+    <div class="promises">
+      <div class="container">
+        <div class="promises-grid">
+          <div
+            v-for="p in brand.promises"
+            :key="p.key"
+            class="promise-card"
+          >
+            <h3 class="promise-title">{{ p.title }}</h3>
+            <div class="promise-claim">{{ p.claim }}</div>
+            <p class="promise-desc">{{ p.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L2 头号案例：零事件代码的 CRUD -->
+    <div class="l2-case">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">🎯 头号案例 · 零事件代码的 CRUD</h2>
+          <p class="section-desc">
+            原生「查询 → 重置 → 翻页」要写 4 个事件函数，还容易踩「拿最新表单值」的坑。
+            es-plus 用 <strong>EsForm 嵌套 EsTable</strong> + <code>triggerEvent: true</code>，把整条联动链路收敛为 <strong>0 行事件代码</strong>。
+          </p>
+        </div>
+        <CodeDiff :left-code="nativeCode" :right-code="esplusCode" />
+      </div>
+    </div>
+
+    <!-- 三端通用：同一份 Schema 源码 + 三端渲染快照 -->
+    <div class="tri-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">🌐 三端通用</h2>
+          <p class="section-desc">
+            同一份 JSON Schema 在 Vue 2 / Vue 3 / Ant Design Vue 三端渲染出一致界面，
+            <strong>换一行 import 即切换</strong>。
+          </p>
+        </div>
+        <TriRenderTabs />
+      </div>
+    </div>
+
+    <!-- AI 一句话生成 CRUD 入口（指向主站 AiCrud） -->
+    <div class="ai-entry">
+      <div class="container">
+        <a
+          href="https://liujiaao.github.io/es-plus/#/ai-crud"
+          target="_blank"
+          rel="noopener"
+          class="ai-entry-card"
+        >
+          <h3>🤖 AI 一句话生成 CRUD</h3>
+          <p>在 Claude Code / Cursor 里说一句话，生成可编译的三端通用 CRUD 页面。在线体验见主站 AiCrud。</p>
+        </a>
+      </div>
+    </div>
+
     <!-- 特性展示 -->
     <div class="features">
       <div class="container">
@@ -472,11 +532,76 @@ export default {
 </template>
 
 <script>
+// 品牌文案单一真源：由 scripts/sync-brand.mjs 从 docs/brand/slogan.json 分发，禁止手改本文件
+import brand from '@/brand/slogan.json'
+import CodeDiff from '@/components/CodeDiff.vue'
+import TriRenderTabs from '@/components/TriRenderTabs.vue'
+
 export default {
   name: 'Home',
+  components: { CodeDiff, TriRenderTabs },
   data() {
     return {
+      brand,
       activeStep: 0,
+      // ── L2 头号案例「零事件代码的 CRUD」并排 diff 内容 ──
+      nativeCode: `<el-form :model="query" inline>
+  <el-form-item label="用户名"><el-input v-model="query.name" /></el-form-item>
+  <el-form-item label="状态">
+    <el-select v-model="query.status">
+      <el-option v-for="i in statusOptions" :key="i.value" :label="i.label" :value="i.value" />
+    </el-select>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="handleQuery">查询</el-button>
+    <el-button @click="handleReset">重置</el-button>
+  </el-form-item>
+</el-form>
+
+<el-table :data="list" v-loading="loading">
+  <el-table-column prop="name" label="用户名" />
+  <el-table-column prop="status" label="状态" />
+</el-table>
+<el-pagination :current-page="page" :page-size="pageSize" :total="total"
+  @current-change="handlePage" @size-change="handleSize" />
+
+// ── 原生 script：4 个事件函数 ──
+data() {
+  return { query: { name: '', status: '' }, list: [], loading: false, page: 1, pageSize: 10, total: 0 }
+},
+methods: {
+  async fetchData() { /* 手写请求 + 赋值 */ },
+  handleQuery() { this.page = 1; this.fetchData() },
+  handleReset() { this.query = { name: '', status: '' }; this.page = 1; this.fetchData() },
+  handlePage(p) { this.page = p; this.fetchData() },
+  handleSize(s) { this.pageSize = s; this.page = 1; this.fetchData() }
+}
+`,
+      esplusCode: `<es-table :columns="columns" :options="options">
+  <es-form :model="query" :form-item-list="items" :config-btn="btns" />
+</es-table>
+
+// ── es-plus script：0 行事件代码 ──
+data() {
+  return {
+    query: { name: '', status: '' },
+    items: [
+      { prop: 'name', label: '用户名', formtype: 'Input', span: 6 },
+      { prop: 'status', label: '状态', formtype: 'Select', span: 6, dataOptions: statusOptions }
+    ],
+    btns: [
+      { name: '查询', key: 'query', triggerEvent: true },
+      { name: '重置', key: 'rest', triggerEvent: true }
+    ],
+    columns: [
+      { prop: 'name', label: '用户名' },
+      { prop: 'status', label: '状态' }
+    ],
+    options: { apiParams: { url: '/api/users' } }
+  }
+}
+// 查询/重置/分页全自动联动（triggerEvent）
+`,
       // 痛点数据
       painPoints: [
         {
@@ -637,7 +762,7 @@ export default {
 
 <style lang="scss" scoped>
 // 变量定义
-$primary: #409eff;
+$primary: var(--es-brand-primary);
 $primary-dark: #324157;
 $text-primary: #1a1a1a;
 $text-secondary: #4a5568;
@@ -906,6 +1031,153 @@ $bg-light: #f7fafc;
     span {
       font-size: 12px;
     }
+  }
+}
+
+// 三承诺（品牌单一真源）
+.promises {
+  padding: 48px 0 0;
+  background: #fff;
+
+  .promises-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .promise-card {
+    padding: 32px 28px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(102, 126, 234, 0.12);
+      border-color: #667eea;
+    }
+  }
+
+  .promise-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 10px;
+  }
+
+  .promise-claim {
+    display: inline-block;
+    padding: 4px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0e7490;
+    background: rgba(6, 182, 212, 0.08);
+    border-radius: 20px;
+  }
+
+  .promise-desc {
+    font-size: 14px;
+    color: $text-secondary;
+    line-height: 1.7;
+    margin: 0;
+  }
+}
+
+// L2 头号案例
+.l2-case {
+  padding: 48px 0;
+  background: #f7fafc;
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 32px;
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: $text-primary;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: $text-secondary;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto;
+
+      code {
+        padding: 2px 6px;
+        background: #e2e8f0;
+        color: $primary;
+        border-radius: 4px;
+        font-family: 'Consolas', monospace;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+// 三端通用
+.tri-section {
+  padding: 48px 0;
+  background: #fff;
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 32px;
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: $text-primary;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: $text-secondary;
+      line-height: 1.7;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+  }
+}
+
+// AI 一句话生成 CRUD 入口
+.ai-entry {
+  padding: 40px 0;
+  background: #fff;
+}
+
+.ai-entry-card {
+  display: block;
+  padding: 32px;
+  background: linear-gradient(135deg, #f0f9eb 0%, #ecf5ff 100%);
+  border: 1px solid #e6f4d8;
+  border-radius: 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(102, 126, 234, 0.15);
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  p {
+    margin: 0;
+    color: $text-secondary;
+    font-size: 14px;
   }
 }
 
@@ -1682,13 +1954,19 @@ $bg-light: #f7fafc;
   
   .features {
     padding: 80px 0;
-    
+
     .feature-list {
       grid-template-columns: 1fr;
     }
-    
+
     .section-title {
       font-size: 28px;
+    }
+  }
+
+  .promises {
+    .promises-grid {
+      grid-template-columns: 1fr;
     }
   }
   

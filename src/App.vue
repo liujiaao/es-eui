@@ -20,6 +20,18 @@
             首页
           </router-link>
           <router-link
+            to="/quickstart"
+            :class="{ 'active': isQuickStart }"
+          >
+            30 秒上手
+          </router-link>
+          <router-link
+            to="/cases"
+            :class="{ 'active': isCases }"
+          >
+            核心案例
+          </router-link>
+          <router-link
             to="/guide"
             :class="{ 'active': isGuide }"
           >
@@ -36,6 +48,12 @@
             :class="{ 'active': isTheme }"
           >
             主题
+          </router-link>
+          <router-link
+            to="/ai-tools"
+            :class="{ 'active': isAiTools }"
+          >
+            AI 工具链
           </router-link>
           <a
             href="https://github.com"
@@ -111,11 +129,20 @@ export default {
     isGuide() {
       return this.$route.path.startsWith('/guide')
     },
+    isQuickStart() {
+      return this.$route.path.startsWith('/quickstart')
+    },
+    isCases() {
+      return this.$route.path.startsWith('/cases')
+    },
     isComponent() {
       return this.$route.path.startsWith('/component')
     },
     isTheme() {
       return this.$route.path.startsWith('/theme')
+    },
+    isAiTools() {
+      return this.$route.path.startsWith('/ai-tools')
     }
   }
 }
@@ -171,7 +198,7 @@ body {
     .logo-img {
       width: 36px;
       height: 36px;
-      background: #409eff;
+      background: var(--es-brand-primary);
       color: #fff;
       border-radius: 4px;
       display: flex;
@@ -205,11 +232,11 @@ body {
 
       &:hover,
       &.active {
-        color: #409eff;
+        color: var(--es-brand-primary);
       }
 
       &.router-link-active {
-        color: #409eff;
+        color: var(--es-brand-primary);
         font-weight: 500;
       }
     }
@@ -391,13 +418,13 @@ body {
       border-right: 3px solid transparent;
 
       &:hover {
-        color: #409eff;
+        color: var(--es-brand-primary);
       }
 
       &.active,
       &.router-link-active {
-        color: #409eff;
-        border-right-color: #409eff;
+        color: var(--es-brand-primary);
+        border-right-color: var(--es-brand-primary);
         background: #f5f7fa;
       }
     }
@@ -489,7 +516,7 @@ code {
 .tip {
   padding: 12px 20px;
   background: #ecf5ff;
-  border-left: 4px solid #409eff;
+  border-left: 4px solid var(--es-brand-primary);
   border-radius: 4px;
   margin: 20px 0;
 
@@ -515,7 +542,7 @@ code {
 /* ==================== 现代化文档样式 ==================== */
 
 // Variables
-$primary: #409eff;
+$primary: var(--es-brand-primary);
 $success: #67c23a;
 $warning: #e6a23c;
 $danger: #f56c6c;
@@ -528,34 +555,24 @@ $bg-light: #f7fafc;
 // Hero Section - 统一的首屏样式
 .modern-hero {
   text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 20px;
-  margin-bottom: 50px;
-  color: white;
+  padding: 40px 20px;
+  background: var(--es-brand-primary-light);
+  border-radius: var(--es-radius-sm);
+  margin-bottom: 32px;
+  color: #1a1a2e;
   position: relative;
   overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  }
 
   .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 20px;
-    background: rgba(255,255,255,0.15);
+    padding: 6px 18px;
+    background: var(--es-brand-primary);
+    color: #fff;
     border-radius: 50px;
     font-size: 14px;
-    margin-bottom: 20px;
-    backdrop-filter: blur(10px);
+    margin-bottom: 16px;
     position: relative;
 
     i {
@@ -564,17 +581,18 @@ $bg-light: #f7fafc;
   }
 
   .hero-title {
-    font-size: 42px;
+    font-size: 32px;
     font-weight: 700;
-    margin: 0 0 16px;
+    color: #1a1a2e;
+    margin: 0 0 12px;
     position: relative;
   }
 
   .hero-desc {
     max-width: 550px;
     margin: 0 auto;
-    font-size: 16px;
-    opacity: 0.9;
+    font-size: 15px;
+    color: #606266;
     line-height: 1.7;
     position: relative;
   }

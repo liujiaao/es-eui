@@ -58,7 +58,7 @@
     </aside>
 
     <!-- 右侧内容 -->
-    <div class="content">
+    <div class="content es-doc-content">
       <router-view />
     </div>
   </div>

@@ -30,7 +30,7 @@ export default defineComponent({
   name: 'VxeTableToolbarExport',
   setup() {
     const columns = [
-      { type: 'snIndex', label: '序号', width: 70 },
+      { type: 'index', label: '序号', width: 70 },
       { prop: 'name', label: '姓名', minWidth: 120 },
       { prop: 'department', label: '部门', width: 120 },
       { prop: 'position', label: '职位', width: 130 },

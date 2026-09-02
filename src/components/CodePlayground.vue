@@ -113,20 +113,32 @@ export default {
 .playground-code {
   border-top: 1px solid #e4e7ed;
 
+  // 显式声明全部属性，避免 App.vue 全局 pre / code 规则（border-radius、margin、color:#c0392b 等）渗入代码块
   pre {
     margin: 0;
     padding: 16px 20px;
     background: #1e1e1e;
-    color: #d4d4d4;
-    font-size: 13px;
-    line-height: 1.6;
+    border-radius: 0;
     overflow-x: auto;
     white-space: pre;
+    font-size: 13px;
+    line-height: 1.6;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   }
 
-  code {
+  // .playground-code pre code 特异度高于全局 pre code，确保代码文字为浅色、无背景/圆角
+  pre code {
+    display: block;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: #d4d4d4;
     font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    white-space: pre;
   }
 }
 </style>

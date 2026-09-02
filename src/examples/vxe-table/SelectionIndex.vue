@@ -9,7 +9,7 @@
       type="info"
       :closable="false"
       style="margin-bottom: 10px;"
-      description="type:'selection' 多选列 + type:'snIndex' 序号列；通过 EsTable 暴露的 getSelectionRows() / clearSelection() 操作选中项"
+      description="type:'selection' 多选列 + type:'index' 序号列；通过 EsTable 暴露的 getSelectionRows() / clearSelection() 操作选中项"
     />
     <es-table
       ref="tableRef"
@@ -29,7 +29,7 @@
 
 <script lang="jsx">
 /**
- * 多选 + 序号 —— selection / snIndex 列，选中项通过 EsTable 暴露方法读取
+ * 多选 + 序号 —— selection / index 列，选中项通过 EsTable 暴露方法读取
  *
  * 关键点：vxe 3.x 引擎下多选/清空委托给 EsTable 暴露的
  *   getSelectionRows() / clearSelection()（内部代理 vxe checkbox API）。
@@ -46,7 +46,7 @@ export default defineComponent({
 
     const columns = [
       { type: 'selection', width: 50 },
-      { type: 'snIndex', label: '序号', width: 70 },
+      { type: 'index', label: '序号', width: 70 },
       { prop: 'name', label: '姓名', minWidth: 120 },
       { prop: 'department', label: '部门', width: 130 },
       {
