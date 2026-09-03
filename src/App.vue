@@ -489,6 +489,23 @@ code {
   font-size: 13px;
 }
 
+/* 开发指南等页面手写了深色 .code-block（深色头部 + 深色容器 #1e1e1e）。
+ * 这些页面被布局包在 .es-doc-content 内，而 docs-content.css（单一权威源）会给
+ * .es-doc-content pre 施加“亮色 GitHub 风格”背景/文字/圆角/外边距，渗入深色 .code-block
+ * 后造成“深色头部 + 亮色代码体”的割裂与低对比。此处把 .code-block 内的 pre 归还给深色容器：
+ * 透明背景、去除多余圆角/外边距、浅色文字。选择器 (.es-doc-content .code-block pre = 0,2,1)
+ * 稳定压过渗入规则 (.es-doc-content pre = 0,1,1)，与样式加载顺序无关。 */
+.es-doc-content .code-block pre {
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+}
+.es-doc-content .code-block pre code {
+  color: #d4d4d4;
+  background: transparent;
+  padding: 0;
+}
+
 /* 表格 */
 .table-props {
   width: 100%;
