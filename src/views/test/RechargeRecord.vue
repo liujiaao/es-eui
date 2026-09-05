@@ -338,7 +338,7 @@ export default defineComponent({
       headerCellStyle: { background: '#f5f7fa' },
       rowkey: 'id',
       isInitRun: true,
-        tabHeight: '100%',
+       height: '100%',
       heightType: 'height',
       // 工具栏按钮配置（位于表格上方，分左右）
       configBtn: tableBtns,
